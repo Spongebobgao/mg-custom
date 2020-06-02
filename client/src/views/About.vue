@@ -1,5 +1,15 @@
 <template>
   <div class="about">
-    <h1>This is an about page</h1>
+    <h1>Coming soon...</h1>
+    <img alt="mg-custom logo" src="../assets/logo.png" />
   </div>
 </template>
+<style scoped>
+.about {
+  text-align: center;
+}
+img {
+  width: 50%;
+  height: auto;
+}
+</style>

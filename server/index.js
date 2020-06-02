@@ -1,3 +1,4 @@
+require('dotenv').config()
 const express = require('express')
 const cors = require('cors')
 const morgan = require('morgan')//logging
@@ -8,15 +9,10 @@ app.use(cors())
 app.use(morgan('tiny'))
 app.use(express.json())
 
-
-app.get('/', (req, res) => {
-  res.send({
-    message: "hello"
-  })
-})
+require('./routes')(app)
 
 const port = process.env.PORT || 3000
 
 app.listen(port, () => {
   console.log(`Server starts on ${port}`)
-})
+});
