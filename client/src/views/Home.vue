@@ -3,6 +3,7 @@
     <div class="slides">
       <input v-for="n in 4" :key="n" type="radio" name="radioBtn" :id="'r'+`${n}`" :checked="n===1" />
       <div :class="['slide'+`${index+1}`]" v-for="(img,index) in homeSlideImages" :key="img._id">
+        <p class="text">{{img.text}}</p>
         <img :src="img.img" />
       </div>
       <div class="navigation">
@@ -32,7 +33,7 @@ export default {
     this.homeSlideImages = (await homeSlideService.getSlideShowImgs()).data;
   },
   mounted() {
-    this.automoveInterval = setInterval(this.move, 2000);
+    this.automoveInterval = setInterval(this.move, 3000);
   },
   methods: {
     move() {
@@ -50,7 +51,7 @@ export default {
     selectSlide(id, index) {
       clearInterval(this.automoveInterval);
       this.indexOfSlide = index;
-      this.automoveInterval = setInterval(this.move, 2000);
+      this.automoveInterval = setInterval(this.move, 3000);
     }
   }
 };
@@ -63,7 +64,7 @@ export default {
   position: absolute;
   top: 15%;
   left: 20%;
-  bottom: 5%;
+  bottom: 7%;
 }
 .slides {
   width: 400%;
@@ -84,6 +85,16 @@ export default {
   width: 100%;
   height: 95%;
   object-fit: scale-down;
+}
+.text {
+  width: 75%;
+  position: absolute;
+  top: 20%;
+  margin-left: 5%;
+  font-size: 2rem;
+  color: white;
+  display: flex;
+  text-shadow: 2px 2px 8px black, 0 0 5px #609b9f;
 }
 .navigation {
   position: absolute;
@@ -135,7 +146,42 @@ input[name="radioBtn"] {
     width: 90%;
   }
   .navigation {
+    bottom: 35%;
+  }
+  .text {
+    font-size: 1.2rem;
+    top: 35%;
+  }
+  .dot {
+    width: 10px;
+    height: 10px;
+  }
+}
+@media screen and (min-width: 501px) and (max-width: 650px) {
+  .navigation {
     bottom: 20%;
+  }
+  .text {
+    font-size: 1.5rem;
+    top: 40%;
+  }
+}
+@media screen and (min-width: 651px) and (max-width: 761px) {
+  .navigation {
+    bottom: 15%;
+  }
+  .text {
+    font-size: 1.5rem;
+    top: 35%;
+  }
+}
+@media screen and (min-width: 760px) and (max-width: 900px) {
+  .navigation {
+    bottom: 10%;
+  }
+  .text {
+    font-size: 1.5rem;
+    top: 30%;
   }
 }
 </style>
