@@ -1,22 +1,11 @@
 import Vue from 'vue';
 import App from './App.vue';
 import router from './router';
-import Vuex from 'vuex'
+import { store } from './store/stroe'
 
-Vue.use(Vuex)
 
 Vue.config.productionTip = false;
 
-const store = new Vuex.Store({
-  state: {
-    itemCount: 0
-  },
-  mutations: {
-    increment(state) {
-      state.itemCount++
-    }
-  }
-})
 
 new Vue({
   router,

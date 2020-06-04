@@ -1,7 +1,7 @@
 import Api from '@/services/Api'
 
 export default {
-  getAllProducts() {
-    return Api().get(`/products`)
+  getSlideShowImgs() {
+    return Api().get(`/`)
   }
 }

@@ -1,6 +1,8 @@
-const dbConnection = require('./controller/connection')
+
 const products = require('./controller/productsController')
+const homeSlide = require('./controller/homeSlideController')
 
 module.exports = (app) => {
-  app.get('/', products.getAllProducts)
+  app.get('/', homeSlide.getSlideShowImages)
+  app.get('/products', products.getAllProducts)
 }

@@ -8,13 +8,15 @@
       </a>
       <router-link to="/cart">
         <i class="material-icons">shopping_cart</i>
-        <span class="item-number">{{$store.state.itemCount}}</span>
+        <span class="item-number">{{$store.state.itemNumberInCart}}</span>
       </router-link>
     </div>
     <div class="sidepanel" id="sidepanel">
       <button class="closebtn" @click="closeSidepanel">×</button>
       <br />
       <button @click="navigateTo('/')">Home</button>
+      <br />
+      <button @click="navigateTo('/products')">Products</button>
       <br />
       <button @click="navigateTo('/about')">About</button>
     </div>
@@ -24,14 +26,6 @@
 <script>
 export default {
   name: "PageHeader",
-  // data() {
-  //   return {
-  //     itemCount: this.$store.state.itemCount
-  //   };
-  // },
-  mounted() {
-    console.log(this.$store.state.itemCount);
-  },
   methods: {
     openSidepanel() {
       document.getElementById("sidepanel").style.width = "250px";
@@ -68,6 +62,7 @@ p {
   padding: 10px;
   position: sticky;
   top: 0;
+  z-index: 3;
 }
 
 .header a {

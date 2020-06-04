@@ -1,107 +1,162 @@
 <template>
-  <div class="container">
-    <div class="container-item" v-for="product in products" :key="product._id">
-      <a target="_blank" href="#">
-        <img :src="product.img" />
-      </a>
-      <div class="description">
-        <a target="_blank" href="#">
-          {{product.name}}
-          <br />
-          <span>{{product.price}} {{product.weight}}</span>
-        </a>
+  <div class="slidershow">
+    <div class="slides">
+      <input v-for="n in 4" :key="n" type="radio" name="radioBtn" :id="'r'+`${n}`" :checked="n===1" />
+      <div :class="['slide'+`${index+1}`]" v-for="(img,index) in homeSlideImages" :key="img._id">
+        <img :src="img.img" />
       </div>
-      <button class="add-to-cart" @click="addToCart">Add To Cart</button>
+      <div class="navigation">
+        <label
+          v-for="n in 4"
+          :key="n"
+          :for="'r'+`${n}`"
+          class="dot"
+          :id="'dot'+`${n}`"
+          @click="selectSlide('dot'+`${n}`,n-1,4)"
+        ></label>
+      </div>
     </div>
   </div>
 </template>
-
 <script>
-// @ is an alias to /src
-import productService from "@/services/productService";
-
+import homeSlideService from "../services/homeSlideService";
 export default {
-  name: "Home",
   data() {
     return {
-      products: [],
-      itemCount: 0
+      homeSlideImages: [],
+      automoveInterval: null,
+      indexOfSlide: 0
     };
   },
   async created() {
-    this.products = (await productService.getAllProducts()).data;
+    this.homeSlideImages = (await homeSlideService.getSlideShowImgs()).data;
+  },
+  mounted() {
+    this.automoveInterval = setInterval(this.move, 2000);
   },
   methods: {
-    addToCart() {
-      this.$store.commit("increment");
+    move() {
+      let element = document.getElementsByName("radioBtn");
+      let length = element.length;
+      if (this.indexOfSlide < length - 1) {
+        element[this.indexOfSlide].checked = false;
+        element[this.indexOfSlide++].checked = true;
+      } else if (this.indexOfSlide === length - 1) {
+        element[this.indexOfSlide].checked = true;
+        this.indexOfSlide = 0;
+        element[0].checked = false;
+      }
+    },
+    selectSlide(id, index) {
+      clearInterval(this.automoveInterval);
+      this.indexOfSlide = index;
+      this.automoveInterval = setInterval(this.move, 2000);
     }
   }
 };
 </script>
 <style scoped>
-* {
-  box-sizing: border-box;
+.slidershow {
+  width: 65%;
+  height: auto;
+  overflow: hidden;
+  position: absolute;
+  top: 20%;
+  left: 20%;
+  bottom: 5%;
 }
-img {
-  object-fit: scale-down;
-  width: 70%;
-  height: 150px;
+.slides {
+  width: 400%;
+  height: 600px;
+  display: flex;
 }
-.container {
-  display: grid;
-  grid-template-columns: auto auto auto auto;
-  gap: 15px;
-  margin: 25px 50px 25px 50px;
+.slide1,
+.slide2,
+.slide3,
+.slide4 {
+  width: 25%;
+  transition: 0.6s;
 }
-.container-item {
-  text-align: center;
-  box-shadow: 10px 10px 5px #609b9f;
+/* .slide1 {
+  animation: automove 15s infinite;
+} */
+@keyframes automove {
+  0% {
+    margin-left: 0%;
+  }
+  15% {
+    margin-left: -25%;
+  }
+  30% {
+    margin-left: -50%;
+  }
+  45% {
+    margin-left: -75%;
+  }
+  60% {
+    margin-left: -50%;
+  }
+  75% {
+    margin-left: -25%;
+  }
+  100% {
+    margin-left: 0%;
+  }
+}
+.slide1 img,
+.slide2 img,
+.slide3 img,
+.slide4 img {
+  width: 100%;
+  height: 95%;
+  object-fit: cover;
+}
+.navigation {
+  position: absolute;
+  bottom: 5%;
+  left: 50%;
+  transform: translateX(-50%);
+  display: flex;
+}
+.dot {
+  position: relative;
+  width: 15px;
+  height: 15px;
+  border: 2px solid #609b9f;
+  background-color: white;
+  opacity: 0.6;
+  border-radius: 25px;
+  margin: 6px;
   cursor: pointer;
-  background-size: cover;
 }
-.description {
-  color: #006666;
+.dot:hover {
+  opacity: 1;
 }
-.description a {
-  text-decoration: none;
-  margin-top: 15px;
+input[name="radioBtn"] {
+  position: absolute;
+  visibility: hidden;
 }
-.add-to-cart {
-  border: #609b9f 1px solid;
-  border-radius: 30px;
-  cursor: pointer;
-  margin: 10px;
-  color: #006666;
-  padding: 5px 10px 5px 10px;
+#r1:checked ~ .navigation #dot1,
+#r2:checked ~ .navigation #dot2,
+#r3:checked ~ .navigation #dot3,
+#r4:checked ~ .navigation #dot4 {
+  opacity: 1;
 }
-.add-to-cart:hover {
-  background-color: #ffebe6;
+#r1:checked ~ .slide1 {
+  margin-left: 0;
 }
-.add-to-cart:focus {
-  outline: none;
+#r2:checked ~ .slide1 {
+  margin-left: -25%;
 }
-@media screen and (max-width: 500px) {
-  .container {
-    display: grid;
-    grid-template-columns: auto;
-  }
+#r3:checked ~ .slide1 {
+  margin-left: -50%;
 }
-@media screen and (min-width: 501px) and (max-width: 650px) {
-  .container {
-    display: grid;
-    grid-template-columns: repeat(2, 1fr);
-  }
+#r4:checked ~ .slide1 {
+  margin-left: -75%;
 }
-@media screen and (min-width: 651px) and (max-width: 850px) {
-  .container {
-    display: grid;
-    grid-template-columns: repeat(3, 1fr);
-  }
-}
-/* @media screen and (min-width: 901px) {
-  .container {
-    display: grid;
-    grid-template-columns: auto auto auto auto;
+/* @media screen and (max-width: 500px) {
+  .slide-item img {
+    height: 300px;
   }
 } */
 </style>
