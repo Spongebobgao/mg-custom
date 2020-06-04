@@ -61,7 +61,7 @@ export default {
   height: auto;
   overflow: hidden;
   position: absolute;
-  top: 20%;
+  top: 15%;
   left: 20%;
   bottom: 5%;
 }
@@ -77,39 +77,13 @@ export default {
   width: 25%;
   transition: 0.6s;
 }
-/* .slide1 {
-  animation: automove 15s infinite;
-} */
-@keyframes automove {
-  0% {
-    margin-left: 0%;
-  }
-  15% {
-    margin-left: -25%;
-  }
-  30% {
-    margin-left: -50%;
-  }
-  45% {
-    margin-left: -75%;
-  }
-  60% {
-    margin-left: -50%;
-  }
-  75% {
-    margin-left: -25%;
-  }
-  100% {
-    margin-left: 0%;
-  }
-}
 .slide1 img,
 .slide2 img,
 .slide3 img,
 .slide4 img {
   width: 100%;
   height: 95%;
-  object-fit: cover;
+  object-fit: scale-down;
 }
 .navigation {
   position: absolute;
@@ -154,9 +128,14 @@ input[name="radioBtn"] {
 #r4:checked ~ .slide1 {
   margin-left: -75%;
 }
-/* @media screen and (max-width: 500px) {
-  .slide-item img {
-    height: 300px;
+@media screen and (max-width: 500px) {
+  .slidershow {
+    top: 0;
+    left: 5%;
+    width: 90%;
   }
-} */
+  .navigation {
+    bottom: 20%;
+  }
+}
 </style>
