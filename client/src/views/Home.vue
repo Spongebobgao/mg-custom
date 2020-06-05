@@ -45,19 +45,22 @@ export default {
       let radioBtn = document.getElementsByName("radioBtn");
       let length = radioBtn.length;
       if (this.currentSlide < length) {
-        radioBtn[this.currentSlide - 1].checked = false;
-        this.moveSlide(this.currentSlide, "moveCurrentSlideOut");
-        radioBtn[this.currentSlide].checked = true;
-        this.currentSlide++;
-        this.clickedSlide = this.currentSlide;
-        this.moveSlide(this.clickedSlide, "moveNextSlideIn");
+        this.moveHelper(radioBtn, length, false);
       } else if (this.currentSlide === length) {
-        radioBtn[this.currentSlide - 1].checked = false;
-        this.moveSlide(this.currentSlide, "moveCurrentSlideOut");
+        this.moveHelper(radioBtn, length, true);
+      }
+    },
+    moveHelper(radioBtn, length, lastSlide) {
+      radioBtn[this.currentSlide - 1].checked = false;
+      this.moveSlide(this.currentSlide, "moveCurrentSlideOut");
+      if (!lastSlide) {
+        radioBtn[this.currentSlide].checked = true;
+        this.clickedSlide = ++this.currentSlide;
+      } else {
         this.currentSlide = this.clickedSlide = 1;
         radioBtn[this.clickedSlide - 1].checked = true;
-        this.moveSlide(this.clickedSlide, "moveNextSlideIn");
       }
+      this.moveSlide(this.clickedSlide, "moveNextSlideIn");
     },
     selectSlide(index) {
       clearInterval(this.automoveInterval);
