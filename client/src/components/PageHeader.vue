@@ -63,6 +63,7 @@ p {
   position: sticky;
   top: 0;
   z-index: 3;
+  box-shadow: 5px 10px 8px #888;
 }
 
 .header a {

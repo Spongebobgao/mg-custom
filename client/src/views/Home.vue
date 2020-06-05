@@ -3,9 +3,10 @@
     <div class="slides">
       <input v-for="n in 4" :key="n" type="radio" name="radioBtn" :id="'r'+`${n}`" :checked="n===1" />
       <div :class="['slide'+`${index+1}`]" v-for="(img,index) in homeSlideImages" :key="img._id">
-        <p class="text">{{img.text}}</p>
+        <p :class="['text'+`${index+1}`]">{{img.text}}</p>
         <img :src="img.img" />
       </div>
+
       <div class="navigation">
         <label
           v-for="n in 4"
@@ -13,7 +14,7 @@
           :for="'r'+`${n}`"
           class="dot"
           :id="'dot'+`${n}`"
-          @click="selectSlide('dot'+`${n}`,n-1,4)"
+          @click="selectSlide(n)"
         ></label>
       </div>
     </div>
@@ -26,7 +27,8 @@ export default {
     return {
       homeSlideImages: [],
       automoveInterval: null,
-      indexOfSlide: 0
+      clickedSlide: 1,
+      currentSlide: 1
     };
   },
   async created() {
@@ -35,23 +37,48 @@ export default {
   mounted() {
     this.automoveInterval = setInterval(this.move, 3000);
   },
+  beforeDestroy() {
+    clearInterval(this.automoveInterval);
+  },
   methods: {
     move() {
-      let element = document.getElementsByName("radioBtn");
-      let length = element.length;
-      if (this.indexOfSlide < length - 1) {
-        element[this.indexOfSlide].checked = false;
-        element[this.indexOfSlide++].checked = true;
-      } else if (this.indexOfSlide === length - 1) {
-        element[this.indexOfSlide].checked = true;
-        this.indexOfSlide = 0;
-        element[0].checked = false;
+      let radioBtn = document.getElementsByName("radioBtn");
+      let length = radioBtn.length;
+      if (this.currentSlide < length) {
+        radioBtn[this.currentSlide - 1].checked = false;
+        this.moveSlide(this.currentSlide, "moveCurrentSlideOut");
+        radioBtn[this.currentSlide].checked = true;
+        this.currentSlide++;
+        this.clickedSlide = this.currentSlide;
+        this.moveSlide(this.clickedSlide, "moveNextSlideIn");
+      } else if (this.currentSlide === length) {
+        radioBtn[this.currentSlide - 1].checked = false;
+        this.moveSlide(this.currentSlide, "moveCurrentSlideOut");
+        this.currentSlide = this.clickedSlide = 1;
+        radioBtn[this.clickedSlide - 1].checked = true;
+        this.moveSlide(this.clickedSlide, "moveNextSlideIn");
       }
     },
-    selectSlide(id, index) {
+    selectSlide(index) {
       clearInterval(this.automoveInterval);
-      this.indexOfSlide = index;
+      if (this.clickedSlide != index) {
+        this.currentSlide = this.clickedSlide;
+        this.clickedSlide = index;
+        this.moveCurrentAndNext();
+        this.currentSlide = this.clickedSlide;
+      }
       this.automoveInterval = setInterval(this.move, 3000);
+    },
+    moveCurrentAndNext() {
+      this.moveSlide(this.currentSlide, "moveCurrentSlideOut");
+      this.moveSlide(this.clickedSlide, "moveNextSlideIn");
+    },
+    moveSlide(slideNumber, className) {
+      let element = document.getElementsByClassName("slide" + slideNumber)[0];
+      element.classList.add(className);
+      setTimeout(function() {
+        element.classList.remove(className);
+      }, 1000);
     }
   }
 };
@@ -67,16 +94,18 @@ export default {
   bottom: 7%;
 }
 .slides {
-  width: 400%;
+  width: 100%;
   height: 600px;
-  display: flex;
+  position: relative;
 }
 .slide1,
 .slide2,
 .slide3,
 .slide4 {
-  width: 25%;
-  transition: 0.6s;
+  width: 100%;
+  height: 100%;
+  position: absolute;
+  opacity: 0;
 }
 .slide1 img,
 .slide2 img,
@@ -86,7 +115,10 @@ export default {
   height: 95%;
   object-fit: scale-down;
 }
-.text {
+.text1,
+.text2,
+.text3,
+.text4 {
   width: 75%;
   position: absolute;
   top: 20%;
@@ -95,12 +127,12 @@ export default {
   color: white;
   display: flex;
   text-shadow: 2px 2px 8px black, 0 0 5px #609b9f;
+  opacity: 0;
 }
 .navigation {
   position: absolute;
-  bottom: 5%;
-  left: 50%;
-  transform: translateX(-50%);
+  bottom: 30%;
+  left: 40%;
   display: flex;
 }
 .dot {
@@ -111,8 +143,9 @@ export default {
   background-color: white;
   opacity: 0.6;
   border-radius: 25px;
-  margin: 6px;
+  margin: 8px;
   cursor: pointer;
+  transition: 0.6s;
 }
 .dot:hover {
   opacity: 1;
@@ -127,19 +160,49 @@ input[name="radioBtn"] {
 #r4:checked ~ .navigation #dot4 {
   opacity: 1;
 }
-#r1:checked ~ .slide1 {
-  margin-left: 0;
+#r1:checked ~ .slide1,
+.text1 {
+  opacity: 1;
 }
-#r2:checked ~ .slide1 {
-  margin-left: -25%;
+.moveCurrentSlideOut {
+  animation: moveCurrentSlideOut 0.6s linear;
 }
-#r3:checked ~ .slide1 {
-  margin-left: -50%;
+@keyframes moveCurrentSlideOut {
+  from {
+    margin-left: 0%;
+    opacity: 1;
+  }
+  to {
+    margin-left: -100%;
+    opacity: 1;
+  }
 }
-#r4:checked ~ .slide1 {
-  margin-left: -75%;
+.moveNextSlideIn {
+  animation: moveNextSlideIn 1s ease-in-out;
 }
-@media screen and (max-width: 500px) {
+@keyframes moveNextSlideIn {
+  from {
+    margin-left: 100%;
+    opacity: 1;
+  }
+  to {
+    margin-left: 0%;
+    opacity: 1;
+  }
+}
+#r2:checked ~ .slide2,
+.text2 {
+  opacity: 1;
+}
+#r3:checked ~ .slide3,
+.text3 {
+  opacity: 1;
+}
+#r4:checked ~ .slide4,
+.text4 {
+  opacity: 1;
+}
+@media screen and (min-width: 400px) and (max-width: 550px) {
   .slidershow {
     top: 0;
     left: 5%;
@@ -157,9 +220,9 @@ input[name="radioBtn"] {
     height: 10px;
   }
 }
-@media screen and (min-width: 501px) and (max-width: 650px) {
+@media screen and (min-width: 551px) and (max-width: 650px) {
   .navigation {
-    bottom: 20%;
+    bottom: 35%;
   }
   .text {
     font-size: 1.5rem;
@@ -168,7 +231,7 @@ input[name="radioBtn"] {
 }
 @media screen and (min-width: 651px) and (max-width: 761px) {
   .navigation {
-    bottom: 15%;
+    bottom: 35%;
   }
   .text {
     font-size: 1.5rem;
@@ -176,9 +239,6 @@ input[name="radioBtn"] {
   }
 }
 @media screen and (min-width: 760px) and (max-width: 900px) {
-  .navigation {
-    bottom: 10%;
-  }
   .text {
     font-size: 1.5rem;
     top: 30%;
