@@ -8,7 +8,10 @@
       </a>
       <router-link to="/cart">
         <i class="material-icons">shopping_cart</i>
-        <span class="item-number">{{$store.state.itemNumberInCart}}</span>
+        <span class="item-number">{{$store.state.numberOfProductsInCart}}</span>
+      </router-link>
+      <router-link to="/account">
+        <i class="material-icons">account_circle</i>
       </router-link>
     </div>
     <div class="sidepanel" id="sidepanel">

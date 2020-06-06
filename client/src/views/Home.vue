@@ -168,7 +168,7 @@ input[name="radioBtn"] {
   opacity: 1;
 }
 .moveCurrentSlideOut {
-  animation: moveCurrentSlideOut 0.6s linear;
+  animation: moveCurrentSlideOut 1s linear;
 }
 @keyframes moveCurrentSlideOut {
   from {
@@ -181,7 +181,7 @@ input[name="radioBtn"] {
   }
 }
 .moveNextSlideIn {
-  animation: moveNextSlideIn 1s ease-in-out;
+  animation: moveNextSlideIn 1s linear;
 }
 @keyframes moveNextSlideIn {
   from {

@@ -8,10 +8,10 @@
         <a target="_blank" href="#">
           {{product.name}}
           <br />
-          <span>{{product.price}} {{product.weight}}</span>
+          <span>$ {{product.price}} {{product.weight}}</span>
         </a>
       </div>
-      <button class="add-to-cart" @click="addToCart">Add To Cart</button>
+      <button class="add-to-cart" @click="addToCart(product)">Add To Cart</button>
     </div>
   </div>
 </template>
@@ -32,8 +32,9 @@ export default {
     this.products = (await productService.getAllProducts()).data;
   },
   methods: {
-    addToCart() {
-      this.$store.commit("increment");
+    addToCart(product) {
+      product.quantity = 1;
+      this.$store.commit("addItemInCart", product);
     }
   }
 };
