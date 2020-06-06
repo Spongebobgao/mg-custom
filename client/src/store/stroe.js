@@ -9,21 +9,21 @@ export const store = new Vuex.Store({
     productsInCart: {}
   },
   mutations: {
-    addItemInCart(state, product) {
-      if (state.productsInCart[product._id]) {
-        state.productsInCart[product._id] = {
-          ...state.productsInCart[product._id],
-          total: parseFloat((state.productsInCart[product._id].total + product.price).toFixed(2)),
-          quantity: state.productsInCart[product._id].quantity + 1
+    addItemInCart(state, payload) {
+      if (state.productsInCart[payload[0]._id]) {
+        state.productsInCart[payload[0]._id] = {
+          ...state.productsInCart[payload[0]._id],
+          total: parseFloat((state.productsInCart[payload[0]._id].total + payload[0].price * payload[1]).toFixed(2)),
+          quantity: state.productsInCart[payload[0]._id].quantity + payload[1]
         }
       } else {
-        state.productsInCart[product._id] = {
-          ...product,
-          quantity: 1,
-          total: product.price
+        state.productsInCart[payload[0]._id] = {
+          ...payload[0],
+          quantity: payload[1],
+          total: parseFloat((payload[0].price * payload[1]).toFixed(2))
         }
       }
-      state.numberOfProductsInCart++
+      state.numberOfProductsInCart += payload[1]
     }
   }
 })

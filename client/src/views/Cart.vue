@@ -3,11 +3,11 @@
     <table>
       <caption>Your Cart: {{$store.state.numberOfProductsInCart}} items</caption>
       <tr v-for="(productInCart,index) in $store.state.productsInCart" :key="index">
-        <td style="width:40%">
+        <td style="width:30%">
           <img :src="productInCart.img" />
         </td>
-        <td style="width:20%">{{productInCart.name}}</td>
-        <td style="width:10%">{{productInCart.quantity}}</td>
+        <td style="width:25%">{{productInCart.name}}</td>
+        <td style="width:15%">Qty: {{productInCart.quantity}}</td>
         <td style="width:15%">
           $ {{productInCart.price}}
           <span style="font-size:0.8rem">each</span>
@@ -29,16 +29,14 @@ export default {};
   position: relative;
   left: 5%;
 }
-table,
-th,
-td {
-  border-collapse: collapse;
+table {
   width: 70%;
-  text-align: center;
+  text-align: left;
+  font-size: 1.2rem;
 }
 th,
 td {
-  padding: 15px;
+  padding: 5px;
 }
 caption {
   padding: 8px;
@@ -48,7 +46,7 @@ caption {
   font-weight: bold;
 }
 img {
-  width: 70%;
+  width: 60%;
   object-fit: scale-down;
 }
 /* tr:nth-child(even) {

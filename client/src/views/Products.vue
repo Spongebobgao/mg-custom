@@ -1,17 +1,21 @@
 <template>
   <div class="container">
-    <div class="container-item" v-for="product in products" :key="product._id">
+    <div class="container-item" v-for="(product,index) in products" :key="product._id">
       <a target="_blank" href="#">
         <img :src="product.img" />
       </a>
       <div class="description">
         <a target="_blank" href="#">
           {{product.name}}
-          <br />
-          <span>$ {{product.price}} {{product.weight}}</span>
+          <span>${{product.price}}/{{product.weight}}</span>
         </a>
+        <br />
+        <label for="qty">Choose a quantity:</label>
+        <select name="qty" :id="['qty'+`${index+1}`]">
+          <option v-for="n in 20" :key="n">{{n}}</option>
+        </select>
       </div>
-      <button class="add-to-cart" @click="addToCart(product)">Add To Cart</button>
+      <button class="add-to-cart" @click="addToCart(product,['qty'+`${index+1}`])">Add To Cart</button>
     </div>
   </div>
 </template>
@@ -32,9 +36,10 @@ export default {
     this.products = (await productService.getAllProducts()).data;
   },
   methods: {
-    addToCart(product) {
-      product.quantity = 1;
-      this.$store.commit("addItemInCart", product);
+    addToCart(product, id) {
+      const qty = parseInt(document.getElementById(id).value);
+      const payload = [product, qty];
+      this.$store.commit("addItemInCart", payload);
     }
   }
 };
