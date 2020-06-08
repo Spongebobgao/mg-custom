@@ -34,10 +34,6 @@
           >Remove all</span>
         </td>
       </tr>
-
-      <!-- <tr>
-        <td style="text-align:right;font-size:0.9rem" colspan="5">Remove all</td>
-      </tr>-->
       <tr>
         <td
           style="text-align:right;font-size:1.1rem"

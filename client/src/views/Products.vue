@@ -1,24 +1,19 @@
 <template>
   <div class="container">
-    <div class="container-item" v-for="(product,index) in products" :key="product._id">
-      <a target="_blank" href="#">
-        <img :src="product.img" />
-      </a>
+    <div
+      @click="navigateTo(product._id)"
+      class="container-item"
+      v-for="(product,index) in products"
+      :key="product._id"
+    >
+      <img :src="product.img" />
       <div class="description">
-        <a target="_blank" href="#">
-          {{product.name}}
-          <span>${{product.price}}/{{product.weight}}</span>
-        </a>
+        {{product.name}}
+        <span>${{product.price}}/{{product.weight}}</span>
         <br />
-        <!-- <label for="qty">Choose a quantity:</label>
-        <select name="qty" :id="['qty'+`${index+1}`]">
-          <option v-for="n in 20" :key="n">{{n}}</option>
-        </select>-->
         <div class="inputField">
           <button class="decreaseBtn" @click.stop="decrease('qty'+`${index+1}`)">-</button>
-          <!-- <br /> -->
           <input class="input" type="text" :id="['qty'+`${index+1}`]" name="qty" value="1" />
-          <!-- <br /> -->
           <button class="increaseBtn" @click="increase('qty'+`${index+1}`)">+</button>
         </div>
       </div>
@@ -64,8 +59,8 @@ export default {
         document.getElementById(id).value = qty + 1;
       }
     },
-    test() {
-      console.log("kajhsdka");
+    navigateTo(id) {
+      this.$router.push(`/products/${id}`);
     }
   }
 };
@@ -97,13 +92,11 @@ export default {
   width: 45%;
   text-align: center;
 }
-/* .decreaseBtn:hover,
+.decreaseBtn:hover,
 .increaseBtn:hover {
-  background: #609b9f;
-} */
-/* .increaseBtn {
-  margin-left: 40%;
-} */
+  background: #ffebe6;
+}
+
 img {
   object-fit: scale-down;
   width: 70%;

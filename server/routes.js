@@ -5,4 +5,5 @@ const homeSlide = require('./controller/homeSlideController')
 module.exports = (app) => {
   app.get('/', homeSlide.getSlideShowImages)
   app.get('/products', products.getAllProducts)
+  app.get('/products/:id', products.getProductById)
 }
