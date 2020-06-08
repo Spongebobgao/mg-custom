@@ -10,10 +10,17 @@
           <span>${{product.price}}/{{product.weight}}</span>
         </a>
         <br />
-        <label for="qty">Choose a quantity:</label>
+        <!-- <label for="qty">Choose a quantity:</label>
         <select name="qty" :id="['qty'+`${index+1}`]">
           <option v-for="n in 20" :key="n">{{n}}</option>
-        </select>
+        </select>-->
+        <div class="inputField">
+          <button class="decreaseBtn" @click.stop="decrease('qty'+`${index+1}`)">-</button>
+          <!-- <br /> -->
+          <input class="input" type="text" :id="['qty'+`${index+1}`]" name="qty" value="1" />
+          <!-- <br /> -->
+          <button class="increaseBtn" @click="increase('qty'+`${index+1}`)">+</button>
+        </div>
       </div>
       <button class="add-to-cart" @click="addToCart(product,['qty'+`${index+1}`])">Add To Cart</button>
     </div>
@@ -29,7 +36,7 @@ export default {
   data() {
     return {
       products: [],
-      itemCount: 0
+      quantity: 1
     };
   },
   async created() {
@@ -37,9 +44,28 @@ export default {
   },
   methods: {
     addToCart(product, id) {
+      const qty = parseFloat(document.getElementById(id).value);
+      if (!isNaN(qty) && qty > 0) {
+        const payload = [product, qty];
+        this.$store.commit("addItemInCart", payload);
+      } else {
+        alert("Please enter a valid number");
+      }
+    },
+    decrease(id) {
       const qty = parseInt(document.getElementById(id).value);
-      const payload = [product, qty];
-      this.$store.commit("addItemInCart", payload);
+      if (!isNaN(qty) && qty > 1) {
+        document.getElementById(id).value = qty - 1;
+      }
+    },
+    increase(id) {
+      const qty = parseInt(document.getElementById(id).value);
+      if (!isNaN(qty) && qty > 0) {
+        document.getElementById(id).value = qty + 1;
+      }
+    },
+    test() {
+      console.log("kajhsdka");
     }
   }
 };
@@ -48,6 +74,36 @@ export default {
 * {
   box-sizing: border-box;
 }
+.inputField {
+  display: flex;
+  margin-top: 5px;
+  margin-left: 32%;
+  border: #006666 1px solid;
+  width: 35%;
+  border-radius: 5px;
+  overflow: hidden;
+}
+.decreaseBtn,
+.increaseBtn {
+  border: none;
+  background: white;
+  box-shadow: none;
+  width: 27.5%;
+  cursor: pointer;
+  position: relative;
+}
+.input {
+  position: relative;
+  width: 45%;
+  text-align: center;
+}
+/* .decreaseBtn:hover,
+.increaseBtn:hover {
+  background: #609b9f;
+} */
+/* .increaseBtn {
+  margin-left: 40%;
+} */
 img {
   object-fit: scale-down;
   width: 70%;
@@ -57,9 +113,10 @@ img {
   display: grid;
   grid-template-columns: auto auto auto auto;
   gap: 15px;
-  margin: 25px 50px 25px 50px;
+  margin: 25px;
 }
 .container-item {
+  min-width: 240px;
   text-align: center;
   box-shadow: 10px 10px 5px #609b9f;
   cursor: pointer;
