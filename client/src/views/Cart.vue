@@ -6,11 +6,14 @@
       >Your Cart: {{$store.state.numberOfProductsInCart}} {{$store.state.numberOfProductsInCart>1?"items":"item"}}</caption>
       <caption v-else>Your Cart Is Empty.</caption>
       <tr v-for="(productInCart) in $store.state.productsInCart" :key="productInCart._id">
-        <td style="width:30%">
+        <td style="width:25%;cursor:pointer" @click="navigateTo(productInCart._id)">
           <img :src="productInCart.img" />
         </td>
-        <td style="width:25%">{{productInCart.name}}</td>
-        <td style="width:15%">
+        <td
+          style="width:25%;cursor:pointer"
+          @click="navigateTo(productInCart._id)"
+        >{{productInCart.name}}</td>
+        <td style="width:20%">
           <div class="inputField">
             <sup>Qty:</sup>
             <input class="decreaseBtn" type="button" value="-" @click="decrease(productInCart)" />
@@ -25,13 +28,14 @@
           </div>
         </td>
         <td style="width:15%">
-          <span>$ {{productInCart.price}}</span>
+          <span>${{productInCart.price}}</span>
           <span style="font-size:0.8rem">ea</span>
         </td>
         <td style="width:15%;font-weight:bold;margin-top:">
-          $ {{productInCart.total}}
+          ${{productInCart.total}}
+          <br />
           <span
-            style="font-size:0.9rem;font-weight:lighter;cursor:pointer"
+            style="font-size:0.8rem;font-weight:lighter;cursor:pointer"
             @click="removeAll(productInCart)"
           >Remove all</span>
         </td>
@@ -48,6 +52,7 @@
 </template>
 
 <script>
+import productService from "@/services/productService";
 export default {
   methods: {
     decrease(product) {
@@ -70,6 +75,9 @@ export default {
       const qty = parseFloat(document.getElementById(product._id).value);
       const payload = [product, -qty];
       this.$store.commit("addItemInCart", payload);
+    },
+    navigateTo(id) {
+      this.$router.push(`/products/${id}`);
     }
   }
 };
@@ -77,15 +85,16 @@ export default {
 
 <style scoped>
 .cartContainer {
-  width: 80%;
   height: auto;
+  width: 95%;
   position: relative;
   left: 5%;
 }
 table {
-  width: 70%;
+  width: 65%;
   text-align: right;
   font-size: 1.2rem;
+  min-width: 220px;
 }
 th,
 td {
@@ -125,7 +134,34 @@ sup {
   font-size: 1rem;
   font-weight: bold;
 }
-/* tr:nth-child(even) {
-  background-color: #dddddd;
-} */
+@media screen and (min-width: 651px) and (max-width: 850px) {
+  table {
+    width: 85%;
+  }
+}
+@media screen and (min-width: 551px) and (max-width: 650px) {
+  caption {
+    font-size: 1.2rem;
+  }
+  table {
+    width: 100%;
+    font-size: 1rem;
+  }
+}
+@media screen and (max-width: 550px) {
+  caption {
+    font-size: 1rem;
+  }
+  table {
+    text-align: left;
+    font-size: 1rem;
+  }
+  tr {
+    display: table;
+    width: 100%;
+  }
+  td {
+    display: table-row;
+  }
+}
 </style>

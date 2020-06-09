@@ -61,6 +61,7 @@ p {
 }
 .header {
   overflow: hidden;
+  min-width: 325px;
   background-color: #609b9f;
   padding: 10px;
   position: sticky;

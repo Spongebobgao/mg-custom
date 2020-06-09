@@ -6,7 +6,7 @@
     <div class="text">
       <h1>{{product.name}}</h1>
       <p>${{product.price}} {{product.weight}}</p>
-      <p>Some text about the product</p>
+      <p class="nutrients">{{product.nutrients}}</p>
       <QtyButton :id="product._id" :view="view" :product="product" />
     </div>
   </div>
@@ -53,5 +53,9 @@ export default {
 }
 img {
   width: 80%;
+}
+.nutrients {
+  line-height: 1.5rem;
+  font-family: "Alata";
 }
 </style>
