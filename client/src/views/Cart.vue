@@ -1,7 +1,10 @@
 <template>
   <div class="cartContainer">
     <table>
-      <caption>Your Cart: {{$store.state.numberOfProductsInCart}} {{$store.state.numberOfProductsInCart>1?"items":"item"}}</caption>
+      <caption
+        v-if="$store.state.numberOfProductsInCart"
+      >Your Cart: {{$store.state.numberOfProductsInCart}} {{$store.state.numberOfProductsInCart>1?"items":"item"}}</caption>
+      <caption v-else>Your Cart Is Empty.</caption>
       <tr v-for="(productInCart) in $store.state.productsInCart" :key="productInCart._id">
         <td style="width:30%">
           <img :src="productInCart.img" />
@@ -15,7 +18,6 @@
               class="input"
               type="text"
               :id="productInCart._id"
-              name="qty"
               :value="`${productInCart.quantity}`"
               disabled
             />
@@ -65,7 +67,7 @@ export default {
       }
     },
     removeAll(product) {
-      const qty = parseInt(document.getElementById(product._id).value);
+      const qty = parseFloat(document.getElementById(product._id).value);
       const payload = [product, -qty];
       this.$store.commit("addItemInCart", payload);
     }
@@ -99,6 +101,9 @@ caption {
 img {
   width: 60%;
   object-fit: scale-down;
+}
+sup {
+  font-size: 0.8rem;
 }
 .inputfield {
   width: 90%;

@@ -7,19 +7,22 @@
       <h1>{{product.name}}</h1>
       <p>${{product.price}} {{product.weight}}</p>
       <p>Some text about the product</p>
-      <p>
-        <button @click="addToCart">Add to Cart</button>
-      </p>
+      <QtyButton :id="product._id" :view="view" :product="product" />
     </div>
   </div>
 </template>
 
 <script>
 import productService from "@/services/productService";
+import QtyButton from "@/components/QtyButton.vue";
 export default {
+  components: {
+    QtyButton
+  },
   data() {
     return {
-      product: {}
+      product: {},
+      view: "product"
     };
   },
   async created() {
@@ -28,12 +31,7 @@ export default {
     ).data;
     this.product = this.product[0];
   },
-  methods: {
-    addToCart() {
-      const payload = [this.product, 1];
-      this.$store.commit("addItemInCart", payload);
-    }
-  }
+  methods: {}
 };
 </script>
 
@@ -55,16 +53,5 @@ export default {
 }
 img {
   width: 80%;
-}
-button {
-  background-color: #9acdd1;
-  border: #9acdd1 1px solid;
-  border-radius: 25px;
-  padding: 5px 15px;
-  cursor: pointer;
-  margin-top: 25px;
-}
-button:hover {
-  background-color: #ffebe6;
 }
 </style>
