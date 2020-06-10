@@ -3,32 +3,50 @@
     <a href="/">MG-CUSTOM</a>
     <p>YOU DESERVE ALL THE GOOD THINGS</p>
     <div class="header-right">
+      <router-link class="all-products" to="/products">
+        <img src="../assets/product-icon.svg" class="product-icon" />
+        <span class="tooltiptext">All Products</span>
+      </router-link>
       <a href="javascript:void(0)" @click="openSidepanel">
         <i class="material-icons">menu</i>
       </a>
-      <router-link to="/cart">
+      <router-link @mouseover.native="hoverCart=true" to="/cart">
         <i class="material-icons">shopping_cart</i>
         <span class="item-number">{{$store.state.numberOfProductsInCart}}</span>
       </router-link>
-      <router-link to="/account">
+      <a href="/account">
         <i class="material-icons">account_circle</i>
-      </router-link>
+      </a>
     </div>
     <div class="sidepanel" id="sidepanel">
       <button class="closebtn" @click="closeSidepanel">×</button>
       <br />
       <button @click="navigateTo('/')">Home</button>
       <br />
-      <button @click="navigateTo('/products')">Products</button>
-      <br />
       <button @click="navigateTo('/about')">About</button>
     </div>
+    <CartPopup :hoverCart="hoverCart" @changeFromCartpop="hoverCart=false" />
   </div>
 </template>
 
 <script>
+import CartPopup from "@/components/CartPopup";
 export default {
   name: "PageHeader",
+  components: {
+    CartPopup
+  },
+  data() {
+    return {
+      hoverCart: false
+    };
+  },
+  mounted() {
+    document.addEventListener("click", () => (this.hoverCart = false));
+  },
+  beforeDestroy() {
+    document.removeEventListener("click", () => (this.hoverCart = false));
+  },
   methods: {
     openSidepanel() {
       document.getElementById("sidepanel").style.width = "250px";
@@ -46,6 +64,9 @@ export default {
 
 <!-- Add "scoped" attribute to limit CSS to this component only -->
 <style scoped>
+.cart:hover .popup {
+  visibility: visible;
+}
 * {
   box-sizing: border-box;
 }
@@ -56,8 +77,30 @@ body {
 p {
   position: absolute;
   margin-left: 35%;
-  font-size: 1.5rem;
+  font-size: 1.3rem;
   font-family: "Barrio";
+}
+.product-icon {
+  width: 22px;
+  height: 22px;
+}
+.tooltiptext {
+  visibility: hidden;
+  width: 100px;
+  background-color: #ffebe6;
+  color: #1d2f30;
+  text-align: center;
+  border-radius: 6px;
+  padding: 5px 0;
+  position: absolute;
+  z-index: 5;
+  font-size: 0.9rem;
+  opacity: 0.9;
+  margin-left: 35%;
+}
+
+.all-products:hover .tooltiptext {
+  visibility: visible;
 }
 .header {
   overflow: hidden;
@@ -159,24 +202,45 @@ p {
     float: none;
     display: inline-block;
     text-align: left;
-    font-size: 1rem;
+    font-size: 0.8rem;
+    padding: 5px;
   }
-
   .header-right {
     display: inline-block;
+    font-size: 0.8rem;
   }
   .sidepanel {
     top: 0;
   }
-}
-@media screen and (min-width: 501px) and (max-width: 650px) {
-  p {
-    margin-left: -400px;
+  .item-number {
+    top: -5px;
+    right: 0px;
   }
 }
-@media screen and (min-width: 651px) and (max-width: 850px) {
+@media screen and (min-width: 501px) and (max-width: 715px) {
+  p {
+    display: none;
+  }
+  .header a {
+    font-size: 1rem;
+  }
+}
+@media screen and (min-width: 710px) and (max-width: 780px) {
+  p {
+    margin-left: 28%;
+    font-size: 0.8rem;
+  }
+}
+@media screen and (min-width: 781px) and (max-width: 850px) {
   p {
     font-size: 1rem;
+    margin-left: 27%;
+  }
+}
+@media screen and (min-width: 851px) and (max-width: 1000px) {
+  p {
+    font-size: 1.2rem;
+    margin-left: 28%;
   }
 }
 </style>

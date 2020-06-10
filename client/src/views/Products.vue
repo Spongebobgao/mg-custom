@@ -59,7 +59,6 @@ img {
   margin: 25px;
 }
 .container-item {
-  min-width: 240px;
   text-align: center;
   box-shadow: 10px 10px 5px #609b9f;
   cursor: pointer;
@@ -74,6 +73,9 @@ img {
     display: grid;
     grid-template-columns: auto;
   }
+  .container-item {
+    min-width: 240px;
+  }
 }
 @media screen and (min-width: 501px) and (max-width: 650px) {
   .container {
@@ -87,10 +89,4 @@ img {
     grid-template-columns: repeat(3, 1fr);
   }
 }
-/* @media screen and (min-width: 901px) {
-  .container {
-    display: grid;
-    grid-template-columns: auto auto auto auto;
-  }
-} */
 </style>
