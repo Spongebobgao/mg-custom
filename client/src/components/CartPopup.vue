@@ -53,8 +53,8 @@ export default {
   display: flex;
   flex-wrap: wrap;
   overflow-y: auto;
-  animation: show-mini-cart 3s;
-  animation-delay: -2s;
+  animation: show-mini-cart 2s;
+  animation-delay: -1s;
   cursor: pointer;
 }
 

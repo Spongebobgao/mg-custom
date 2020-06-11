@@ -1,16 +1,16 @@
 <template>
   <div class="cartContainer">
-    <table>
+    <table class="v-line product-table">
       <caption
         v-if="$store.state.numberOfProductsInCart"
       >Your Cart: {{$store.state.numberOfProductsInCart}} {{$store.state.numberOfProductsInCart>1?"items":"item"}}</caption>
       <caption v-else>Your Cart Is Empty.</caption>
       <tr v-for="(productInCart) in $store.state.productsInCart" :key="productInCart._id">
-        <td style="width:25%;cursor:pointer" @click="navigateTo(productInCart._id)">
+        <td style="width:20%;cursor:pointer" @click="navigateTo(productInCart._id)">
           <img :src="productInCart.img" />
         </td>
         <td
-          style="width:25%;cursor:pointer"
+          style="width:30%;cursor:pointer"
           @click="navigateTo(productInCart._id)"
         >{{productInCart.name}}</td>
         <td style="width:20%">
@@ -40,12 +40,33 @@
           >Remove all</span>
         </td>
       </tr>
+    </table>
+    <table class="checkout-table">
       <tr>
-        <td
-          style="text-align:right;font-size:1.1rem"
-          colspan="5"
-          v-if="$store.state.totalOfProductsInCart>0"
-        >Total: ${{$store.state.totalOfProductsInCart}}</td>
+        <th>
+          Subtotal
+          <span
+            v-if="$store.state.numberOfProductsInCart>0"
+          >({{$store.state.numberOfProductsInCart}} {{$store.state.numberOfProductsInCart>1?'items':'item'}}):</span>
+        </th>
+        <td>${{$store.state.totalOfProductsInCart}}</td>
+      </tr>
+      <tr>
+        <th>Delivery:</th>
+        <td>Free</td>
+      </tr>
+      <tr>
+        <th>Est. taxes & fees:</th>
+        <td>$9.9</td>
+      </tr>
+      <tr>
+        <th>Est. total:</th>
+        <td>$99.9</td>
+      </tr>
+      <tr>
+        <th colspan="2">
+          <button class="check-out-btn">Check Out</button>
+        </th>
       </tr>
     </table>
   </div>
@@ -84,17 +105,45 @@ export default {
 </script>
 
 <style scoped>
+.check-out-btn {
+  background-color: rgb(0, 101, 255);
+  border: rgb(0, 101, 255) 1px solid;
+  border-radius: 25px;
+  width: 50%;
+  color: white;
+  padding: 5px;
+  font-size: 1.2rem;
+  margin-top: 15px;
+  margin-right: 3%;
+}
 .cartContainer {
   height: auto;
   width: 95%;
   position: relative;
-  left: 5%;
+  left: 2%;
+  display: flex;
+  flex-wrap: wrap;
+  background-color: #ecf9f2;
+  padding: 15px;
 }
-table {
-  width: 65%;
+.v-line {
+  border-right: 2px #339966 solid;
+}
+
+.product-table,
+.checkout-table {
   text-align: right;
   font-size: 1.2rem;
   min-width: 220px;
+  float: left;
+}
+.product-table {
+  width: 65%;
+}
+.checkout-table {
+  width: 35%;
+  margin-top: 37px;
+  font-size: 1.2rem;
 }
 th,
 td {
@@ -134,26 +183,41 @@ sup {
   font-size: 1rem;
   font-weight: bold;
 }
-@media screen and (min-width: 651px) and (max-width: 850px) {
-  table {
-    width: 85%;
+@media screen and (min-width: 541px) and (max-width: 800px) {
+  .product-table {
+    width: 95%;
+    min-width: 265px;
   }
-}
-@media screen and (min-width: 551px) and (max-width: 650px) {
-  caption {
-    font-size: 1.2rem;
+  .checkout-table {
+    width: 95%;
+    min-width: 265px;
   }
-  table {
-    width: 100%;
+  .v-line {
+    border-bottom: 2px #339966 solid;
+    border-right: none;
+  }
+  .checkout-table {
     font-size: 1rem;
   }
 }
-@media screen and (max-width: 550px) {
-  caption {
+@media screen and (max-width: 540px) {
+  .product-table,
+  .checkout-table {
+    width: 95%;
+    text-align: center;
+  }
+  .v-line {
+    border-bottom: 2px #339966 solid;
+    border-right: none;
+    padding-bottom: 35px;
+  }
+  .checkout-table {
     font-size: 1rem;
   }
-  table {
-    text-align: left;
+  .product-table {
+    font-size: 1rem;
+  }
+  caption {
     font-size: 1rem;
   }
   tr {

@@ -1,6 +1,6 @@
 <template>
   <div class="header">
-    <a href="/">MG-CUSTOM</a>
+    <router-link to="/">MG-CUSTOM</router-link>
     <p>YOU DESERVE ALL THE GOOD THINGS</p>
     <div class="header-right">
       <router-link class="all-products" to="/products">
@@ -43,9 +43,11 @@ export default {
   },
   mounted() {
     document.addEventListener("click", () => (this.hoverCart = false));
+    document.addEventListener("scroll", () => (this.hoverCart = false));
   },
   beforeDestroy() {
     document.removeEventListener("click", () => (this.hoverCart = false));
+    document.removeEventListener("scroll", () => (this.hoverCart = false));
   },
   methods: {
     openSidepanel() {
@@ -64,9 +66,6 @@ export default {
 
 <!-- Add "scoped" attribute to limit CSS to this component only -->
 <style scoped>
-.cart:hover .popup {
-  visibility: visible;
-}
 * {
   box-sizing: border-box;
 }
