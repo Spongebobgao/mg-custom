@@ -6,12 +6,12 @@
       >Your Cart: {{$store.state.numberOfProductsInCart}} {{$store.state.numberOfProductsInCart>1?"items":"item"}}</caption>
       <caption v-else>Your Cart Is Empty.</caption>
       <tr v-for="(productInCart) in $store.state.productsInCart" :key="productInCart._id">
-        <td style="width:20%;cursor:pointer" @click="navigateTo(productInCart._id)">
+        <td style="width:20%;cursor:pointer" @click="navigateTo(`/products/${productInCart._id}`)">
           <img :src="productInCart.img" />
         </td>
         <td
           style="width:30%;cursor:pointer"
-          @click="navigateTo(productInCart._id)"
+          @click="navigateTo(`/products/${productInCart._id}`)"
         >{{productInCart.name}}</td>
         <td style="width:20%">
           <div class="inputField">
@@ -65,7 +65,7 @@
       </tr>
       <tr>
         <th colspan="2">
-          <button class="check-out-btn">Check Out</button>
+          <button @click="navigateTo('/checkout')" class="check-out-btn">Check Out</button>
         </th>
       </tr>
     </table>
@@ -97,8 +97,8 @@ export default {
       const payload = [product, -qty];
       this.$store.commit("addItemInCart", payload);
     },
-    navigateTo(id) {
-      this.$router.push(`/products/${id}`);
+    navigateTo(route) {
+      this.$router.push(route);
     }
   }
 };
@@ -106,15 +106,18 @@ export default {
 
 <style scoped>
 .check-out-btn {
-  background-color: rgb(0, 101, 255);
-  border: rgb(0, 101, 255) 1px solid;
+  border: #609b9f 1px solid;
   border-radius: 25px;
   width: 50%;
-  color: white;
+  color: #006666;
   padding: 5px;
   font-size: 1.2rem;
   margin-top: 15px;
   margin-right: 3%;
+  cursor: pointer;
+}
+.check-out-btn:hover {
+  background-color: #ffebe6;
 }
 .cartContainer {
   height: auto;
