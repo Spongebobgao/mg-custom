@@ -41,40 +41,17 @@
         </td>
       </tr>
     </table>
-    <table class="checkout-table">
-      <tr>
-        <th>
-          Subtotal
-          <span
-            v-if="$store.state.numberOfProductsInCart>0"
-          >({{$store.state.numberOfProductsInCart}} {{$store.state.numberOfProductsInCart>1?'items':'item'}}):</span>
-        </th>
-        <td>${{$store.state.totalOfProductsInCart}}</td>
-      </tr>
-      <tr>
-        <th>Delivery:</th>
-        <td>Free</td>
-      </tr>
-      <tr>
-        <th>Est. taxes & fees:</th>
-        <td>$9.9</td>
-      </tr>
-      <tr>
-        <th>Est. total:</th>
-        <td>$99.9</td>
-      </tr>
-      <tr>
-        <th colspan="2">
-          <button @click="navigateTo('/checkout')" class="check-out-btn">Check Out</button>
-        </th>
-      </tr>
-    </table>
+    <SubtotalTable class="checkout-table" />
   </div>
 </template>
 
 <script>
 import productService from "@/services/productService";
+import SubtotalTable from "@/components/SubtotalTable";
 export default {
+  components: {
+    SubtotalTable
+  },
   methods: {
     decrease(product) {
       const qty = parseInt(document.getElementById(product._id).value);
@@ -96,29 +73,12 @@ export default {
       const qty = parseFloat(document.getElementById(product._id).value);
       const payload = [product, -qty];
       this.$store.commit("addItemInCart", payload);
-    },
-    navigateTo(route) {
-      this.$router.push(route);
     }
   }
 };
 </script>
 
 <style scoped>
-.check-out-btn {
-  border: #609b9f 1px solid;
-  border-radius: 25px;
-  width: 50%;
-  color: #006666;
-  padding: 5px;
-  font-size: 1.2rem;
-  margin-top: 15px;
-  margin-right: 3%;
-  cursor: pointer;
-}
-.check-out-btn:hover {
-  background-color: #ffebe6;
-}
 .cartContainer {
   height: auto;
   width: 95%;
@@ -145,12 +105,7 @@ export default {
 }
 .checkout-table {
   width: 35%;
-  margin-top: 37px;
   font-size: 1.2rem;
-}
-th,
-td {
-  padding: 5px;
 }
 caption {
   padding: 8px;

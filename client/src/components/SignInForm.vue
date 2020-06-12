@@ -1,0 +1,85 @@
+<template>
+  <div>
+    <form class="sign-in-form">
+      <h3>Sign In</h3>
+      <label for="email">Email address (required)</label>
+      <br />
+      <input type="text" n id="email" />
+      <br />
+      <label for="password">Password (required)</label>
+      <br />
+      <input type="password" id="password" />
+      <br />
+      <a id="forgetpass" href="/forgetpass">Forgot Password?</a>
+      <button id="sign-in-btn">Sign In</button>
+    </form>
+  </div>
+</template>
+
+<script>
+export default {};
+</script>
+
+<style>
+.sign-in-form,
+.create-account-form {
+  width: 95%;
+  text-align: left;
+}
+.sign-in-form {
+  max-height: 400px;
+  margin-left: 6%;
+}
+#email,
+#password,
+#fname,
+#lname,
+#new-email,
+#new-password {
+  width: 90%;
+  height: 45px;
+  margin-bottom: 5%;
+  margin-top: 2%;
+  border: 1px solid rgb(122, 121, 121);
+  border-radius: 2px;
+}
+#email:focus,
+#password:focus,
+#fname:focus,
+#lname:focus,
+#new-email:focus,
+#new-password:focus {
+  border: 2px solid black;
+}
+label {
+  color: rgb(122, 121, 121);
+  font-size: 1rem;
+}
+#forgetpass {
+  font-size: 0.9rem;
+  cursor: pointer;
+  text-decoration: none;
+  float: right;
+  margin-right: 9%;
+}
+#sign-in-btn,
+#not-a-number,
+#create-account-btn,
+#guest-checkout-btn {
+  width: 85%;
+  height: 40px;
+  margin-bottom: 5%;
+  margin-top: 5%;
+  border: #609b9f 1px solid;
+  border-radius: 25px;
+  color: #006666;
+  font-size: 1.2rem;
+  cursor: pointer;
+}
+#sign-in-btn:hover,
+#not-a-number:hover,
+#guest-checkout-btn:hover,
+#create-account-btn:hover {
+  background-color: #ffebe6;
+}
+</style>
