@@ -1,5 +1,11 @@
 <template>
-  <div @click="navigateTo('/cart')" class="mini-cart" v-if="hoverCart">
+  <div
+    @click="navigateTo('/cart')"
+    class="mini-cart"
+    @mouseover="$store.state.hoverCart=true"
+    @mouseleave="$store.state.hoverCart=false"
+    v-if="$store.state.hoverCart"
+  >
     <h6
       v-if="$store.state.totalOfProductsInCart>0"
     >Shopping cart total: ${{$store.state.totalOfProductsInCart}}</h6>
@@ -28,7 +34,6 @@
 import productService from "@/services/productService";
 export default {
   name: "CartPopup",
-  props: ["hoverCart"],
   methods: {
     navigateTo(route) {
       if (this.$route.path !== route) {

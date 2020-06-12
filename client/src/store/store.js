@@ -7,7 +7,8 @@ export const store = new Vuex.Store({
   state: {
     numberOfProductsInCart: 0,
     totalOfProductsInCart: 0,
-    productsInCart: {}
+    productsInCart: {},
+    hoverCart: false
   },
   mutations: {
     addItemInCart(state, payload) {
@@ -30,6 +31,9 @@ export const store = new Vuex.Store({
       }
       state.numberOfProductsInCart += parseInt(payload[1])
       state.totalOfProductsInCart = parseFloat((state.totalOfProductsInCart + (payload[0].price * payload[1])).toFixed(2))
+    },
+    changeHoverCart(state, payload) {
+      state.hoverCart = payload
     }
   }
 })

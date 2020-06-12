@@ -10,7 +10,7 @@
       <a href="javascript:void(0)" @click="openSidepanel">
         <i class="material-icons">menu</i>
       </a>
-      <router-link @mouseover.native="hoverCart=true" to="/cart">
+      <router-link @mouseenter.native="showMinicart" to="/cart">
         <i class="material-icons">shopping_cart</i>
         <span class="item-number">{{$store.state.numberOfProductsInCart}}</span>
       </router-link>
@@ -25,7 +25,7 @@
       <br />
       <button @click="navigateTo('/about')">About</button>
     </div>
-    <CartPopup :hoverCart="hoverCart" @changeFromCartpop="hoverCart=false" />
+    <CartPopup />
   </div>
 </template>
 
@@ -37,17 +37,27 @@ export default {
     CartPopup
   },
   data() {
-    return {
-      hoverCart: false
-    };
+    return {};
   },
   mounted() {
-    document.addEventListener("click", () => (this.hoverCart = false));
-    document.addEventListener("scroll", () => (this.hoverCart = false));
+    document.addEventListener(
+      "click",
+      () => (this.$store.state.hoverCart = false)
+    );
+    document.addEventListener(
+      "scroll",
+      () => (this.$store.state.hoverCart = false)
+    );
   },
   beforeDestroy() {
-    document.removeEventListener("click", () => (this.hoverCart = false));
-    document.removeEventListener("scroll", () => (this.hoverCart = false));
+    document.removeEventListener(
+      "click",
+      () => (this.$store.state.hoverCart = false)
+    );
+    document.removeEventListener(
+      "scroll",
+      () => (this.$store.state.hoverCart = false)
+    );
   },
   methods: {
     openSidepanel() {
@@ -59,6 +69,20 @@ export default {
     navigateTo(route) {
       this.$router.push(route);
       this.closeSidepanel();
+    },
+    showMinicart() {
+      if (
+        this.$route.name === "Home" ||
+        this.$route.name === "Products" ||
+        this.$route.name === "Product" ||
+        this.$route.name === "About"
+      ) {
+        this.$store.commit("changeHoverCart", true);
+        // setTimeout(this.setHoverCart, 3000);
+      }
+    },
+    setHoverCart() {
+      this.$store.commit("changeHoverCart", false);
     }
   }
 };
