@@ -8,7 +8,7 @@
         <h3>No account? No problem.</h3>
         <h4>Continue to checkout without an account.</h4>
         <button id="guest-checkout-btn">Continue</button>
-        <br />
+        <p>Or</p>
         <button id="not-a-number" @click="register">Create Account</button>
       </div>
       <div class="guest-checkout-content" v-else>
@@ -62,7 +62,7 @@ export default {
 
 .subtotal {
   width: 95%;
-  height: 200px;
+  /* height: 200px; */
   margin: 2%;
   border: 1px solid #e6e7e8;
   border-radius: 5px;

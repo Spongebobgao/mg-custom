@@ -6,30 +6,48 @@
       <h4>Required field *</h4>
       <label for="fname">First Name*</label>
       <br />
-      <input type="text" n id="fname" />
+      <input type="text" n id="fname" required />
       <br />
       <label for="lname">Last Name*</label>
       <br />
-      <input type="text" id="lname" />
+      <input type="text" id="lname" required />
       <br />
       <label for="new-email">Email address*</label>
       <br />
-      <input type="text" n id="new-email" />
+      <input type="text" n id="new-email" required />
       <br />
       <label for="new-password">Password*</label>
       <br />
-      <input type="password" id="new-password" />
+      <input type="password" id="new-password" required />
       <br />
-      <button id="create-account-btn">Create Account</button>
+      <button type="button" id="create-account-btn" @click="register">Create Account</button>
       <br />
-
-      <button id="guest-continue-btn">Continue to checkout without an account</button>
+      <button type="button" id="guest-continue-btn">Continue to checkout without an account</button>
     </form>
   </div>
 </template>
 
 <script>
-export default {};
+import AuthenticationService from "@/services/AuthenticationService";
+export default {
+  methods: {
+    async register() {
+      let user = {
+        fname: document.getElementById("fname").value,
+        lname: document.getElementById("lname").value,
+        email: document.getElementById("new-email").value,
+        password: document.getElementById("new-password").value
+      };
+      const a = (await AuthenticationService.register(user)).data;
+      if (a) {
+        alert("register done");
+        this.$router.push("/checkout/member");
+      } else {
+        alert("email is in use");
+      }
+    }
+  }
+};
 </script>
 
 <style>

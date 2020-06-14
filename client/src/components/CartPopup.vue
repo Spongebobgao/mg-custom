@@ -10,6 +10,10 @@
       v-if="$store.state.totalOfProductsInCart>0"
     >Shopping cart total: ${{$store.state.totalOfProductsInCart}}</h6>
     <h6 v-else>Your Cart Is Empty.</h6>
+    <button
+      v-if="$store.state.totalOfProductsInCart>0"
+      @click.stop="navigateTo('/checkout/sign-in')"
+    >Check Out</button>
     <table
       v-for="(productInCart) in $store.state.productsInCart"
       :key="productInCart._id"
@@ -72,6 +76,20 @@ export default {
     top: 15%;
   }
 }
+button {
+  position: absolute;
+  top: 13%;
+  left: 35%;
+  cursor: pointer;
+  border: #ffebe6 1px solid;
+  border-radius: 25px;
+  color: black;
+  font-size: 1rem;
+}
+button:hover {
+  background-color: #609b9f;
+  color: white;
+}
 table {
   width: 100px;
   height: 100px;
@@ -84,7 +102,7 @@ table {
 
 h6 {
   text-align: center;
-  margin: 15px 2px 15px 2px;
+  margin: 15px 2px 25px 2px;
   font-size: 1.2rem;
   font-weight: bold;
 }

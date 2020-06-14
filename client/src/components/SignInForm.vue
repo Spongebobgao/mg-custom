@@ -4,14 +4,14 @@
       <h3>Sign In</h3>
       <label for="email">Email address (required)</label>
       <br />
-      <input type="text" n id="email" />
+      <input type="text" n id="email" required />
       <br />
       <label for="password">Password (required)</label>
       <br />
-      <input type="password" id="password" />
+      <input type="password" id="password" required />
       <br />
       <a id="forgetpass" href="/forgetpass">Forgot Password?</a>
-      <button id="sign-in-btn">Sign In</button>
+      <button type="button" id="sign-in-btn">Sign In</button>
     </form>
   </div>
 </template>
@@ -42,6 +42,8 @@ export default {};
   margin-top: 2%;
   border: 1px solid rgb(122, 121, 121);
   border-radius: 2px;
+  font-size: 1.2rem;
+  padding: 0 0 0 15px;
 }
 #email:focus,
 #password:focus,

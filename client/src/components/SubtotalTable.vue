@@ -24,7 +24,7 @@
       </tr>
       <tr v-if="this.$route.name==='Cart'">
         <th colspan="2">
-          <button @click="navigateTo('/checkout')" class="check-out-btn">Check Out</button>
+          <button @click="navigateTo('/checkout/sign-in')" class="check-out-btn">Check Out</button>
         </th>
       </tr>
     </table>

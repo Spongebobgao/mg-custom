@@ -29,7 +29,7 @@ const routes = [
     component: Cart
   },
   {
-    path: '/checkout',
+    path: '/checkout/sign-in',
     name: 'Checkout',
     component: Checkout
   },
