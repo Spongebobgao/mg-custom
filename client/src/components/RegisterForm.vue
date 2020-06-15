@@ -41,7 +41,7 @@ export default {
       const a = (await AuthenticationService.register(user)).data;
       if (a) {
         alert("register done");
-        this.$router.push("/checkout/member");
+        this.$router.push("/checkout/fullfillment");
       } else {
         alert("email is in use");
       }

@@ -8,4 +8,5 @@ module.exports = (app) => {
   app.get('/products', products.getAllProducts)
   app.get('/products/:id', products.getProductById)
   app.post('/checkout/sign-in', authentication.register)
+  app.get('/checkout/sign-in', authentication.signIn)
 }

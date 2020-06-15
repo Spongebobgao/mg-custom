@@ -11,13 +11,31 @@
       <input type="password" id="password" required />
       <br />
       <a id="forgetpass" href="/forgetpass">Forgot Password?</a>
-      <button type="button" id="sign-in-btn">Sign In</button>
+      <button type="button" id="sign-in-btn" @click="signIn">Sign In</button>
     </form>
   </div>
 </template>
 
 <script>
-export default {};
+import AuthenticationService from "@/services/AuthenticationService";
+export default {
+  methods: {
+    async signIn() {
+      const member = {
+        email: document.getElementById("email").value,
+        password: document.getElementById("password").value
+      };
+      console.log(member);
+      const user = (await AuthenticationService.signIn(member)).data;
+      if (user) {
+        alert("sign in successfully");
+        this.$router.push("/checkout/fullfillment");
+      } else {
+        alert("Please enter the correct credential");
+      }
+    }
+  }
+};
 </script>
 
 <style>
