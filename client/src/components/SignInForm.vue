@@ -53,7 +53,21 @@ export default {
 #fname,
 #lname,
 #new-email,
-#new-password {
+#new-password,
+#phone,
+#street,
+#apt,
+#city,
+#state,
+#zipcode,
+#cardholder-fname,
+#cardholder-lname,
+#card-number,
+#month,
+#year,
+#cvv,
+#gift-card-number,
+#gift-card-pin {
   width: 90%;
   height: 45px;
   margin-bottom: 5%;
@@ -85,7 +99,11 @@ label {
 #sign-in-btn,
 #not-a-number,
 #create-account-btn,
-#guest-checkout-btn {
+#guest-checkout-btn,
+#continue-to-address-btn,
+#continue-to-pay-btn,
+#apply-gift-card-btn,
+#review-order-btn {
   width: 85%;
   height: 40px;
   margin-bottom: 5%;
@@ -99,7 +117,10 @@ label {
 #sign-in-btn:hover,
 #not-a-number:hover,
 #guest-checkout-btn:hover,
-#create-account-btn:hover {
+#create-account-btn:hover,
+#continue-to-address-btn:hover,
+#apply-gift-card-btn:hover,
+#review-order-btn:hover {
   background-color: #ffebe6;
 }
 </style>

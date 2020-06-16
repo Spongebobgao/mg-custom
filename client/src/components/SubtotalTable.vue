@@ -1,6 +1,6 @@
 <template>
   <div>
-    <table class="subtotal-table" v-if="$store.state.numberOfProductsInCart>0">
+    <table class="subtotal-table">
       <tr>
         <th>
           Subtotal

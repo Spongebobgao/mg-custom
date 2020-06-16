@@ -5,6 +5,7 @@ import Products from '../views/Products'
 import Product from '../views/Product'
 import Cart from '../views/Cart'
 import Checkout from '../views/Checkout'
+import DeliveryOptions from '../views/DeliveryOptions'
 Vue.use(VueRouter);
 
 const routes = [
@@ -32,6 +33,11 @@ const routes = [
     path: '/checkout/sign-in',
     name: 'Checkout',
     component: Checkout
+  },
+  {
+    path: '/checkout/fullfillment',
+    name: 'DeliveryOptions',
+    component: DeliveryOptions
   },
   {
     path: '/about',
