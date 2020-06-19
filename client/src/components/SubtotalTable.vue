@@ -22,7 +22,7 @@
         <th>Est. total:</th>
         <td>$99.9</td>
       </tr>
-      <tr v-if="this.$route.name==='Cart'">
+      <tr v-if="this.$route.name==='Cart'&&$store.state.numberOfProductsInCart>0">
         <th colspan="2">
           <button @click="navigateTo('/checkout/sign-in')" class="check-out-btn">Check Out</button>
         </th>
@@ -30,7 +30,7 @@
     </table>
     <div
       class="item-details"
-      v-if="this.$route.name==='Checkout'&&$store.state.numberOfProductsInCart>0"
+      v-if="(this.$route.name==='Checkout'||this.$route.name==='DeliveryOptions')&&$store.state.numberOfProductsInCart>0"
     >
       <button
         class="show-hide-details"

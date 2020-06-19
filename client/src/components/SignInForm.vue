@@ -103,6 +103,8 @@ label {
 #continue-to-address-btn,
 #continue-to-pay-btn,
 #apply-gift-card-btn,
+#apply-credit-card-btn,
+#edit-payment-btn,
 #review-order-btn {
   width: 85%;
   height: 40px;
@@ -120,7 +122,10 @@ label {
 #create-account-btn:hover,
 #continue-to-address-btn:hover,
 #apply-gift-card-btn:hover,
-#review-order-btn:hover {
+#apply-credit-card-btn:hover,
+#review-order-btn:hover,
+#continue-to-pay-btn:hover,
+#edit-payment-btn:hover {
   background-color: #ffebe6;
 }
 </style>

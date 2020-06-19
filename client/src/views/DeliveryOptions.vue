@@ -1,13 +1,17 @@
 <template>
   <div id="delivery-option">
+    <h3 id="error" v-if="error">Please fill in all the required fields</h3>
+    <div class="subtotal-table-in-checkout">
+      <SubtotalTable />
+    </div>
     <div>
       <div id="delivery">
-        <h2 v-if="editDelivery">
-          <i class="material-icons">check_circle</i>
-          <i class="material-icons">local_shipping</i>Delivery
+        <h2 v-if="editDeliveryDone">
+          <i class="material-icons icon">check_circle</i>
+          <i class="material-icons icon">local_shipping</i>Delivery
         </h2>
         <h2 v-else>
-          <i class="material-icons">looks_one</i>Delivery
+          <i class="material-icons icon">looks_one</i>Delivery
         </h2>
         <ul>
           <li v-for="(productInCart) in $store.state.productsInCart" :key="productInCart._id">
@@ -21,211 +25,353 @@
       <button
         @click="continueToShippingAddress"
         id="continue-to-address-btn"
-      >{{editDelivery?'Edit':'Continue'}}</button>
+      >{{editDeliveryDone?'Edit':'Continue'}}</button>
     </div>
+    <hr />
     <div id="shipping-address">
-      <h2>
-        <i class="material-icons">looks_two</i>Enter delivery address
+      <h2 id="step-two-header">
+        <i class="material-icons icon">{{editShippingAddressDone?'check_circle':'looks_two'}}</i>
+        {{editShippingAddressDone?'Sending to':'Enter delivery address'}}
       </h2>
-      <div id="shipping-address-details" v-if="editDelivery">
-        <h4>Required field*</h4>
+
+      <div style="opacity:0.5" v-if="editShippingAddressDone">
+        <p>Delivery Address: {{user.fname}} {{user.lname}}</p>
+        <p style="text-indent:120px">{{user.street}} {{user.apt}}</p>
+        <p style="text-indent:120px">{{user.city}}, {{user.state}} {{user.zipcode}}</p>
+        <p style="text-indent:70px">Email: {{user.email}}</p>
+      </div>
+      <div id="shipping-address-details" v-if="!editShippingAddressDone&&editDeliveryDone">
+        <h4>required field*</h4>
         <div id="primary-input">
           <label for="fname">First Name*</label>
           <br />
-          <input type="text" id="fname" />
+          <input type="text" id="fname" v-model="user.fname" />
           <br />
           <label for="lname">Last Name*</label>
           <br />
-          <input type="text" id="lname" />
+          <input type="text" id="lname" v-model="user.lname" />
           <br />
           <label for="phone">Phone Number*</label>
           <br />
-          <input type="text" id="phone" />
+          <input type="text" id="phone" v-model="user.phone" />
           <br />
           <label for="email">Email address for order notification*</label>
           <br />
-          <input type="text" id="email" />
+          <input type="text" id="email" v-model="user.email" />
         </div>
         <div id="secondary-input">
-          <label for="street">Street Address*</label>
-          <br />
-          <input type="text" id="street" />
-          <br />
-          <label for="apt">Apt, suite, etc (optional)</label>
-          <br />
-          <input type="text" id="apt" />
-          <br />
-          <label for="city">City*</label>
-          <br />
-          <input type="text" id="city" />
-          <br />
-          <div>
-            <div id="state-div">
-              <label for="state">State*</label>
-              <br />
-              <select id="state">
-                <option value="AL">Alabama</option>
-                <option value="AK">Alaska</option>
-                <option value="AZ">Arizona</option>
-                <option value="AR">Arkansas</option>
-                <option value="CA">California</option>
-                <option value="CO">Colorado</option>
-                <option value="CT">Connecticut</option>
-                <option value="DE">Delaware</option>
-                <option value="DC">District Of Columbia</option>
-                <option value="FL">Florida</option>
-                <option value="GA">Georgia</option>
-                <option value="HI">Hawaii</option>
-                <option value="ID">Idaho</option>
-                <option value="IL">Illinois</option>
-                <option value="IN">Indiana</option>
-                <option value="IA">Iowa</option>
-                <option value="KS">Kansas</option>
-                <option value="KY">Kentucky</option>
-                <option value="LA">Louisiana</option>
-                <option value="ME">Maine</option>
-                <option value="MD">Maryland</option>
-                <option value="MA">Massachusetts</option>
-                <option value="MI">Michigan</option>
-                <option value="MN">Minnesota</option>
-                <option value="MS">Mississippi</option>
-                <option value="MO">Missouri</option>
-                <option value="MT">Montana</option>
-                <option value="NE">Nebraska</option>
-                <option value="NV">Nevada</option>
-                <option value="NH">New Hampshire</option>
-                <option value="NJ">New Jersey</option>
-                <option value="NM">New Mexico</option>
-                <option value="NY">New York</option>
-                <option value="NC">North Carolina</option>
-                <option value="ND">North Dakota</option>
-                <option value="OH">Ohio</option>
-                <option value="OK">Oklahoma</option>
-                <option value="OR">Oregon</option>
-                <option value="PA">Pennsylvania</option>
-                <option value="RI">Rhode Island</option>
-                <option value="SC">South Carolina</option>
-                <option value="SD">South Dakota</option>
-                <option value="TN">Tennessee</option>
-                <option value="TX">Texas</option>
-                <option value="UT">Utah</option>
-                <option value="VT">Vermont</option>
-                <option value="VA">Virginia</option>
-                <option value="WA">Washington</option>
-                <option value="WV">West Virginia</option>
-                <option value="WI">Wisconsin</option>
-                <option value="WY">Wyoming</option>
-              </select>
-            </div>
-            <div id="zip-div">
-              <label for="zipcode">ZIP Code*</label>
-              <input type="text" id="zipcode" />
-            </div>
-          </div>
+          <UserAddress :user="user" />
         </div>
-        <button id="continue-to-pay-btn" @click="continueToPaymentMethod">Continue</button>
       </div>
+      <button
+        id="continue-to-pay-btn"
+        @click="continueToPaymentMethod"
+        v-if="(editShippingAddressDone&&!editDeliveryDone||(editDeliveryDone&&editShippingAddressDone)||(editDeliveryDone&&!editShippingAddressDone))"
+      >{{editShippingAddressDone?'Edit':'Continue'}}</button>
     </div>
+    <hr />
     <div id="payment-method">
-      <h2>
-        <i class="material-icons">looks_3</i>Enter payment method
+      <h2 id="step-three-header">
+        <i class="material-icons icon">{{editPaymentDone?'check_circle':'looks_3'}}</i>Enter payment method
       </h2>
-      <div id="payment-type">
-        <button id="credit-card">Credit Card</button>
-        <button id="gift-card">Gift Card</button>
-      </div>
-      <div id="credit-card-details">
-        <h4>*required field</h4>
-        <div id="credit-card-info">
-          <h3>Card Information</h3>
-          <hr />
-          <br />
-          <label for="cardholder-fname">First name on card*</label>
-          <br />
-          <input type="text" id="cardholder-fname" />
-          <br />
-          <label for="cardholder-lname">Last name on card*</label>
-          <br />
-          <input id="cardholder-lname" tyep="text" />
-          <br />
-          <label for="card-number">Card number*</label>
-          <br />
-          <input id="card-number" type="text" />
-          <div id="security-info">
-            <label>
-              Expiration date*
-              <span style="margin-left:38%">CVV*</span>
-            </label>
-            <div id="year-month-div">
-              <div id="month-div">
-                <select id="month">
-                  <option>11</option>
-                </select>
+      <div id="payment-content" v-if="!editPaymentDone&&editShippingAddressDone">
+        <div id="payment-type">
+          <button id="credit-card" @click="chooseCreditCard">Credit Card</button>
+          <button id="gift-card" @click="chooseGiftCard">Gift Card</button>
+        </div>
+        <div id="credit-card-details" v-if="creditCard">
+          <h4>*required field</h4>
+          <div id="credit-card-info">
+            <h3>Card Information</h3>
+            <hr />
+            <br />
+            <label for="cardholder-fname">First name on card*</label>
+            <br />
+            <input type="text" id="cardholder-fname" v-model="creditCardHolder.fname" />
+            <br />
+            <label for="cardholder-lname">Last name on card*</label>
+            <br />
+            <input id="cardholder-lname" tyep="text" v-model="creditCardHolder.lname" />
+            <br />
+            <label for="card-number">Card number*</label>
+            <br />
+            <input id="card-number" type="text" />
+            <div id="security-info">
+              <label>
+                Expiration date*
+                <span style="margin-left:38%">CVV*</span>
+              </label>
+              <div id="year-month-div">
+                <div id="month-div">
+                  <select id="month">
+                    <option>11</option>
+                  </select>
+                </div>
+                <div id="year-div">
+                  <select id="year">
+                    <option>11</option>
+                  </select>
+                </div>
               </div>
-              <div id="year-div">
-                <select id="year">
-                  <option>11</option>
-                </select>
+              <div id="cvv-div">
+                <input id="cvv" type="text" />
               </div>
-            </div>
-            <div id="cvv-div">
-              <input id="cvv" type="text" />
             </div>
           </div>
-          <div id="billing-address"></div>
+          <div id="billing-address">
+            <h3>Billing Address</h3>
+            <hr />
+            <input
+              type="checkbox"
+              id="same-as-delivery-address"
+              @click="changeBillingAddress"
+              :checked="sameAsdeliveryAddress?true:false"
+            />
+            <label for="same-as-delivery-address">Same as delivery address</label>
+            <div v-if="sameAsdeliveryAddress">
+              <p>{{user.street}}{{user.apt}}</p>
+              <p>{{user.city}}, {{user.state}} {{user.zipcode}}</p>
+            </div>
+            <div v-else>
+              <UserAddress :user="billingAddress" />
+            </div>
+          </div>
+          <div>
+            <button id="apply-credit-card-btn" @click="applyCreditCard">Apply credit card</button>
+          </div>
+        </div>
+        <div id="gift-card-details" v-if="giftCard">
+          <h4>required field*</h4>
+          <div class="gift-card-info">
+            <label for="gift-card-number">Gift card number*</label>
+            <br />
+            <input type="text" id="gift-card-number" v-model="giftCardInfo.giftCardNumber" />
+            <br />
+            <label for="gift-card-pin">PIN/Security Code (4 digits)*</label>
+            <br />
+            <input type="text" id="gift-card-pin" v-model="giftCardInfo.pin" />
+          </div>
+          <div>
+            <button id="apply-gift-card-btn" @click="applyGiftCard">Apply gift card</button>
+          </div>
         </div>
       </div>
-      <div id="gift-card-details">
-        <h4>Required field*</h4>
-        <div class="gift-card-info">
-          <label for="gift-card-number">Gift card number*</label>
-          <br />
-          <input type="text" id="gift-card-number" />
-        </div>
-        <div class="gift-card-info">
-          <label for="gift-card-pin">PIN/Security Code (4 digits)*</label>
-          <br />
-          <input type="text" id="gift-card-pin" />
-        </div>
-        <button id="apply-gift-card-btn" @click="applyGiftCard">Apply gift card</button>
-      </div>
-      <button id="review-order-btn">Review your order</button>
     </div>
+    <button
+      id="edit-payment-btn"
+      v-if="editDeliveryDone&&editShippingAddressDone&&editPaymentDone"
+      @click="editPaymentDone=false"
+    >Edit</button>
+    <button
+      id="review-order-btn"
+      v-if="editDeliveryDone&&editShippingAddressDone&&editPaymentDone"
+    >Review your order</button>
   </div>
 </template>
 
 <script>
+import UserAddress from "@/components/UserAddress";
+import SubtotalTable from "@/components/SubtotalTable";
 export default {
+  components: {
+    UserAddress,
+    SubtotalTable
+  },
   data() {
     return {
-      editDelivery: false
+      editDeliveryDone: false,
+      editShippingAddressDone: false,
+      editPaymentDone: false,
+      creditCard: false,
+      giftCard: false,
+      sameAsdeliveryAddress: true,
+      user: {
+        fname: "",
+        lname: "",
+        phone: "",
+        email: "",
+        street: "",
+        apt: null,
+        city: "",
+        state: "",
+        zipcode: ""
+      },
+      billingAddress: {
+        street: "",
+        apt: null,
+        city: "",
+        state: "",
+        zipcode: ""
+      },
+      creditCardHolder: {
+        fname: "",
+        lname: "",
+        cardNumber: "",
+        expirationMonth: "",
+        expirationYear: "",
+        cvv: ""
+      },
+      giftCardInfo: {
+        giftCardNumber: "",
+        pin: ""
+      },
+      errorMessage: "",
+      error: false
     };
   },
   methods: {
     continueToShippingAddress() {
       const element = document.getElementById("delivery");
-      if (this.editDelivery) {
-        this.editDelivery = false;
+      if (this.editDeliveryDone) {
+        this.editDeliveryDone = false;
         element.style.opacity = 1;
-        document.getElementById("shipping-address").style.opacity = 0.5;
+        if (!this.editShippingAddressDone) {
+          document.getElementById("step-two-header").style.opacity = 0.5;
+        }
       } else {
-        this.editDelivery = true;
+        this.editDeliveryDone = true;
         element.style.opacity = 0.5;
-        document.getElementById("shipping-address").style.opacity = 1;
+        if (!this.editShippingAddressDone) {
+          document.getElementById("step-two-header").style.opacity = 1;
+        }
       }
     },
-    continueToPaymentMethod() {},
-    applyGiftCard() {}
+    hideError() {
+      setTimeout(() => (this.error = false), 5000);
+    },
+    continueToPaymentMethod() {
+      if (
+        Object.values(this.creditCardHolder).some(x => x === null || x === "")
+      ) {
+        this.creditCardHolder = {
+          fname: this.user.fname,
+          lname: this.user.lname
+        };
+      }
+      if (Object.values(this.user).some(element => element === "")) {
+        this.error = true;
+        this.hideError();
+      } else {
+        this.error = false;
+        const element = document.getElementById("step-two-header");
+        if (!this.editShippingAddressDone) {
+          this.editShippingAddressDone = true;
+          element.style.opacity = 0.5;
+          if (!this.editPaymentDone) {
+            document.getElementById("step-three-header").style.opacity = 1;
+          }
+        } else {
+          this.editShippingAddressDone = false;
+          element.style.opacity = 1;
+          if (!this.editPaymentDone) {
+            document.getElementById("step-three-header").style.opacity = 0.5;
+          }
+        }
+      }
+    },
+    chooseCreditCard() {
+      this.creditCard = true;
+      this.giftCard = false;
+      this.error = false;
+    },
+    chooseGiftCard() {
+      this.creditCard = false;
+      this.giftCard = true;
+      this.error = false;
+    },
+    applyCreditCard() {
+      if (
+        Object.values(this.creditCardHolder).some(element => element === "")
+      ) {
+        this.error = true;
+        this.hideError();
+      } else {
+        if (!this.sameAsdeliveryAddress) {
+          if (
+            Object.values(this.billingAddress).some(element => element === "")
+          ) {
+            this.error = true;
+            this.hideError();
+          } else {
+            this.applyCreditCardHelper();
+          }
+        } else {
+          this.applyCreditCardHelper();
+        }
+      }
+    },
+    applyCreditCardHelper() {
+      this.error = false;
+      this.editPaymentDone = true;
+      document.getElementById("step-three-header").style.opacity = 0.5;
+    },
+    changeBillingAddress() {
+      if (this.sameAsdeliveryAddress) {
+        this.sameAsdeliveryAddress = false;
+      } else {
+        this.sameAsdeliveryAddress = true;
+      }
+    },
+    editPayment() {
+      const element = document.getElementById("same-as-delivery-address");
+      this.editPaymentDone = false;
+      if (this.sameAsdeliveryAddress) {
+        element.checked = true;
+      } else {
+        element.checked = false;
+      }
+    },
+    applyGiftCard() {
+      if (Object.values(this.giftCardInfo).some(element => element === "")) {
+        this.error = true;
+        this.hideError();
+      } else {
+        this.error = false;
+        this.editPaymentDone = true;
+        document.getElementById("step-three-header").style.opacity = 0.5;
+      }
+    }
   }
 };
 </script>
 
 <style>
+.subtotal-table-in-checkout {
+  width: 30%;
+  position: fixed;
+  top: 15%;
+  right: 5%;
+  border: 1px solid #e6e7e8;
+  border-radius: 5px;
+  box-shadow: 0 2px 3px 0 rgba(0, 0, 0, 0.16);
+  background-color: white;
+  opacity: 0.9;
+}
+#error {
+  color: red;
+  position: fixed;
+  top: 10%;
+  right: 35%;
+  z-index: 2;
+  padding: 15px;
+  background-color: white;
+  opacity: 0.8;
+  border: red solid 1px;
+  animation: hideError 5s;
+}
+@keyframes hideError {
+  80% {
+    top: 15%;
+  }
+  100% {
+    top: 0%;
+  }
+}
 #delivery-option {
   width: 75%;
   margin: auto;
 }
-.material-icons {
+.icon {
   width: 35px;
   height: 35px;
   margin-right: 5px;
@@ -246,24 +392,29 @@ ul li {
   border-radius: 5px;
 }
 #continue-to-address-btn,
-#continue-to-pay-btn {
+#continue-to-pay-btn,
+#edit-payment-btn,
+#apply-credit-card-btn,
+#apply-gift-card-btn,
+#review-order-btn {
   width: 15%;
   height: 30px;
-  margin: 2% 5% 5% 70%;
+  margin: 2% 15% 5% 50%;
   font-size: 1rem;
+}
+#review-order-btn {
+  width: 25%;
 }
 #primary-input,
 #secondary-input,
-#payment-method {
+#credit-card-info,
+#billing-address {
   width: 45%;
   float: left;
 }
-#gift-card-details {
-  width: 95%;
-}
 #gift-card-number,
 #gift-card-pin {
-  width: 90%;
+  width: 45%;
 }
 #state-div,
 #zip-div,
@@ -291,7 +442,8 @@ ul li {
 #zip-div {
   width: 28%;
 }
-#shipping-address {
+#step-two-header,
+#step-three-header {
   opacity: 0.5;
 }
 #credit-card,
@@ -312,7 +464,35 @@ ul li {
   border: 2px black solid;
 }
 hr {
-  width: 45%;
-  float: left;
+  width: 100%;
+  background-color: lightgray;
+  color: lightgray;
+  border-width: 0;
+  height: 1px;
+}
+@media screen and (max-width: 800px) {
+  #delivery-option {
+    width: 95%;
+  }
+  #primary-input,
+  #secondary-input,
+  #credit-card-info,
+  #billing-address {
+    width: 85%;
+  }
+
+  #apply-credit-card-btn,
+  #apply-gift-card-btn,
+  #review-order-btn,
+  #edit-payment-btn,
+  #continue-to-address-btn,
+  #continue-to-pay-btn {
+    width: 50%;
+  }
+  .subtotal-table-in-checkout {
+    position: relative;
+    width: 60%;
+    margin: auto;
+  }
 }
 </style>
