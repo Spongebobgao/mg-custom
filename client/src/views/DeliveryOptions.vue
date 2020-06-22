@@ -95,7 +95,7 @@
             <br />
             <label for="card-number">Card number*</label>
             <br />
-            <input id="card-number" type="text" />
+            <input id="card-number" type="text" v-model="creditCardHolder.cardNumber" />
             <div id="security-info">
               <label>
                 Expiration date*
@@ -103,18 +103,18 @@
               </label>
               <div id="year-month-div">
                 <div id="month-div">
-                  <select id="month">
+                  <select id="month" v-model="creditCardHolder.expirationMonth">
                     <option>11</option>
                   </select>
                 </div>
                 <div id="year-div">
-                  <select id="year">
+                  <select id="year" v-model="creditCardHolder.expirationYear">
                     <option>11</option>
                   </select>
                 </div>
               </div>
               <div id="cvv-div">
-                <input id="cvv" type="text" />
+                <input id="cvv" type="text" v-model="creditCardHolder.cvv" />
               </div>
             </div>
           </div>
@@ -133,7 +133,7 @@
               <p>{{user.city}}, {{user.state}} {{user.zipcode}}</p>
             </div>
             <div v-else>
-              <UserAddress :user="billingAddress" />
+              <UserAddress :user="billingAddress" @input="updateBillingAddress" />
             </div>
           </div>
           <div>
@@ -165,17 +165,30 @@
     <button
       id="review-order-btn"
       v-if="editDeliveryDone&&editShippingAddressDone&&editPaymentDone"
+      @click="showReviewOrder"
     >Review your order</button>
+    <div id="review-order">
+      <ReviewOrder
+        :user="user"
+        :payment="creditCard?'creditCardHolder':'giftCardInfo'"
+        :creditCard="creditCard"
+        :billingAddress="billingAddress"
+        @cancelReview="cancelReview"
+      />
+    </div>
+    <div id="overlay"></div>
   </div>
 </template>
 
 <script>
 import UserAddress from "@/components/UserAddress";
 import SubtotalTable from "@/components/SubtotalTable";
+import ReviewOrder from "@/components/ReviewOrder";
 export default {
   components: {
     UserAddress,
-    SubtotalTable
+    SubtotalTable,
+    ReviewOrder
   },
   data() {
     return {
@@ -215,11 +228,21 @@ export default {
         giftCardNumber: "",
         pin: ""
       },
-      errorMessage: "",
       error: false
     };
   },
   methods: {
+    showReviewOrder() {
+      document.getElementById("review-order").style.visibility = "visible";
+      document.getElementById("overlay").style.visibility = "visible";
+    },
+    cancelReview() {
+      document.getElementById("review-order").style.visibility = "hidden";
+      document.getElementById("overlay").style.visibility = "hidden";
+    },
+    updateBillingAddress(value) {
+      this.billingAddress = value;
+    },
     continueToShippingAddress() {
       const element = document.getElementById("delivery");
       if (this.editDeliveryDone) {
@@ -240,10 +263,9 @@ export default {
       setTimeout(() => (this.error = false), 5000);
     },
     continueToPaymentMethod() {
-      if (
-        Object.values(this.creditCardHolder).some(x => x === null || x === "")
-      ) {
+      if (Object.values(this.creditCardHolder).some(x => x === "")) {
         this.creditCardHolder = {
+          ...this.creditCardHolder,
           fname: this.user.fname,
           lname: this.user.lname
         };
@@ -260,6 +282,7 @@ export default {
           if (!this.editPaymentDone) {
             document.getElementById("step-three-header").style.opacity = 1;
           }
+          this.setBillingAddress();
         } else {
           this.editShippingAddressDone = false;
           element.style.opacity = 1;
@@ -268,6 +291,15 @@ export default {
           }
         }
       }
+    },
+    setBillingAddress() {
+      this.billingAddress = {
+        street: this.user.street,
+        apt: this.user.apt,
+        city: this.user.city,
+        state: this.user.state,
+        zipcode: this.user.zipcode
+      };
     },
     chooseCreditCard() {
       this.creditCard = true;
@@ -308,17 +340,16 @@ export default {
     changeBillingAddress() {
       if (this.sameAsdeliveryAddress) {
         this.sameAsdeliveryAddress = false;
+        this.billingAddress = {
+          street: "",
+          apt: null,
+          city: "",
+          state: "",
+          zipcode: ""
+        };
       } else {
         this.sameAsdeliveryAddress = true;
-      }
-    },
-    editPayment() {
-      const element = document.getElementById("same-as-delivery-address");
-      this.editPaymentDone = false;
-      if (this.sameAsdeliveryAddress) {
-        element.checked = true;
-      } else {
-        element.checked = false;
+        this.setBillingAddress();
       }
     },
     applyGiftCard() {
@@ -336,6 +367,25 @@ export default {
 </script>
 
 <style>
+#overlay {
+  width: 100%;
+  height: 100%;
+  background-color: rgb(223, 222, 222);
+  position: fixed;
+  top: 0;
+  left: 0;
+  opacity: 0.8;
+  z-index: 2;
+  visibility: hidden;
+}
+#review-order {
+  position: fixed;
+  width: 75%;
+  height: 100%;
+  top: 15%;
+  z-index: 3;
+  visibility: hidden;
+}
 .subtotal-table-in-checkout {
   width: 30%;
   position: fixed;
@@ -402,7 +452,9 @@ ul li {
   margin: 2% 15% 5% 50%;
   font-size: 1rem;
 }
-#review-order-btn {
+#review-order-btn,
+#apply-credit-card-btn,
+#apply-gift-card-btn {
   width: 25%;
 }
 #primary-input,
@@ -493,6 +545,9 @@ hr {
     position: relative;
     width: 60%;
     margin: auto;
+  }
+  #error {
+    right: 25%;
   }
 }
 </style>

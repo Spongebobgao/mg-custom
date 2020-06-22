@@ -2,21 +2,21 @@
   <div class="secondary-input">
     <label for="street">Street Address*</label>
     <br />
-    <input type="text" id="street" v-model="user.street" required />
+    <input type="text" id="street" v-model="user.street" @change="$emit('input', user)" />
     <br />
     <label for="apt">Apt, suite, etc (optional)</label>
     <br />
-    <input type="text" id="apt" v-model="user.apt" />
+    <input type="text" id="apt" v-model="user.apt" @change="$emit('input', user)" />
     <br />
     <label for="city">City*</label>
     <br />
-    <input type="text" id="city" v-model="user.city" required />
+    <input type="text" id="city" v-model="user.city" @change="$emit('input', user)" />
     <br />
 
     <div id="state-div">
       <label for="state">State*</label>
       <br />
-      <select id="state" v-model="user.state" required>
+      <select id="state" v-model="user.state" @change="$emit('input', user)">
         <option value="AL">Alabama</option>
         <option value="AK">Alaska</option>
         <option value="AZ">Arizona</option>
@@ -72,7 +72,7 @@
     </div>
     <div id="zip-div">
       <label for="zipcode">ZIP Code*</label>
-      <input type="text" id="zipcode" v-model="user.zipcode" required />
+      <input type="text" id="zipcode" v-model="user.zipcode" @change="$emit('input', user)" />
     </div>
   </div>
 </template>

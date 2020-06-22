@@ -105,7 +105,9 @@ label {
 #apply-gift-card-btn,
 #apply-credit-card-btn,
 #edit-payment-btn,
-#review-order-btn {
+#review-order-btn,
+#cancel-review-order-btn,
+#place-order-btn {
   width: 85%;
   height: 40px;
   margin-bottom: 5%;
@@ -125,7 +127,9 @@ label {
 #apply-credit-card-btn:hover,
 #review-order-btn:hover,
 #continue-to-pay-btn:hover,
-#edit-payment-btn:hover {
+#edit-payment-btn:hover,
+#cancel-review-order-btn:hover,
+#place-order-btn:hover {
   background-color: #ffebe6;
 }
 </style>
