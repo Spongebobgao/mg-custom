@@ -160,7 +160,7 @@
     <button
       id="edit-payment-btn"
       v-if="editDeliveryDone&&editShippingAddressDone&&editPaymentDone"
-      @click="editPaymentDone=false"
+      @click="editPayment"
     >Edit</button>
     <button
       id="review-order-btn"
@@ -232,6 +232,10 @@ export default {
     };
   },
   methods: {
+    editPayment() {
+      this.editPaymentDone = false;
+      document.getElementById("step-three-header").style.opacity = 1;
+    },
     showReviewOrder() {
       document.getElementById("review-order").style.visibility = "visible";
       document.getElementById("overlay").style.visibility = "visible";
@@ -244,6 +248,14 @@ export default {
       this.billingAddress = value;
     },
     continueToShippingAddress() {
+      if (this.$store.state.user !== null) {
+        this.user = {
+          ...this.user,
+          fname: this.$store.state.user.fname,
+          lname: this.$store.state.user.lname,
+          email: this.$store.state.user.email
+        };
+      }
       const element = document.getElementById("delivery");
       if (this.editDeliveryDone) {
         this.editDeliveryDone = false;

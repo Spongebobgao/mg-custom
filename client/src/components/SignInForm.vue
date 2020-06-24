@@ -42,9 +42,10 @@ export default {
       } else {
         const validUser = (await AuthenticationService.authenticate(member))
           .data;
-        if (validUser) {
+        if (validUser !== null) {
+          delete validUser.password;
           alert("sign in successfully");
-          this.$store.commit("userLoggedIn", member);
+          this.$store.commit("userLoggedIn", validUser);
           if (this.$route.name !== "Account")
             this.$router.push("/checkout/fullfillment");
         } else {
@@ -66,6 +67,8 @@ export default {
   max-height: 400px;
   margin-left: 6%;
 }
+#user-email,
+#track-number,
 #email,
 #password,
 #fname,

@@ -9,7 +9,7 @@ export const store = new Vuex.Store({
     totalOfProductsInCart: 0,
     productsInCart: {},
     hoverCart: false,
-    user: {}
+    user: null,
   },
   mutations: {
     addItemInCart(state, payload) {

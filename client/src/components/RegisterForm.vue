@@ -59,6 +59,7 @@ export default {
         const a = (await AuthenticationService.authenticate(user)).data;
         if (a) {
           alert("register done");
+          this.$store.commit("userLoggedIn", user);
           if (this.$route.name !== "Account")
             this.$router.push("/checkout/fullfillment");
         } else {
