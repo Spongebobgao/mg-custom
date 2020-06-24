@@ -14,9 +14,9 @@
         <i class="material-icons">shopping_cart</i>
         <span class="item-number">{{$store.state.numberOfProductsInCart}}</span>
       </router-link>
-      <a href="/account">
+      <router-link to="/account">
         <i class="material-icons">account_circle</i>
-      </a>
+      </router-link>
     </div>
     <div class="sidepanel" id="sidepanel">
       <button class="closebtn" @click="closeSidepanel">×</button>
@@ -75,7 +75,8 @@ export default {
         this.$route.name === "Home" ||
         this.$route.name === "Products" ||
         this.$route.name === "Product" ||
-        this.$route.name === "About"
+        this.$route.name === "About" ||
+        this.$route.name === "Account"
       ) {
         this.$store.commit("changeHoverCart", true);
         // setTimeout(this.setHoverCart, 3000);

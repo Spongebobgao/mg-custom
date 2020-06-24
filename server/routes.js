@@ -7,6 +7,6 @@ module.exports = (app) => {
   app.get('/', homeSlide.getSlideShowImages)
   app.get('/products', products.getAllProducts)
   app.get('/products/:id', products.getProductById)
-  app.post('/checkout/sign-in', authentication.register)
-  app.get('/checkout/sign-in', authentication.signIn)
+  app.post('/checkout/sign-in', authentication.authenticate)
+  // app.post('/account', authentication.authenticate)
 }

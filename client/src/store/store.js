@@ -8,7 +8,8 @@ export const store = new Vuex.Store({
     numberOfProductsInCart: 0,
     totalOfProductsInCart: 0,
     productsInCart: {},
-    hoverCart: false
+    hoverCart: false,
+    user: {}
   },
   mutations: {
     addItemInCart(state, payload) {
@@ -34,6 +35,9 @@ export const store = new Vuex.Store({
     },
     changeHoverCart(state, payload) {
       state.hoverCart = payload
+    },
+    userLoggedIn(state, payload) {
+      state.user = payload
     }
   }
 })

@@ -1,5 +1,7 @@
 <template>
   <div>
+    <h3 id="error" v-if="error">Please fill in all the required fields</h3>
+
     <form class="create-account-form">
       <h3>Create new account</h3>
       <h4>Enjoy faster checkout with an account.</h4>
@@ -22,7 +24,11 @@
       <br />
       <button type="button" id="create-account-btn" @click="register">Create Account</button>
       <br />
-      <button type="button" id="guest-continue-btn">Continue to checkout without an account</button>
+      <button
+        type="button"
+        id="guest-continue-btn"
+        v-if="this.$route.name==='Checkout'"
+      >Continue to checkout without an account</button>
     </form>
   </div>
 </template>
@@ -30,20 +36,34 @@
 <script>
 import AuthenticationService from "@/services/AuthenticationService";
 export default {
+  data() {
+    return {
+      error: false
+    };
+  },
   methods: {
     async register() {
       let user = {
         fname: document.getElementById("fname").value,
         lname: document.getElementById("lname").value,
         email: document.getElementById("new-email").value,
-        password: document.getElementById("new-password").value
+        password: document.getElementById("new-password").value,
+        newUser: true
       };
-      const a = (await AuthenticationService.register(user)).data;
-      if (a) {
-        alert("register done");
-        this.$router.push("/checkout/fullfillment");
+      if (
+        Object.values(user).some(element => element === null || element === "")
+      ) {
+        this.error = true;
+        setTimeout(() => (this.error = false), 5000);
       } else {
-        alert("email is in use");
+        const a = (await AuthenticationService.authenticate(user)).data;
+        if (a) {
+          alert("register done");
+          if (this.$route.name !== "Account")
+            this.$router.push("/checkout/fullfillment");
+        } else {
+          alert("email is in use");
+        }
       }
     }
   }

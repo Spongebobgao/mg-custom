@@ -1,14 +1,15 @@
 <template>
   <div>
     <form class="sign-in-form">
+      <h3 id="error" v-if="error">Please fill in all the required fields</h3>
       <h3>Sign In</h3>
       <label for="email">Email address (required)</label>
       <br />
-      <input type="text" n id="email" required />
+      <input type="text" id="email" />
       <br />
       <label for="password">Password (required)</label>
       <br />
-      <input type="password" id="password" required />
+      <input type="password" id="password" />
       <br />
       <a id="forgetpass" href="/forgetpass">Forgot Password?</a>
       <button type="button" id="sign-in-btn" @click="signIn">Sign In</button>
@@ -19,19 +20,36 @@
 <script>
 import AuthenticationService from "@/services/AuthenticationService";
 export default {
+  data() {
+    return {
+      error: false
+    };
+  },
   methods: {
     async signIn() {
       const member = {
         email: document.getElementById("email").value,
-        password: document.getElementById("password").value
+        password: document.getElementById("password").value,
+        newUser: false
       };
-      console.log(member);
-      const user = (await AuthenticationService.signIn(member)).data;
-      if (user) {
-        alert("sign in successfully");
-        this.$router.push("/checkout/fullfillment");
+      if (
+        Object.values(member).some(
+          element => element === null || element === ""
+        )
+      ) {
+        this.error = true;
+        setTimeout(() => (this.error = false), 5000);
       } else {
-        alert("Please enter the correct credential");
+        const validUser = (await AuthenticationService.authenticate(member))
+          .data;
+        if (validUser) {
+          alert("sign in successfully");
+          this.$store.commit("userLoggedIn", member);
+          if (this.$route.name !== "Account")
+            this.$router.push("/checkout/fullfillment");
+        } else {
+          alert("Please enter the correct credential");
+        }
       }
     }
   }
@@ -107,7 +125,8 @@ label {
 #edit-payment-btn,
 #review-order-btn,
 #cancel-review-order-btn,
-#place-order-btn {
+#place-order-btn,
+.btn-in-account {
   width: 85%;
   height: 40px;
   margin-bottom: 5%;
@@ -129,7 +148,8 @@ label {
 #continue-to-pay-btn:hover,
 #edit-payment-btn:hover,
 #cancel-review-order-btn:hover,
-#place-order-btn:hover {
+#place-order-btn:hover,
+.btn-in-account:hover {
   background-color: #ffebe6;
 }
 </style>

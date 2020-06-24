@@ -6,6 +6,8 @@ import Product from '../views/Product'
 import Cart from '../views/Cart'
 import Checkout from '../views/Checkout'
 import DeliveryOptions from '../views/DeliveryOptions'
+import Account from '../views/Account'
+
 Vue.use(VueRouter);
 
 const routes = [
@@ -38,6 +40,11 @@ const routes = [
     path: '/checkout/fullfillment',
     name: 'DeliveryOptions',
     component: DeliveryOptions
+  },
+  {
+    path: '/account',
+    name: 'Account',
+    component: Account
   },
   {
     path: '/about',
