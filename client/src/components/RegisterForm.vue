@@ -48,6 +48,7 @@ export default {
         lname: document.getElementById("lname").value,
         email: document.getElementById("new-email").value,
         password: document.getElementById("new-password").value,
+        orders: {},
         newUser: true
       };
       if (
@@ -59,6 +60,7 @@ export default {
         const a = (await AuthenticationService.authenticate(user)).data;
         if (a) {
           alert("register done");
+          delete user.newUser;
           this.$store.commit("userLoggedIn", user);
           if (this.$route.name !== "Account")
             this.$router.push("/checkout/fullfillment");

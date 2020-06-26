@@ -24,7 +24,7 @@
       </tr>
       <tr v-if="this.$route.name==='Cart'&&$store.state.numberOfProductsInCart>0">
         <th colspan="2">
-          <button @click="navigateTo('/checkout/sign-in')" class="check-out-btn">Check Out</button>
+          <button @click="navigateTo" class="check-out-btn">Check Out</button>
         </th>
       </tr>
     </table>
@@ -62,8 +62,12 @@ export default {
     };
   },
   methods: {
-    navigateTo(route) {
-      this.$router.push(route);
+    navigateTo() {
+      if (this.$store.state.user !== null) {
+        this.$router.push("/checkout/fullfillment");
+      } else {
+        this.$router.push("/checkout/sign-in");
+      }
     },
     showOrHide() {
       this.show ? (this.show = false) : (this.show = true);

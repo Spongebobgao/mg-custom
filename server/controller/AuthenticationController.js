@@ -2,11 +2,11 @@ const { db } = require('./connection')
 
 module.exports = {
   async authenticate(req, res) {
-    const users = (await db()).collection('users')
+    const usersdb = (await db()).collection('users')
     if (req.body.newUser) {
-      if ((await users.findOne({ 'email': req.body.email })) === null) {
+      if ((await usersdb.findOne({ 'email': req.body.email })) === null) {
         delete req.body.newUser
-        users.insertOne(req.body, function (err) {
+        usersdb.insertOne(req.body, function (err) {
           if (err) { console.error(err) }
           res.send(true)
         })
@@ -14,12 +14,22 @@ module.exports = {
         res.send(false)
       }
     } else {
-      const user = await users.findOne({ 'email': req.body.email, 'password': req.body.password })
+      const user = await usersdb.findOne({ 'email': req.body.email, 'password': req.body.password })
       if ((user === null)) {
         res.send(null)
       } else {
         res.send(user)
       }
     }
+  },
+  async insertOrder(req, res) {
+    const usersdb = (await db()).collection('users')
+    // const user = await usersdb.findOne({ 'email': req.body.userEmail })
+    delete req.body.userEmail
+    console.log(req.body)
+    usersdb.updateOne({ "email": req.body.userEmail }, { $push: { "orders": req.body } }, function (err) {
+      if (err) { console.error(err) }
+      res.send(true)
+    })
   }
 }

@@ -12,7 +12,7 @@
     <h6 v-else>Your Cart Is Empty.</h6>
     <button
       v-if="$store.state.totalOfProductsInCart>0"
-      @click.stop="navigateTo('/checkout/sign-in')"
+      @click.stop="navigateTo($store.state.user?'checkout/fullfillment':'/checkout/sign-in')"
     >Check Out</button>
     <table
       v-for="(productInCart) in $store.state.productsInCart"

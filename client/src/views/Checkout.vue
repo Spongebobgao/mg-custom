@@ -1,5 +1,5 @@
 <template>
-  <div class="check-out-page">
+  <div class="check-out-page" v-if="$store.state.user===null">
     <div class="sign-in">
       <SignInForm />
     </div>

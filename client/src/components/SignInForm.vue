@@ -42,6 +42,7 @@ export default {
       } else {
         const validUser = (await AuthenticationService.authenticate(member))
           .data;
+        console.log(validUser);
         if (validUser !== null) {
           delete validUser.password;
           alert("sign in successfully");

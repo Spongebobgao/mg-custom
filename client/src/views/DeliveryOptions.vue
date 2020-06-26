@@ -72,7 +72,8 @@
     <hr />
     <div id="payment-method">
       <h2 id="step-three-header">
-        <i class="material-icons icon">{{editPaymentDone?'check_circle':'looks_3'}}</i>Enter payment method
+        <i class="material-icons icon">{{editPaymentDone?'check_circle':'looks_3'}}</i>
+        {{editPaymentDone?'Payment':'Enter payment method'}}
       </h2>
       <div id="payment-content" v-if="!editPaymentDone&&editShippingAddressDone">
         <div id="payment-type">

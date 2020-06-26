@@ -15,7 +15,7 @@
       </button>
     </div>
     <div id="track-order" v-if="showTrackOrderForm">
-      <button class="close-btn" @click="showTrackOrderForm=false">X</button>
+      <button class="close-btn" @click="showTrackOrderForm=false">×</button>
       <h3 style="margin-left:4%">Track My Order</h3>
       <label for="user-email">Please enter the email address</label>
       <br />
@@ -28,7 +28,7 @@
       <button id="track-order-btn" class="btn-in-account">Submit</button>
     </div>
     <div id="orders" v-if="showOrders">
-      <button class="close-btn" @click="showOrders=false">X</button>
+      <button class="close-btn" @click="showOrders=false">×</button>
       <ul>
         <li>order1</li>
         <br />
@@ -36,11 +36,11 @@
       </ul>
     </div>
     <div id="sign-in-form" v-if="showSignInForm&&$store.state.user===null">
-      <button class="close-btn" @click="showSignInForm=false">X</button>
+      <button class="close-btn" @click="showSignInForm=false">×</button>
       <SignInForm />
     </div>
     <div id="create-account" v-if="showRegisterForm&&$store.state.user===null">
-      <button class="close-btn" @click="showRegisterForm=false">X</button>
+      <button class="close-btn" @click="showRegisterForm=false">×</button>
       <div id="form">
         <RegisterForm />
       </div>
@@ -103,20 +103,20 @@ label[for="track-number"],
 }
 .btn-in-account {
   width: 50%;
-  margin-left: 25%;
+  margin: 15px 25% 25px 25%;
 }
 .close-btn {
   width: 50px;
   height: 50px;
-  font-size: 1.5rem;
+  font-size: 2.5rem;
   float: right;
   background: none;
   border: none;
   cursor: pointer;
 }
 .close-btn:hover {
-  background: #609b9f;
-  color: white;
+  font-weight: bold;
+  font-size: 3rem;
 }
 @media screen and (max-width: 600px) {
   #track-order,

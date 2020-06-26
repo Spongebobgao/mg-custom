@@ -35,11 +35,20 @@
 </template>
 
 <script>
+import AuthenticationService from "@/services/AuthenticationService";
 export default {
   props: ["user", "payment", "billingAddress", "creditCard"],
   methods: {
-    placeOrder() {
-      alert("place order");
+    async placeOrder() {
+      let order = this.$store.state.productsInCart;
+      for (const attr in order) {
+        delete order[attr].nutrients;
+        delete order[attr]._id;
+      }
+      order.userEmail = this.$store.state.user.email;
+      const insertOrderStatus = (await AuthenticationService.insertOrder(order))
+        .data;
+      console.log(insertOrderStatus);
     }
   }
 };
