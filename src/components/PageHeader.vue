@@ -12,7 +12,9 @@
       </a>
       <router-link @mouseenter.native="showMinicart" to="/cart">
         <i class="material-icons">shopping_cart</i>
-        <span class="item-number">{{$store.state.numberOfProductsInCart}}</span>
+        <span class="item-number">{{
+          $store.state.numberOfProductsInCart
+        }}</span>
       </router-link>
       <router-link to="/account">
         <i class="material-icons">account_circle</i>
@@ -30,63 +32,63 @@
 </template>
 
 <script>
-import CartPopup from "@/components/CartPopup";
+import CartPopup from '@/components/CartPopup'
 export default {
-  name: "PageHeader",
+  name: 'PageHeader',
   components: {
-    CartPopup
+    CartPopup,
   },
   data() {
-    return {};
+    return {}
   },
   mounted() {
     document.addEventListener(
-      "click",
+      'click',
       () => (this.$store.state.hoverCart = false)
-    );
+    )
     document.addEventListener(
-      "scroll",
+      'scroll',
       () => (this.$store.state.hoverCart = false)
-    );
+    )
   },
   beforeDestroy() {
     document.removeEventListener(
-      "click",
+      'click',
       () => (this.$store.state.hoverCart = false)
-    );
+    )
     document.removeEventListener(
-      "scroll",
+      'scroll',
       () => (this.$store.state.hoverCart = false)
-    );
+    )
   },
   methods: {
     openSidepanel() {
-      document.getElementById("sidepanel").style.width = "250px";
+      document.getElementById('sidepanel').style.width = '250px'
     },
     closeSidepanel() {
-      document.getElementById("sidepanel").style.width = "0";
+      document.getElementById('sidepanel').style.width = '0'
     },
     navigateTo(route) {
-      this.$router.push(route);
-      this.closeSidepanel();
+      this.$router.push(route)
+      this.closeSidepanel()
     },
     showMinicart() {
       if (
-        this.$route.name === "Home" ||
-        this.$route.name === "Products" ||
-        this.$route.name === "Product" ||
-        this.$route.name === "About" ||
-        this.$route.name === "Account"
+        this.$route.name === 'Home' ||
+        this.$route.name === 'Products' ||
+        this.$route.name === 'Product' ||
+        this.$route.name === 'About' ||
+        this.$route.name === 'Account'
       ) {
-        this.$store.commit("changeHoverCart", true);
+        this.$store.commit('changeHoverCart', true)
         // setTimeout(this.setHoverCart, 3000);
       }
     },
     setHoverCart() {
-      this.$store.commit("changeHoverCart", false);
-    }
-  }
-};
+      this.$store.commit('changeHoverCart', false)
+    },
+  },
+}
 </script>
 
 <!-- Add "scoped" attribute to limit CSS to this component only -->
@@ -102,7 +104,7 @@ p {
   position: absolute;
   margin-left: 35%;
   font-size: 1.3rem;
-  font-family: "Barrio";
+  font-family: 'Barrio';
 }
 .product-icon {
   width: 22px;

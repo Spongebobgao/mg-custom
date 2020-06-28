@@ -1,45 +1,47 @@
 <template>
   <div>
-    <div :class="view==='products'? 'inputField':'inputFieldInProduct'">
+    <div :class="view === 'products' ? 'inputField' : 'inputFieldInProduct'">
       <button class="decreaseBtn" @click.stop="decrease(id)">-</button>
       <input class="input" type="text" :id="id" value="1" @click.stop />
       <button class="increaseBtn" @click.stop="increase(id)">+</button>
     </div>
     <button
-      :class="view==='products'? 'add-to-cart':'add-to-cart-in-product'"
+      :class="view === 'products' ? 'add-to-cart' : 'add-to-cart-in-product'"
       @click.stop="addToCart(product)"
-    >Add To Cart</button>
+    >
+      Add To Cart
+    </button>
   </div>
 </template>
 
 <script>
 export default {
-  name: "QtyButton",
-  props: ["id", "view", "product"],
+  name: 'QtyButton',
+  props: ['id', 'view', 'product'],
   methods: {
     decrease(id) {
-      const qty = parseInt(document.getElementById(id).value);
+      const qty = parseInt(document.getElementById(id).value)
       if (!isNaN(qty) && qty > 1) {
-        document.getElementById(id).value = qty - 1;
+        document.getElementById(id).value = qty - 1
       }
     },
     increase(id) {
-      const qty = parseInt(document.getElementById(id).value);
+      const qty = parseInt(document.getElementById(id).value)
       if (!isNaN(qty) && qty > 0) {
-        document.getElementById(id).value = qty + 1;
+        document.getElementById(id).value = qty + 1
       }
     },
     addToCart(product) {
-      const qty = parseFloat(document.getElementById(product._id).value);
+      const qty = parseFloat(document.getElementById(product._id).value)
       if (!isNaN(qty) && qty > 0) {
-        const payload = [product, qty];
-        this.$store.commit("addItemInCart", payload);
+        const payload = [product, qty]
+        this.$store.commit('addItemInCart', payload)
       } else {
-        alert("Please enter a valid number");
+        alert('Please enter a valid number')
       }
-    }
-  }
-};
+    },
+  },
+}
 </script>
 
 <style scoped>

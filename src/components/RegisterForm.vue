@@ -22,55 +22,61 @@
       <br />
       <input type="password" id="new-password" required />
       <br />
-      <button type="button" id="create-account-btn" @click="register">Create Account</button>
+      <button type="button" id="create-account-btn" @click="register">
+        Create Account
+      </button>
       <br />
       <button
         type="button"
         id="guest-continue-btn"
-        v-if="this.$route.name==='Checkout'"
-      >Continue to checkout without an account</button>
+        v-if="this.$route.name === 'Checkout'"
+      >
+        Continue to checkout without an account
+      </button>
     </form>
   </div>
 </template>
 
 <script>
-import AuthenticationService from "@/services/AuthenticationService";
+import AuthenticationService from '@/services/AuthenticationService'
 export default {
   data() {
     return {
-      error: false
-    };
+      error: false,
+    }
   },
   methods: {
     async register() {
       let user = {
-        fname: document.getElementById("fname").value,
-        lname: document.getElementById("lname").value,
-        email: document.getElementById("new-email").value,
-        password: document.getElementById("new-password").value,
+        fname: document.getElementById('fname').value,
+        lname: document.getElementById('lname').value,
+        email: document.getElementById('new-email').value,
+        password: document.getElementById('new-password').value,
         orders: {},
-        newUser: true
-      };
+        newUser: true,
+      }
       if (
-        Object.values(user).some(element => element === null || element === "")
+        Object.values(user).some(
+          (element) => element === null || element === ''
+        )
       ) {
-        this.error = true;
-        setTimeout(() => (this.error = false), 5000);
+        this.error = true
+        setTimeout(() => (this.error = false), 5000)
       } else {
-        const a = (await AuthenticationService.authenticate(user)).data;
+        const a = (await AuthenticationService.authenticate(user)).data
         if (a) {
-          alert("register done");
-          delete user.newUser;
-          this.$store.commit("userLoggedIn", user);
-          if (this.$route.name !== "Account")
-            this.$router.push("/checkout/fullfillment");
+          alert('register done')
+          delete user.newUser
+          this.$store.commit('userLoggedIn', user)
+          if (this.$route.name !== 'Account')
+            this.$router.push('/checkout/fullfillment')
         } else {
-          alert("email is in use");
+          alert('email is in use')
         }
       }
-    }
-  }
-};
+    },
+  },
+}
 </script>
 
 <style>

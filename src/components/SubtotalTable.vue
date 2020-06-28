@@ -4,11 +4,14 @@
       <tr>
         <th>
           Subtotal
-          <span
-            v-if="$store.state.numberOfProductsInCart>0"
-          >({{$store.state.numberOfProductsInCart}} {{$store.state.numberOfProductsInCart>1?'items':'item'}}):</span>
+          <span v-if="$store.state.numberOfProductsInCart > 0"
+            >({{ $store.state.numberOfProductsInCart }}
+            {{
+              $store.state.numberOfProductsInCart > 1 ? 'items' : 'item'
+            }}):</span
+          >
         </th>
-        <td>${{$store.state.totalOfProductsInCart}}</td>
+        <td>${{ $store.state.totalOfProductsInCart }}</td>
       </tr>
       <tr>
         <th>Delivery:</th>
@@ -22,32 +25,43 @@
         <th>Est. total:</th>
         <td>$99.9</td>
       </tr>
-      <tr v-if="this.$route.name==='Cart'&&$store.state.numberOfProductsInCart>0">
+      <tr
+        v-if="
+          this.$route.name === 'Cart' && $store.state.numberOfProductsInCart > 0
+        "
+      >
         <th colspan="2">
           <button @click="navigateTo" class="check-out-btn">Check Out</button>
         </th>
       </tr>
     </table>
+
     <div
       class="item-details"
-      v-if="(this.$route.name==='Checkout'||this.$route.name==='DeliveryOptions')&&$store.state.numberOfProductsInCart>0"
+      v-if="
+        (this.$route.name === 'Checkout' ||
+          this.$route.name === 'DeliveryOptions') &&
+          $store.state.numberOfProductsInCart > 0
+      "
     >
-      <button
-        class="show-hide-details"
-        @click="showOrHide"
-      >{{show?'Hide item details -':'Show item details +'}}</button>
+      <button class="show-hide-details" @click="showOrHide">
+        {{ show ? 'Hide item details -' : 'Show item details +' }}
+      </button>
       <table v-if="show">
-        <tr v-for="(productInCart) in $store.state.productsInCart" :key="productInCart._id">
+        <tr
+          v-for="productInCart in $store.state.productsInCart"
+          :key="productInCart._id"
+        >
           <td>
             <img :src="productInCart.img" />
           </td>
-          <td>{{productInCart.name}}</td>
-          <td>Qty: {{productInCart.quantity}}</td>
+          <td>{{ productInCart.name }}</td>
+          <td>Qty: {{ productInCart.quantity }}</td>
           <td>
-            <span>${{productInCart.price}}</span>
+            <span>${{ productInCart.price }}</span>
             <span style="font-size:0.8rem">ea</span>
           </td>
-          <td>${{productInCart.total}}</td>
+          <td>${{ productInCart.total }}</td>
         </tr>
       </table>
     </div>
@@ -58,22 +72,22 @@
 export default {
   data() {
     return {
-      show: false
-    };
+      show: false,
+    }
   },
   methods: {
     navigateTo() {
       if (this.$store.state.user !== null) {
-        this.$router.push("/checkout/fullfillment");
+        this.$router.push('/checkout/fullfillment')
       } else {
-        this.$router.push("/checkout/sign-in");
+        this.$router.push('/checkout/sign-in')
       }
     },
     showOrHide() {
-      this.show ? (this.show = false) : (this.show = true);
-    }
-  }
-};
+      this.show ? (this.show = false) : (this.show = true)
+    },
+  },
+}
 </script>
 
 <style scoped>

@@ -2,20 +2,26 @@
   <div
     @click="navigateTo('/cart')"
     class="mini-cart"
-    @mouseover="$store.state.hoverCart=true"
-    @mouseleave="$store.state.hoverCart=false"
+    @mouseover="$store.state.hoverCart = true"
+    @mouseleave="$store.state.hoverCart = false"
     v-if="$store.state.hoverCart"
   >
-    <h6
-      v-if="$store.state.totalOfProductsInCart>0"
-    >Shopping cart total: ${{$store.state.totalOfProductsInCart}}</h6>
+    <h6 v-if="$store.state.totalOfProductsInCart > 0">
+      Shopping cart total: ${{ $store.state.totalOfProductsInCart }}
+    </h6>
     <h6 v-else>Your Cart Is Empty.</h6>
     <button
-      v-if="$store.state.totalOfProductsInCart>0"
-      @click.stop="navigateTo($store.state.user?'checkout/fullfillment':'/checkout/sign-in')"
-    >Check Out</button>
+      v-if="$store.state.totalOfProductsInCart > 0"
+      @click.stop="
+        navigateTo(
+          $store.state.user ? 'checkout/fullfillment' : '/checkout/sign-in'
+        )
+      "
+    >
+      Check Out
+    </button>
     <table
-      v-for="(productInCart) in $store.state.productsInCart"
+      v-for="productInCart in $store.state.productsInCart"
       :key="productInCart._id"
       @click.stop="navigateTo(`products/${productInCart._id}`)"
     >
@@ -23,29 +29,29 @@
         <td>
           <img :src="productInCart.img" />
         </td>
-        <td>{{productInCart.name}}</td>
+        <td>{{ productInCart.name }}</td>
         <td>
-          <span>${{productInCart.price}}</span>
+          <span>${{ productInCart.price }}</span>
           <span style="font-size:0.8rem">ea</span>
         </td>
-        <td>${{productInCart.total}}</td>
+        <td>${{ productInCart.total }}</td>
       </tr>
     </table>
   </div>
 </template>
 
 <script>
-import productService from "@/services/productService";
+import productService from '@/services/productService'
 export default {
-  name: "CartPopup",
+  name: 'CartPopup',
   methods: {
     navigateTo(route) {
       if (this.$route.path !== route) {
-        this.$router.push(route);
+        this.$router.push(route)
       }
-    }
-  }
-};
+    },
+  },
+}
 </script>
 
 <style scoped>

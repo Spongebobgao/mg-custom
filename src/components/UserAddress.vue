@@ -2,15 +2,30 @@
   <div class="secondary-input">
     <label for="street">Street Address*</label>
     <br />
-    <input type="text" id="street" v-model="user.street" @change="$emit('input', user)" />
+    <input
+      type="text"
+      id="street"
+      v-model="user.street"
+      @change="$emit('input', user)"
+    />
     <br />
     <label for="apt">Apt, suite, etc (optional)</label>
     <br />
-    <input type="text" id="apt" v-model="user.apt" @change="$emit('input', user)" />
+    <input
+      type="text"
+      id="apt"
+      v-model="user.apt"
+      @change="$emit('input', user)"
+    />
     <br />
     <label for="city">City*</label>
     <br />
-    <input type="text" id="city" v-model="user.city" @change="$emit('input', user)" />
+    <input
+      type="text"
+      id="city"
+      v-model="user.city"
+      @change="$emit('input', user)"
+    />
     <br />
 
     <div id="state-div">
@@ -72,16 +87,20 @@
     </div>
     <div id="zip-div">
       <label for="zipcode">ZIP Code*</label>
-      <input type="text" id="zipcode" v-model="user.zipcode" @change="$emit('input', user)" />
+      <input
+        type="text"
+        id="zipcode"
+        v-model="user.zipcode"
+        @change="$emit('input', user)"
+      />
     </div>
   </div>
 </template>
 
 <script>
 export default {
-  props: ["user"]
-};
+  props: ['user'],
+}
 </script>
 
-<style>
-</style>
+<style></style>

@@ -18,44 +18,44 @@
 </template>
 
 <script>
-import AuthenticationService from "@/services/AuthenticationService";
+import AuthenticationService from '@/services/AuthenticationService'
 export default {
   data() {
     return {
-      error: false
-    };
+      error: false,
+    }
   },
   methods: {
     async signIn() {
       const member = {
-        email: document.getElementById("email").value,
-        password: document.getElementById("password").value,
-        newUser: false
-      };
+        email: document.getElementById('email').value,
+        password: document.getElementById('password').value,
+        newUser: false,
+      }
       if (
         Object.values(member).some(
-          element => element === null || element === ""
+          (element) => element === null || element === ''
         )
       ) {
-        this.error = true;
-        setTimeout(() => (this.error = false), 5000);
+        this.error = true
+        setTimeout(() => (this.error = false), 5000)
       } else {
         const validUser = (await AuthenticationService.authenticate(member))
-          .data;
-        console.log(validUser);
+          .data
+        console.log(validUser)
         if (validUser !== null) {
-          delete validUser.password;
-          alert("sign in successfully");
-          this.$store.commit("userLoggedIn", validUser);
-          if (this.$route.name !== "Account")
-            this.$router.push("/checkout/fullfillment");
+          delete validUser.password
+          alert('sign in successfully')
+          this.$store.commit('userLoggedIn', validUser)
+          if (this.$route.name !== 'Account')
+            this.$router.push('/checkout/fullfillment')
         } else {
-          alert("Please enter the correct credential");
+          alert('Please enter the correct credential')
         }
       }
-    }
-  }
-};
+    },
+  },
+}
 </script>
 
 <style>

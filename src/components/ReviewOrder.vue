@@ -5,7 +5,10 @@
         <h2>Your items:</h2>
       </div>
       <ul>
-        <li v-for="(productInCart) in $store.state.productsInCart" :key="productInCart._id">
+        <li
+          v-for="productInCart in $store.state.productsInCart"
+          :key="productInCart._id"
+        >
           <img :src="productInCart.img" />
         </li>
       </ul>
@@ -13,45 +16,52 @@
     <hr />
     <div id="shipping-address-in-review-order">
       <h2>Your shipping address:</h2>
-      <p style="text-indent:50px">{{user.fname}} {{user.lname}}</p>
-      <p style="text-indent:50px">{{user.street}} {{user.apt}}</p>
-      <p style="text-indent:50px">{{user.city}}, {{user.state}} {{user.zipcode}}</p>
+      <p style="text-indent:50px">{{ user.fname }} {{ user.lname }}</p>
+      <p style="text-indent:50px">{{ user.street }} {{ user.apt }}</p>
+      <p style="text-indent:50px">
+        {{ user.city }}, {{ user.state }} {{ user.zipcode }}
+      </p>
     </div>
     <hr />
     <div id="payment-details-in-review-order">
-      <h2>Your payment: {{creditCard?'Credit card':'Gift card'}}</h2>
+      <h2>Your payment: {{ creditCard ? 'Credit card' : 'Gift card' }}</h2>
       <div v-if="creditCard">
-        <p style="text-indent:50px">{{billingAddress.street}} {{billingAddress.apt}}</p>
-        <p
-          style="text-indent:50px"
-        >{{billingAddress.city}}, {{billingAddress.state}} {{billingAddress.zipcode}}</p>
+        <p style="text-indent:50px">
+          {{ billingAddress.street }} {{ billingAddress.apt }}
+        </p>
+        <p style="text-indent:50px">
+          {{ billingAddress.city }}, {{ billingAddress.state }}
+          {{ billingAddress.zipcode }}
+        </p>
       </div>
     </div>
     <div>
-      <button id="cancel-review-order-btn" @click="$emit('cancelReview')">Cancel</button>
+      <button id="cancel-review-order-btn" @click="$emit('cancelReview')">
+        Cancel
+      </button>
       <button id="place-order-btn" @click="placeOrder">Place order</button>
     </div>
   </div>
 </template>
 
 <script>
-import AuthenticationService from "@/services/AuthenticationService";
+import AuthenticationService from '@/services/AuthenticationService'
 export default {
-  props: ["user", "payment", "billingAddress", "creditCard"],
+  props: ['user', 'payment', 'billingAddress', 'creditCard'],
   methods: {
     async placeOrder() {
-      let order = this.$store.state.productsInCart;
+      let order = this.$store.state.productsInCart
       for (const attr in order) {
-        delete order[attr].nutrients;
-        delete order[attr]._id;
+        delete order[attr].nutrients
+        delete order[attr]._id
       }
-      order.userEmail = this.$store.state.user.email;
+      order.userEmail = this.$store.state.user.email
       const insertOrderStatus = (await AuthenticationService.insertOrder(order))
-        .data;
-      console.log(insertOrderStatus);
-    }
-  }
-};
+        .data
+      console.log(insertOrderStatus)
+    },
+  },
+}
 </script>
 
 <style>
