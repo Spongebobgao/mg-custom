@@ -3,13 +3,13 @@
     <div
       @click="navigateTo(product._id)"
       class="container-item"
-      v-for="(product) in products"
+      v-for="product in products"
       :key="product._id"
     >
       <img :src="product.img" />
       <div class="description">
-        {{product.name}}
-        <span>${{product.price}}/{{product.weight}}</span>
+        {{ product.name }}
+        <span>${{ product.price }}/{{ product.weight }}</span>
         <br />
         <QtyButton :id="product._id" :view="view" :product="product" />
       </div>
@@ -19,28 +19,28 @@
 
 <script>
 // @ is an alias to /src
-import productService from "@/services/productService";
-import QtyButton from "@/components/QtyButton.vue";
+import productService from '@/services/productService'
+import QtyButton from '@/components/QtyButton.vue'
 export default {
-  name: "Home",
+  name: 'Home',
   components: {
-    QtyButton
+    QtyButton,
   },
   data() {
     return {
       products: [],
-      view: "products"
-    };
+      view: 'products',
+    }
   },
   async created() {
-    this.products = (await productService.getAllProducts()).data;
+    this.products = (await productService.getAllProducts()).data
   },
   methods: {
     navigateTo(id) {
-      this.$router.push(`/products/${id}`);
-    }
-  }
-};
+      this.$router.push(`/products/${id}`)
+    },
+  },
+}
 </script>
 <style scoped>
 * {

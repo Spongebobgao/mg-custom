@@ -1,25 +1,36 @@
 <template>
   <div id="account">
     <div id="buttons">
-      <button class="btn-in-account" @click="showSignInForm=true" v-if="$store.state.user===null">
+      <button
+        class="btn-in-account"
+        @click="showSignInForm = true"
+        v-if="$store.state.user === null"
+      >
         <i class="material-icons login-icon">login</i>Sign In
       </button>
-      <button class="btn-in-account" @click="showRegisterForm=true" v-if="$store.state.user===null">
+      <button
+        class="btn-in-account"
+        @click="showRegisterForm = true"
+        v-if="$store.state.user === null"
+      >
         <i class="material-icons login-icon">person_add</i>Create Account
       </button>
-      <button class="btn-in-account" @click="showTrackOrderForm=true">
+      <button class="btn-in-account" @click="showTrackOrderForm = true">
         <i class="material-icons login-icon">storefront</i>Track Order
       </button>
-      <button class="btn-in-account" @click="showOrders=true">
+      <button class="btn-in-account" @click="showOrders = true">
         <i class="material-icons login-icon">list</i>Orders
       </button>
     </div>
     <div id="track-order" v-if="showTrackOrderForm">
-      <button class="close-btn" @click="showTrackOrderForm=false">×</button>
+      <button class="close-btn" @click="showTrackOrderForm = false">×</button>
       <h3 style="margin-left:4%">Track My Order</h3>
       <label for="user-email">Please enter the email address</label>
       <br />
-      <input id="user-email" :value="$store.state.user?$store.state.user.email:''" />
+      <input
+        id="user-email"
+        :value="$store.state.user ? $store.state.user.email : ''"
+      />
       <br />
       <label for="track-number">Please enter the tracking number</label>
       <br />
@@ -28,19 +39,22 @@
       <button id="track-order-btn" class="btn-in-account">Submit</button>
     </div>
     <div id="orders" v-if="showOrders">
-      <button class="close-btn" @click="showOrders=false">×</button>
+      <button class="close-btn" @click="showOrders = false">×</button>
       <ul>
         <li>order1</li>
         <br />
         <li>order2</li>
       </ul>
     </div>
-    <div id="sign-in-form" v-if="showSignInForm&&$store.state.user===null">
-      <button class="close-btn" @click="showSignInForm=false">×</button>
+    <div id="sign-in-form" v-if="showSignInForm && $store.state.user === null">
+      <button class="close-btn" @click="showSignInForm = false">×</button>
       <SignInForm />
     </div>
-    <div id="create-account" v-if="showRegisterForm&&$store.state.user===null">
-      <button class="close-btn" @click="showRegisterForm=false">×</button>
+    <div
+      id="create-account"
+      v-if="showRegisterForm && $store.state.user === null"
+    >
+      <button class="close-btn" @click="showRegisterForm = false">×</button>
       <div id="form">
         <RegisterForm />
       </div>
@@ -54,22 +68,22 @@
 </template>
 
 <script>
-import SignInForm from "@/components/SignInForm";
-import RegisterForm from "@/components/RegisterForm";
+import SignInForm from '@/components/SignInForm'
+import RegisterForm from '@/components/RegisterForm'
 export default {
   components: {
     SignInForm,
-    RegisterForm
+    RegisterForm,
   },
   data() {
     return {
       showSignInForm: false,
       showRegisterForm: false,
       showTrackOrderForm: false,
-      showOrders: false
-    };
-  }
-};
+      showOrders: false,
+    }
+  },
+}
 </script>
 
 <style>
@@ -92,8 +106,8 @@ export default {
   box-shadow: 0 2px 3px 0 rgba(0, 0, 0, 0.16);
   background-color: white;
 }
-label[for="user-email"],
-label[for="track-number"],
+label[for='user-email'],
+label[for='track-number'],
 #user-email,
 #track-number {
   margin-left: 4%;

@@ -4,35 +4,35 @@
       <img :src="product.img" :alt="product.name" />
     </div>
     <div class="text">
-      <h1>{{product.name}}</h1>
-      <p>${{product.price}} {{product.weight}}</p>
-      <p class="nutrients">{{product.nutrients}}</p>
+      <h1>{{ product.name }}</h1>
+      <p>${{ product.price }} {{ product.weight }}</p>
+      <p class="nutrients">{{ product.nutrients }}</p>
       <QtyButton :id="product._id" :view="view" :product="product" />
     </div>
   </div>
 </template>
 
 <script>
-import productService from "@/services/productService";
-import QtyButton from "@/components/QtyButton.vue";
+import productService from '@/services/productService'
+import QtyButton from '@/components/QtyButton.vue'
 export default {
   components: {
-    QtyButton
+    QtyButton,
   },
   data() {
     return {
       product: {},
-      view: "product"
-    };
+      view: 'product',
+    }
   },
   async created() {
     this.product = (
       await productService.getProductById(this.$route.params.id)
-    ).data;
-    this.product = this.product[0];
+    ).data
+    this.product = this.product[0]
   },
-  methods: {}
-};
+  methods: {},
+}
 </script>
 
 <style scoped>
@@ -56,6 +56,6 @@ img {
 }
 .nutrients {
   line-height: 1.5rem;
-  font-family: "Alata";
+  font-family: 'Alata';
 }
 </style>

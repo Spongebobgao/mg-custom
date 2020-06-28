@@ -10,11 +10,12 @@
           <i class="material-icons icon">check_circle</i>
           <i class="material-icons icon">local_shipping</i>Delivery
         </h2>
-        <h2 v-else>
-          <i class="material-icons icon">looks_one</i>Delivery
-        </h2>
+        <h2 v-else><i class="material-icons icon">looks_one</i>Delivery</h2>
         <ul>
-          <li v-for="(productInCart) in $store.state.productsInCart" :key="productInCart._id">
+          <li
+            v-for="productInCart in $store.state.productsInCart"
+            :key="productInCart._id"
+          >
             <img :src="productInCart.img" />
           </li>
         </ul>
@@ -22,25 +23,31 @@
         <br />
         <input type="text" id="arrive-time" value="Tomorrow" disabled />
       </div>
-      <button
-        @click="continueToShippingAddress"
-        id="continue-to-address-btn"
-      >{{editDeliveryDone?'Edit':'Continue'}}</button>
+      <button @click="continueToShippingAddress" id="continue-to-address-btn">
+        {{ editDeliveryDone ? 'Edit' : 'Continue' }}
+      </button>
     </div>
     <hr />
     <div id="shipping-address">
       <h2 id="step-two-header">
-        <i class="material-icons icon">{{editShippingAddressDone?'check_circle':'looks_two'}}</i>
-        {{editShippingAddressDone?'Sending to':'Enter delivery address'}}
+        <i class="material-icons icon">{{
+          editShippingAddressDone ? 'check_circle' : 'looks_two'
+        }}</i>
+        {{ editShippingAddressDone ? 'Sending to' : 'Enter delivery address' }}
       </h2>
 
       <div style="opacity:0.5" v-if="editShippingAddressDone">
-        <p>Delivery Address: {{user.fname}} {{user.lname}}</p>
-        <p style="text-indent:120px">{{user.street}} {{user.apt}}</p>
-        <p style="text-indent:120px">{{user.city}}, {{user.state}} {{user.zipcode}}</p>
-        <p style="text-indent:70px">Email: {{user.email}}</p>
+        <p>Delivery Address: {{ user.fname }} {{ user.lname }}</p>
+        <p style="text-indent:120px">{{ user.street }} {{ user.apt }}</p>
+        <p style="text-indent:120px">
+          {{ user.city }}, {{ user.state }} {{ user.zipcode }}
+        </p>
+        <p style="text-indent:70px">Email: {{ user.email }}</p>
       </div>
-      <div id="shipping-address-details" v-if="!editShippingAddressDone&&editDeliveryDone">
+      <div
+        id="shipping-address-details"
+        v-if="!editShippingAddressDone && editDeliveryDone"
+      >
         <h4>required field*</h4>
         <div id="primary-input">
           <label for="fname">First Name*</label>
@@ -66,18 +73,31 @@
       <button
         id="continue-to-pay-btn"
         @click="continueToPaymentMethod"
-        v-if="(editShippingAddressDone&&!editDeliveryDone||(editDeliveryDone&&editShippingAddressDone)||(editDeliveryDone&&!editShippingAddressDone))"
-      >{{editShippingAddressDone?'Edit':'Continue'}}</button>
+        v-if="
+          (editShippingAddressDone && !editDeliveryDone) ||
+            (editDeliveryDone && editShippingAddressDone) ||
+            (editDeliveryDone && !editShippingAddressDone)
+        "
+      >
+        {{ editShippingAddressDone ? 'Edit' : 'Continue' }}
+      </button>
     </div>
     <hr />
     <div id="payment-method">
       <h2 id="step-three-header">
-        <i class="material-icons icon">{{editPaymentDone?'check_circle':'looks_3'}}</i>
-        {{editPaymentDone?'Payment':'Enter payment method'}}
+        <i class="material-icons icon">{{
+          editPaymentDone ? 'check_circle' : 'looks_3'
+        }}</i>
+        {{ editPaymentDone ? 'Payment' : 'Enter payment method' }}
       </h2>
-      <div id="payment-content" v-if="!editPaymentDone&&editShippingAddressDone">
+      <div
+        id="payment-content"
+        v-if="!editPaymentDone && editShippingAddressDone"
+      >
         <div id="payment-type">
-          <button id="credit-card" @click="chooseCreditCard">Credit Card</button>
+          <button id="credit-card" @click="chooseCreditCard">
+            Credit Card
+          </button>
           <button id="gift-card" @click="chooseGiftCard">Gift Card</button>
         </div>
         <div id="credit-card-details" v-if="creditCard">
@@ -88,15 +108,27 @@
             <br />
             <label for="cardholder-fname">First name on card*</label>
             <br />
-            <input type="text" id="cardholder-fname" v-model="creditCardHolder.fname" />
+            <input
+              type="text"
+              id="cardholder-fname"
+              v-model="creditCardHolder.fname"
+            />
             <br />
             <label for="cardholder-lname">Last name on card*</label>
             <br />
-            <input id="cardholder-lname" tyep="text" v-model="creditCardHolder.lname" />
+            <input
+              id="cardholder-lname"
+              tyep="text"
+              v-model="creditCardHolder.lname"
+            />
             <br />
             <label for="card-number">Card number*</label>
             <br />
-            <input id="card-number" type="text" v-model="creditCardHolder.cardNumber" />
+            <input
+              id="card-number"
+              type="text"
+              v-model="creditCardHolder.cardNumber"
+            />
             <div id="security-info">
               <label>
                 Expiration date*
@@ -126,19 +158,26 @@
               type="checkbox"
               id="same-as-delivery-address"
               @click="changeBillingAddress"
-              :checked="sameAsdeliveryAddress?true:false"
+              :checked="sameAsdeliveryAddress ? true : false"
             />
-            <label for="same-as-delivery-address">Same as delivery address</label>
+            <label for="same-as-delivery-address"
+              >Same as delivery address</label
+            >
             <div v-if="sameAsdeliveryAddress">
-              <p>{{user.street}}{{user.apt}}</p>
-              <p>{{user.city}}, {{user.state}} {{user.zipcode}}</p>
+              <p>{{ user.street }}{{ user.apt }}</p>
+              <p>{{ user.city }}, {{ user.state }} {{ user.zipcode }}</p>
             </div>
             <div v-else>
-              <UserAddress :user="billingAddress" @input="updateBillingAddress" />
+              <UserAddress
+                :user="billingAddress"
+                @input="updateBillingAddress"
+              />
             </div>
           </div>
           <div>
-            <button id="apply-credit-card-btn" @click="applyCreditCard">Apply credit card</button>
+            <button id="apply-credit-card-btn" @click="applyCreditCard">
+              Apply credit card
+            </button>
           </div>
         </div>
         <div id="gift-card-details" v-if="giftCard">
@@ -146,32 +185,42 @@
           <div class="gift-card-info">
             <label for="gift-card-number">Gift card number*</label>
             <br />
-            <input type="text" id="gift-card-number" v-model="giftCardInfo.giftCardNumber" />
+            <input
+              type="text"
+              id="gift-card-number"
+              v-model="giftCardInfo.giftCardNumber"
+            />
             <br />
             <label for="gift-card-pin">PIN/Security Code (4 digits)*</label>
             <br />
             <input type="text" id="gift-card-pin" v-model="giftCardInfo.pin" />
           </div>
           <div>
-            <button id="apply-gift-card-btn" @click="applyGiftCard">Apply gift card</button>
+            <button id="apply-gift-card-btn" @click="applyGiftCard">
+              Apply gift card
+            </button>
           </div>
         </div>
       </div>
     </div>
     <button
       id="edit-payment-btn"
-      v-if="editDeliveryDone&&editShippingAddressDone&&editPaymentDone"
+      v-if="editDeliveryDone && editShippingAddressDone && editPaymentDone"
       @click="editPayment"
-    >Edit</button>
+    >
+      Edit
+    </button>
     <button
       id="review-order-btn"
-      v-if="editDeliveryDone&&editShippingAddressDone&&editPaymentDone"
+      v-if="editDeliveryDone && editShippingAddressDone && editPaymentDone"
       @click="showReviewOrder"
-    >Review your order</button>
+    >
+      Review your order
+    </button>
     <div id="review-order">
       <ReviewOrder
         :user="user"
-        :payment="creditCard?'creditCardHolder':'giftCardInfo'"
+        :payment="creditCard ? 'creditCardHolder' : 'giftCardInfo'"
         :creditCard="creditCard"
         :billingAddress="billingAddress"
         @cancelReview="cancelReview"
@@ -182,14 +231,14 @@
 </template>
 
 <script>
-import UserAddress from "@/components/UserAddress";
-import SubtotalTable from "@/components/SubtotalTable";
-import ReviewOrder from "@/components/ReviewOrder";
+import UserAddress from '@/components/UserAddress'
+import SubtotalTable from '@/components/SubtotalTable'
+import ReviewOrder from '@/components/ReviewOrder'
 export default {
   components: {
     UserAddress,
     SubtotalTable,
-    ReviewOrder
+    ReviewOrder,
   },
   data() {
     return {
@@ -200,53 +249,53 @@ export default {
       giftCard: false,
       sameAsdeliveryAddress: true,
       user: {
-        fname: "",
-        lname: "",
-        phone: "",
-        email: "",
-        street: "",
+        fname: '',
+        lname: '',
+        phone: '',
+        email: '',
+        street: '',
         apt: null,
-        city: "",
-        state: "",
-        zipcode: ""
+        city: '',
+        state: '',
+        zipcode: '',
       },
       billingAddress: {
-        street: "",
+        street: '',
         apt: null,
-        city: "",
-        state: "",
-        zipcode: ""
+        city: '',
+        state: '',
+        zipcode: '',
       },
       creditCardHolder: {
-        fname: "",
-        lname: "",
-        cardNumber: "",
-        expirationMonth: "",
-        expirationYear: "",
-        cvv: ""
+        fname: '',
+        lname: '',
+        cardNumber: '',
+        expirationMonth: '',
+        expirationYear: '',
+        cvv: '',
       },
       giftCardInfo: {
-        giftCardNumber: "",
-        pin: ""
+        giftCardNumber: '',
+        pin: '',
       },
-      error: false
-    };
+      error: false,
+    }
   },
   methods: {
     editPayment() {
-      this.editPaymentDone = false;
-      document.getElementById("step-three-header").style.opacity = 1;
+      this.editPaymentDone = false
+      document.getElementById('step-three-header').style.opacity = 1
     },
     showReviewOrder() {
-      document.getElementById("review-order").style.visibility = "visible";
-      document.getElementById("overlay").style.visibility = "visible";
+      document.getElementById('review-order').style.visibility = 'visible'
+      document.getElementById('overlay').style.visibility = 'visible'
     },
     cancelReview() {
-      document.getElementById("review-order").style.visibility = "hidden";
-      document.getElementById("overlay").style.visibility = "hidden";
+      document.getElementById('review-order').style.visibility = 'hidden'
+      document.getElementById('overlay').style.visibility = 'hidden'
     },
     updateBillingAddress(value) {
-      this.billingAddress = value;
+      this.billingAddress = value
     },
     continueToShippingAddress() {
       if (this.$store.state.user !== null) {
@@ -254,53 +303,53 @@ export default {
           ...this.user,
           fname: this.$store.state.user.fname,
           lname: this.$store.state.user.lname,
-          email: this.$store.state.user.email
-        };
+          email: this.$store.state.user.email,
+        }
       }
-      const element = document.getElementById("delivery");
+      const element = document.getElementById('delivery')
       if (this.editDeliveryDone) {
-        this.editDeliveryDone = false;
-        element.style.opacity = 1;
+        this.editDeliveryDone = false
+        element.style.opacity = 1
         if (!this.editShippingAddressDone) {
-          document.getElementById("step-two-header").style.opacity = 0.5;
+          document.getElementById('step-two-header').style.opacity = 0.5
         }
       } else {
-        this.editDeliveryDone = true;
-        element.style.opacity = 0.5;
+        this.editDeliveryDone = true
+        element.style.opacity = 0.5
         if (!this.editShippingAddressDone) {
-          document.getElementById("step-two-header").style.opacity = 1;
+          document.getElementById('step-two-header').style.opacity = 1
         }
       }
     },
     hideError() {
-      setTimeout(() => (this.error = false), 5000);
+      setTimeout(() => (this.error = false), 5000)
     },
     continueToPaymentMethod() {
-      if (Object.values(this.creditCardHolder).some(x => x === "")) {
+      if (Object.values(this.creditCardHolder).some((x) => x === '')) {
         this.creditCardHolder = {
           ...this.creditCardHolder,
           fname: this.user.fname,
-          lname: this.user.lname
-        };
+          lname: this.user.lname,
+        }
       }
-      if (Object.values(this.user).some(element => element === "")) {
-        this.error = true;
-        this.hideError();
+      if (Object.values(this.user).some((element) => element === '')) {
+        this.error = true
+        this.hideError()
       } else {
-        this.error = false;
-        const element = document.getElementById("step-two-header");
+        this.error = false
+        const element = document.getElementById('step-two-header')
         if (!this.editShippingAddressDone) {
-          this.editShippingAddressDone = true;
-          element.style.opacity = 0.5;
+          this.editShippingAddressDone = true
+          element.style.opacity = 0.5
           if (!this.editPaymentDone) {
-            document.getElementById("step-three-header").style.opacity = 1;
+            document.getElementById('step-three-header').style.opacity = 1
           }
-          this.setBillingAddress();
+          this.setBillingAddress()
         } else {
-          this.editShippingAddressDone = false;
-          element.style.opacity = 1;
+          this.editShippingAddressDone = false
+          element.style.opacity = 1
           if (!this.editPaymentDone) {
-            document.getElementById("step-three-header").style.opacity = 0.5;
+            document.getElementById('step-three-header').style.opacity = 0.5
           }
         }
       }
@@ -311,72 +360,72 @@ export default {
         apt: this.user.apt,
         city: this.user.city,
         state: this.user.state,
-        zipcode: this.user.zipcode
-      };
+        zipcode: this.user.zipcode,
+      }
     },
     chooseCreditCard() {
-      this.creditCard = true;
-      this.giftCard = false;
-      this.error = false;
+      this.creditCard = true
+      this.giftCard = false
+      this.error = false
     },
     chooseGiftCard() {
-      this.creditCard = false;
-      this.giftCard = true;
-      this.error = false;
+      this.creditCard = false
+      this.giftCard = true
+      this.error = false
     },
     applyCreditCard() {
       if (
-        Object.values(this.creditCardHolder).some(element => element === "")
+        Object.values(this.creditCardHolder).some((element) => element === '')
       ) {
-        this.error = true;
-        this.hideError();
+        this.error = true
+        this.hideError()
       } else {
         if (!this.sameAsdeliveryAddress) {
           if (
-            Object.values(this.billingAddress).some(element => element === "")
+            Object.values(this.billingAddress).some((element) => element === '')
           ) {
-            this.error = true;
-            this.hideError();
+            this.error = true
+            this.hideError()
           } else {
-            this.applyCreditCardHelper();
+            this.applyCreditCardHelper()
           }
         } else {
-          this.applyCreditCardHelper();
+          this.applyCreditCardHelper()
         }
       }
     },
     applyCreditCardHelper() {
-      this.error = false;
-      this.editPaymentDone = true;
-      document.getElementById("step-three-header").style.opacity = 0.5;
+      this.error = false
+      this.editPaymentDone = true
+      document.getElementById('step-three-header').style.opacity = 0.5
     },
     changeBillingAddress() {
       if (this.sameAsdeliveryAddress) {
-        this.sameAsdeliveryAddress = false;
+        this.sameAsdeliveryAddress = false
         this.billingAddress = {
-          street: "",
+          street: '',
           apt: null,
-          city: "",
-          state: "",
-          zipcode: ""
-        };
+          city: '',
+          state: '',
+          zipcode: '',
+        }
       } else {
-        this.sameAsdeliveryAddress = true;
-        this.setBillingAddress();
+        this.sameAsdeliveryAddress = true
+        this.setBillingAddress()
       }
     },
     applyGiftCard() {
-      if (Object.values(this.giftCardInfo).some(element => element === "")) {
-        this.error = true;
-        this.hideError();
+      if (Object.values(this.giftCardInfo).some((element) => element === '')) {
+        this.error = true
+        this.hideError()
       } else {
-        this.error = false;
-        this.editPaymentDone = true;
-        document.getElementById("step-three-header").style.opacity = 0.5;
+        this.error = false
+        this.editPaymentDone = true
+        document.getElementById('step-three-header').style.opacity = 0.5
       }
-    }
-  }
-};
+    },
+  },
+}
 </script>
 
 <style>

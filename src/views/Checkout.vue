@@ -1,5 +1,5 @@
 <template>
-  <div class="check-out-page" v-if="$store.state.user===null">
+  <div class="check-out-page" v-if="$store.state.user === null">
     <div class="sign-in">
       <SignInForm />
     </div>
@@ -7,7 +7,12 @@
       <div class="guest-checkout-content" v-if="!registered">
         <h3>No account? No problem.</h3>
         <h4>Continue to checkout without an account.</h4>
-        <button id="guest-checkout-btn" @click="$router.push('/checkout/fullfillment')">Continue</button>
+        <button
+          id="guest-checkout-btn"
+          @click="$router.push('/checkout/fullfillment')"
+        >
+          Continue
+        </button>
         <p>Or</p>
         <button id="not-a-number" @click="register">Create Account</button>
       </div>
@@ -22,26 +27,26 @@
 </template>
 
 <script>
-import SignInForm from "@/components/SignInForm";
-import RegisterForm from "@/components/RegisterForm";
-import SubtotalTable from "@/components/SubtotalTable";
+import SignInForm from '@/components/SignInForm'
+import RegisterForm from '@/components/RegisterForm'
+import SubtotalTable from '@/components/SubtotalTable'
 export default {
   components: {
     SignInForm,
     RegisterForm,
-    SubtotalTable
+    SubtotalTable,
   },
   data() {
     return {
-      registered: false
-    };
+      registered: false,
+    }
   },
   methods: {
     register() {
-      this.registered = true;
-    }
-  }
-};
+      this.registered = true
+    },
+  },
+}
 </script>
 
 <style scoped>

@@ -1,22 +1,43 @@
 <template>
   <div class="cartContainer">
     <table class="v-line product-table">
-      <caption
-        v-if="$store.state.numberOfProductsInCart"
-      >Your Cart: {{$store.state.numberOfProductsInCart}} {{$store.state.numberOfProductsInCart>1?"items":"item"}}</caption>
-      <caption v-else>Your Cart Is Empty.</caption>
-      <tr v-for="(productInCart) in $store.state.productsInCart" :key="productInCart._id">
-        <td style="width:20%;cursor:pointer" @click="navigateTo(`/products/${productInCart._id}`)">
+      <caption v-if="$store.state.numberOfProductsInCart">
+        Your Cart:
+        {{
+          $store.state.numberOfProductsInCart
+        }}
+        {{
+          $store.state.numberOfProductsInCart > 1 ? 'items' : 'item'
+        }}
+      </caption>
+      <caption v-else>
+        Your Cart Is Empty.
+      </caption>
+      <tr
+        v-for="productInCart in $store.state.productsInCart"
+        :key="productInCart._id"
+      >
+        <td
+          style="width:20%;cursor:pointer"
+          @click="navigateTo(`/products/${productInCart._id}`)"
+        >
           <img :src="productInCart.img" />
         </td>
         <td
           style="width:30%;cursor:pointer"
           @click="navigateTo(`/products/${productInCart._id}`)"
-        >{{productInCart.name}}</td>
+        >
+          {{ productInCart.name }}
+        </td>
         <td style="width:20%">
           <div class="inputField">
             <sup>Qty:</sup>
-            <input class="decreaseBtn" type="button" value="-" @click="decrease(productInCart)" />
+            <input
+              class="decreaseBtn"
+              type="button"
+              value="-"
+              @click="decrease(productInCart)"
+            />
             <input
               class="input"
               type="text"
@@ -24,58 +45,65 @@
               :value="`${productInCart.quantity}`"
               disabled
             />
-            <input class="increaseBtn" type="button" value="+" @click="increase(productInCart)" />
+            <input
+              class="increaseBtn"
+              type="button"
+              value="+"
+              @click="increase(productInCart)"
+            />
           </div>
         </td>
         <td style="width:15%">
-          <span>${{productInCart.price}}</span>
+          <span>${{ productInCart.price }}</span>
           <span style="font-size:0.8rem">ea</span>
         </td>
         <td style="width:15%;font-weight:bold;margin-top:">
-          ${{productInCart.total}}
+          ${{ productInCart.total }}
           <br />
           <span
             style="font-size:0.8rem;font-weight:lighter;cursor:pointer"
             @click="removeAll(productInCart)"
-          >Remove all</span>
+            >Remove all</span
+          >
         </td>
       </tr>
     </table>
+
     <SubtotalTable class="checkout-table" />
   </div>
 </template>
 
 <script>
-import productService from "@/services/productService";
-import SubtotalTable from "@/components/SubtotalTable";
+import productService from '@/services/productService'
+import SubtotalTable from '@/components/SubtotalTable'
 export default {
   components: {
-    SubtotalTable
+    SubtotalTable,
   },
   methods: {
     decrease(product) {
-      const qty = parseInt(document.getElementById(product._id).value);
+      const qty = parseInt(document.getElementById(product._id).value)
       if (!isNaN(qty) && qty > 1) {
-        document.getElementById(product._id).value = qty - 1;
-        const payload = [product, -1];
-        this.$store.commit("addItemInCart", payload);
+        document.getElementById(product._id).value = qty - 1
+        const payload = [product, -1]
+        this.$store.commit('addItemInCart', payload)
       }
     },
     increase(product) {
-      const qty = parseInt(document.getElementById(product._id).value);
+      const qty = parseInt(document.getElementById(product._id).value)
       if (!isNaN(qty) && qty > 0) {
-        document.getElementById(product._id).value = qty + 1;
-        const payload = [product, 1];
-        this.$store.commit("addItemInCart", payload);
+        document.getElementById(product._id).value = qty + 1
+        const payload = [product, 1]
+        this.$store.commit('addItemInCart', payload)
       }
     },
     removeAll(product) {
-      const qty = parseFloat(document.getElementById(product._id).value);
-      const payload = [product, -qty];
-      this.$store.commit("addItemInCart", payload);
-    }
-  }
-};
+      const qty = parseFloat(document.getElementById(product._id).value)
+      const payload = [product, -qty]
+      this.$store.commit('addItemInCart', payload)
+    },
+  },
+}
 </script>
 
 <style scoped>

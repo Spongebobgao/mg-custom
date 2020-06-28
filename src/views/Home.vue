@@ -1,9 +1,20 @@
 <template>
   <div class="slidershow">
     <div class="slides">
-      <input v-for="n in 4" :key="n" type="radio" name="radioBtn" :id="'r'+`${n}`" :checked="n===1" />
-      <div :class="['slide'+`${index+1}`]" v-for="(img,index) in homeSlideImages" :key="img._id">
-        <p :class="['text'+`${index+1}`]">{{img.text}}</p>
+      <input
+        v-for="n in 4"
+        :key="n"
+        type="radio"
+        name="radioBtn"
+        :id="'r' + `${n}`"
+        :checked="n === 1"
+      />
+      <div
+        :class="['slide' + `${index + 1}`]"
+        v-for="(img, index) in homeSlideImages"
+        :key="img._id"
+      >
+        <p :class="['text' + `${index + 1}`]">{{ img.text }}</p>
         <img :src="img.img" />
       </div>
 
@@ -11,9 +22,9 @@
         <label
           v-for="n in 4"
           :key="n"
-          :for="'r'+`${n}`"
+          :for="'r' + `${n}`"
           class="dot"
-          :id="'dot'+`${n}`"
+          :id="'dot' + `${n}`"
           @click="selectSlide(n)"
         ></label>
       </div>
@@ -21,70 +32,70 @@
   </div>
 </template>
 <script>
-import homeSlideService from "../services/homeSlideService";
+import homeSlideService from '../services/homeSlideService'
 export default {
   data() {
     return {
       homeSlideImages: [],
       automoveInterval: null,
       clickedSlide: 1,
-      currentSlide: 1
-    };
+      currentSlide: 1,
+    }
   },
   async created() {
-    this.homeSlideImages = (await homeSlideService.getSlideShowImgs()).data;
+    this.homeSlideImages = (await homeSlideService.getSlideShowImgs()).data
   },
   mounted() {
-    this.automoveInterval = setInterval(this.move, 3000);
+    this.automoveInterval = setInterval(this.move, 3000)
   },
   beforeDestroy() {
-    clearInterval(this.automoveInterval);
+    clearInterval(this.automoveInterval)
   },
   methods: {
     move() {
-      let radioBtn = document.getElementsByName("radioBtn");
-      let length = radioBtn.length;
+      let radioBtn = document.getElementsByName('radioBtn')
+      let length = radioBtn.length
       if (this.currentSlide < length) {
-        this.moveHelper(radioBtn, length, false);
+        this.moveHelper(radioBtn, length, false)
       } else if (this.currentSlide === length) {
-        this.moveHelper(radioBtn, length, true);
+        this.moveHelper(radioBtn, length, true)
       }
     },
     moveHelper(radioBtn, length, lastSlide) {
-      radioBtn[this.currentSlide - 1].checked = false;
-      this.moveSlide(this.currentSlide, "moveCurrentSlideOut");
+      radioBtn[this.currentSlide - 1].checked = false
+      this.moveSlide(this.currentSlide, 'moveCurrentSlideOut')
       if (!lastSlide) {
-        radioBtn[this.currentSlide].checked = true;
-        this.clickedSlide = ++this.currentSlide;
+        radioBtn[this.currentSlide].checked = true
+        this.clickedSlide = ++this.currentSlide
       } else {
-        this.currentSlide = this.clickedSlide = 1;
-        radioBtn[this.clickedSlide - 1].checked = true;
+        this.currentSlide = this.clickedSlide = 1
+        radioBtn[this.clickedSlide - 1].checked = true
       }
-      this.moveSlide(this.clickedSlide, "moveNextSlideIn");
+      this.moveSlide(this.clickedSlide, 'moveNextSlideIn')
     },
     selectSlide(index) {
-      clearInterval(this.automoveInterval);
+      clearInterval(this.automoveInterval)
       if (this.clickedSlide != index) {
-        this.currentSlide = this.clickedSlide;
-        this.clickedSlide = index;
-        this.moveCurrentAndNext();
-        this.currentSlide = this.clickedSlide;
+        this.currentSlide = this.clickedSlide
+        this.clickedSlide = index
+        this.moveCurrentAndNext()
+        this.currentSlide = this.clickedSlide
       }
-      this.automoveInterval = setInterval(this.move, 3000);
+      this.automoveInterval = setInterval(this.move, 3000)
     },
     moveCurrentAndNext() {
-      this.moveSlide(this.currentSlide, "moveCurrentSlideOut");
-      this.moveSlide(this.clickedSlide, "moveNextSlideIn");
+      this.moveSlide(this.currentSlide, 'moveCurrentSlideOut')
+      this.moveSlide(this.clickedSlide, 'moveNextSlideIn')
     },
     moveSlide(slideNumber, className) {
-      let element = document.getElementsByClassName("slide" + slideNumber)[0];
-      element.classList.add(className);
+      let element = document.getElementsByClassName('slide' + slideNumber)[0]
+      element.classList.add(className)
       setTimeout(function() {
-        element.classList.remove(className);
-      }, 1000);
-    }
-  }
-};
+        element.classList.remove(className)
+      }, 1000)
+    },
+  },
+}
 </script>
 <style scoped>
 .slidershow {
@@ -154,7 +165,7 @@ export default {
 .dot:hover {
   opacity: 1;
 }
-input[name="radioBtn"] {
+input[name='radioBtn'] {
   position: absolute;
   visibility: hidden;
 }
