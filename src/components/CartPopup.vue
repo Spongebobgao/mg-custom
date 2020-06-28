@@ -41,7 +41,6 @@
 </template>
 
 <script>
-import productService from '@/services/productService'
 export default {
   name: 'CartPopup',
   methods: {
