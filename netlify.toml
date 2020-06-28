@@ -1,0 +1,14 @@
+[build]
+	 command = 'npm run build'
+	 public = 'dist'
+[build.environment]
+	 TZ = 'America/Chicago'
+	 NODE_PATH='src'
+  
+[context.deploy-preview.environment]
+	 NODE_VERSION = '12.14.1'
+
+[[redirects]]
+	 from = '/*'
+	 to = '/index.html'
+	 status = 200
