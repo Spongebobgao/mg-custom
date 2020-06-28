@@ -60,12 +60,7 @@ const routes = [
 const router = new VueRouter({
   mode: 'history',
   base: process.env.BASE_URL,
-  routes: [
-    {
-      path: '/',
-      component: Home,
-    },
-  ],
+  routes,
 })
 
 export default router
