@@ -1,6 +1,6 @@
 [build]
   command = 'npm run build'
-  public = 'dist'
+  publish = 'dist/'
 [build.environment]
   TZ = 'America/Chicago'
   NODE_PATH='src'
