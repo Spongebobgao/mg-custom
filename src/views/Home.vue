@@ -89,6 +89,7 @@ export default {
 <style scoped>
 .slidershow {
   width: 65%;
+  max-width: 850px;
   height: auto;
   overflow: hidden;
   position: absolute;
