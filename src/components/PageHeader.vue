@@ -81,11 +81,7 @@ export default {
         this.$route.name === 'Account'
       ) {
         this.$store.commit('changeHoverCart', true)
-        // setTimeout(this.setHoverCart, 3000);
       }
-    },
-    setHoverCart() {
-      this.$store.commit('changeHoverCart', false)
     },
   },
 }

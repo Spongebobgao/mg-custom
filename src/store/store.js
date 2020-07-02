@@ -47,5 +47,10 @@ export const store = new Vuex.Store({
     userLoggedIn(state, payload) {
       state.user = payload
     },
+    clearCart(state) {
+      ;(state.numberOfProductsInCart = 0),
+        (state.totalOfProductsInCart = 0),
+        (state.productsInCart = {})
+    },
   },
 })

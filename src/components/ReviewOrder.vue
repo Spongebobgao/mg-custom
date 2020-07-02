@@ -45,20 +45,27 @@
 </template>
 
 <script>
-import AuthenticationService from '@/services/AuthenticationService'
+import PlaceOrderService from '@/services/PlaceOrderService'
 export default {
   props: ['user', 'payment', 'billingAddress', 'creditCard'],
   methods: {
     async placeOrder() {
-      let order = this.$store.state.productsInCart
-      for (const attr in order) {
-        delete order[attr].nutrients
-        delete order[attr]._id
+      if (Object.keys(this.$store.state.productsInCart).length > 0) {
+        let order = {}
+        order.items = this.$store.state.productsInCart
+        for (const attr in order.items) {
+          delete order.items[attr]._id
+          delete order.items[attr].nutrients
+        }
+        order.total = this.$store.state.totalOfProductsInCart
+        if (this.$store.state.user) order.userId = this.$store.state.user._id
+        const placeOrderStatus = (await PlaceOrderService.placeOrder(order))
+          .data
+        if (placeOrderStatus) {
+          this.$store.commit('clearCart')
+          this.$router.push('/')
+        }
       }
-      order.userEmail = this.$store.state.user.email
-      const insertOrderStatus = (await AuthenticationService.insertOrder(order))
-        .data
-      console.log(insertOrderStatus)
     },
   },
 }

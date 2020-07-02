@@ -42,8 +42,8 @@ export default {
       } else {
         const validUser = (await AuthenticationService.authenticate(member))
           .data
-        console.log(validUser)
-        if (validUser !== null) {
+        console.log(validUser === '')
+        if (validUser !== '') {
           delete validUser.password
           alert('sign in successfully')
           this.$store.commit('userLoggedIn', validUser)

@@ -95,10 +95,12 @@
         v-if="!editPaymentDone && editShippingAddressDone"
       >
         <div id="payment-type">
-          <button id="credit-card" @click="chooseCreditCard">
+          <button class="card-btn" id="credit-card" @click="chooseCreditCard">
             Credit Card
           </button>
-          <button id="gift-card" @click="chooseGiftCard">Gift Card</button>
+          <button class="card-btn" id="gift-card" @click="chooseGiftCard">
+            Gift Card
+          </button>
         </div>
         <div id="credit-card-details" v-if="creditCard">
           <h4>*required field</h4>
@@ -285,6 +287,13 @@ export default {
     editPayment() {
       this.editPaymentDone = false
       document.getElementById('step-three-header').style.opacity = 1
+      setTimeout(function() {
+        if (this.creditCard) {
+          document.getElementById('credit-card').classList.add('black-border')
+        } else {
+          document.getElementById('gift-card').classList.add('black-border')
+        }
+      }, 100)
     },
     showReviewOrder() {
       document.getElementById('review-order').style.visibility = 'visible'
@@ -367,11 +376,23 @@ export default {
       this.creditCard = true
       this.giftCard = false
       this.error = false
+      let element = document.getElementById('gift-card').classList
+      if (element.length > 1) {
+        element.remove('black-border')
+      }
+      element = document.getElementById('credit-card').classList
+      element.add('black-border')
     },
     chooseGiftCard() {
       this.creditCard = false
       this.giftCard = true
       this.error = false
+      let element = document.getElementById('credit-card').classList
+      if (element.length > 1) {
+        element.remove('black-border')
+      }
+      element = document.getElementById('gift-card').classList
+      element.add('black-border')
     },
     applyCreditCard() {
       if (
@@ -560,8 +581,7 @@ ul li {
 #step-three-header {
   opacity: 0.5;
 }
-#credit-card,
-#gift-card {
+.card-btn {
   width: 125px;
   height: 55px;
   padding: 15px;
@@ -571,11 +591,10 @@ ul li {
   background: none;
   border: 1px gray solid;
 }
-#credit-card:hover,
-#gift-card:hover,
-#credit-card:focus,
-#gift-card:focus {
-  border: 2px black solid;
+
+.black-border,
+.card-btn:hover {
+  border: 3px black solid;
 }
 hr {
   width: 100%;

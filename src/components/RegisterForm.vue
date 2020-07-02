@@ -52,7 +52,6 @@ export default {
         lname: document.getElementById('lname').value,
         email: document.getElementById('new-email').value,
         password: document.getElementById('new-password').value,
-        orders: {},
         newUser: true,
       }
       if (
