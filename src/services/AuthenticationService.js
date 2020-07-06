@@ -4,7 +4,7 @@ export default {
   authenticate(user) {
     return Api().post('/checkout/sign-in', user)
   },
-  insertOrder(user) {
-    return Api().put('/checkout/fullfillment', user)
-  }
+  getUserAddress(userId) {
+    return Api().get('/checkout/fullfillment', { headers: { userId } })
+  },
 }

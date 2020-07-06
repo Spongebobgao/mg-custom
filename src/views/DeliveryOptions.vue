@@ -35,7 +35,6 @@
         }}</i>
         {{ editShippingAddressDone ? 'Sending to' : 'Enter delivery address' }}
       </h2>
-
       <div style="opacity:0.5" v-if="editShippingAddressDone">
         <p>Delivery Address: {{ user.fname }} {{ user.lname }}</p>
         <p style="text-indent:120px">{{ user.street }} {{ user.apt }}</p>
@@ -236,6 +235,8 @@
 import UserAddress from '@/components/UserAddress'
 import SubtotalTable from '@/components/SubtotalTable'
 import ReviewOrder from '@/components/ReviewOrder'
+import AuthenticationService from '@/services/AuthenticationService'
+
 export default {
   components: {
     UserAddress,
@@ -281,6 +282,28 @@ export default {
         pin: '',
       },
       error: false,
+    }
+  },
+  async created() {
+    if (this.$store.state.user) {
+      try {
+        const address = (
+          await AuthenticationService.getUserAddress(this.$store.state.user._id)
+        ).data.userAddress
+        if (address) {
+          this.user = {
+            ...this.user,
+            phone: address.phone,
+            street: address.street,
+            apt: address.apt,
+            city: address.city,
+            state: address.state,
+            zipcode: address.zipcode,
+          }
+        }
+      } catch (err) {
+        console.log(err)
+      }
     }
   },
   methods: {
@@ -462,9 +485,8 @@ export default {
   visibility: hidden;
 }
 #review-order {
-  position: fixed;
+  position: absolute;
   width: 75%;
-  height: 100%;
   top: 15%;
   z-index: 3;
   visibility: hidden;
@@ -594,7 +616,7 @@ ul li {
 
 .black-border,
 .card-btn:hover {
-  border: 3px black solid;
+  border: 2px black solid;
 }
 hr {
   width: 100%;
