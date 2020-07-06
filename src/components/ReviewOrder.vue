@@ -57,7 +57,7 @@
 </template>
 
 <script>
-import PlaceOrderService from '@/services/PlaceOrderService'
+import orderService from '@/services/orderService'
 export default {
   props: ['user', 'payment', 'billingAddress', 'creditCard'],
   methods: {
@@ -87,8 +87,9 @@ export default {
           orderAndAddress.userId = this.$store.state.user._id
         }
         try {
-          await PlaceOrderService.placeOrder(orderAndAddress)
+          await orderService.placeOrder(orderAndAddress)
           this.$store.commit('clearCart')
+          this.$store.commit('addOrderToHistory', order)
           document.getElementById('order-details').style.visibility = 'hidden'
           document.getElementById('place-order-done').style.visibility =
             'visible'

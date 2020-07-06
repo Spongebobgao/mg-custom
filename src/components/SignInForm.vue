@@ -19,6 +19,7 @@
 
 <script>
 import AuthenticationService from '@/services/AuthenticationService'
+import orderService from '@/services/orderService'
 export default {
   data() {
     return {
@@ -46,11 +47,21 @@ export default {
           delete validUser.password
           alert('sign in successfully')
           this.$store.commit('userLoggedIn', validUser)
+          await this.getUserOrders(validUser._id)
+          console.log(this.$store.state.orderHistory)
           if (this.$route.name !== 'Account')
             this.$router.push('/checkout/fullfillment')
         } else {
           alert('Please enter the correct credential')
         }
+      }
+    },
+    async getUserOrders(id) {
+      try {
+        this.orderHistory = (await orderService.getUserOrder(id)).data.docs
+        this.$store.commit('orderHistory', this.orderHistory)
+      } catch (err) {
+        console.log('something went wrong')
       }
     },
   },

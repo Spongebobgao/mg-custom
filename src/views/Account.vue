@@ -18,7 +18,7 @@
       <button class="btn-in-account" @click="showTrackOrderForm = true">
         <i class="material-icons login-icon">storefront</i>Track Order
       </button>
-      <button class="btn-in-account" @click="showOrders = true">
+      <button class="btn-in-account" @click="showAllOrders">
         <i class="material-icons login-icon">list</i>Orders
       </button>
     </div>
@@ -40,11 +40,19 @@
     </div>
     <div id="orders" v-if="showOrders">
       <button class="close-btn" @click="showOrders = false">×</button>
-      <ul>
-        <li>order1</li>
-        <br />
-        <li>order2</li>
-      </ul>
+      <div v-for="order in $store.state.orderHistory" :key="order._id">
+        <table id="order-history-table">
+          <th colspan="6">Order total: {{ order.total }}</th>
+          <tr v-for="item in order.items" :key="item._id">
+            <td>{{ item.name }}</td>
+            <td>${{ item.price }}ea</td>
+            <td>{{ item.weight }}</td>
+            <td><sup>Qty:</sup> {{ item.quantity }}</td>
+            <td><sup>Total:</sup> ${{ item.total }}</td>
+            <td><img :src="item.img" /></td>
+          </tr>
+        </table>
+      </div>
     </div>
     <div id="sign-in-form" v-if="showSignInForm && $store.state.user === null">
       <button class="close-btn" @click="showSignInForm = false">×</button>
@@ -59,17 +67,21 @@
         <RegisterForm />
       </div>
     </div>
-    <!-- <div id="user-info" v-if="$store.state.user">
-      <div id="my-order-history">
-        <h3>Order History</h3>
-      </div>
-    </div>-->
+    <div id="no-order">
+      <button class="close-btn" @click="hideNoOrder">×</button>
+      <br />
+      <br />
+      <h3 style="margin-left:20%;margin-right:20%">
+        Sorry, you don't have any order history
+      </h3>
+    </div>
   </div>
 </template>
 
 <script>
 import SignInForm from '@/components/SignInForm'
 import RegisterForm from '@/components/RegisterForm'
+
 export default {
   components: {
     SignInForm,
@@ -83,13 +95,30 @@ export default {
       showOrders: false,
     }
   },
+  methods: {
+    showAllOrders() {
+      if (this.$store.state.orderHistory.length > 0) this.showOrders = true
+      else {
+        document.getElementById('no-order').style.visibility = 'visible'
+      }
+    },
+    hideNoOrder() {
+      document.getElementById('no-order').style.visibility = 'hidden'
+    },
+  },
 }
 </script>
 
-<style>
+<style scoped>
+#order-history-table {
+  width: 95%;
+  margin: auto;
+  border-bottom-style: dashed;
+}
 .login-icon {
   float: left;
 }
+#no-order,
 #orders,
 #track-order,
 #user-info,
@@ -106,6 +135,14 @@ export default {
   box-shadow: 0 2px 3px 0 rgba(0, 0, 0, 0.16);
   background-color: white;
 }
+#orders {
+  min-width: 300px;
+}
+#no-order {
+  height: 160px;
+  visibility: hidden;
+}
+
 label[for='user-email'],
 label[for='track-number'],
 #user-email,
@@ -133,6 +170,8 @@ label[for='track-number'],
   font-size: 3rem;
 }
 @media screen and (max-width: 600px) {
+  #orders,
+  #no-order,
   #track-order,
   #sign-in-form,
   #buttons,
@@ -148,6 +187,12 @@ label[for='track-number'],
     right: 15%;
     width: 55%;
     font-size: 0.9;
+  }
+}
+
+@media screen and (max-width: 400px) {
+  #orders {
+    right: 5%;
   }
 }
 </style>

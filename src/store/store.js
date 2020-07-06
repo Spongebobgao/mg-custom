@@ -10,6 +10,7 @@ export const store = new Vuex.Store({
     productsInCart: {},
     hoverCart: false,
     user: null,
+    orderHistory: [],
   },
   mutations: {
     addItemInCart(state, payload) {
@@ -51,6 +52,12 @@ export const store = new Vuex.Store({
       ;(state.numberOfProductsInCart = 0),
         (state.totalOfProductsInCart = 0),
         (state.productsInCart = {})
+    },
+    orderHistory(state, payload) {
+      state.orderHistory = payload
+    },
+    addOrderToHistory(state, payload) {
+      state.orderHistory.push(payload)
     },
   },
 })
