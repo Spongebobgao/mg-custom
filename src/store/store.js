@@ -59,5 +59,9 @@ export const store = new Vuex.Store({
     addOrderToHistory(state, payload) {
       state.orderHistory.push(payload)
     },
+    logout(state) {
+      state.user = null
+      state.orderHistory = []
+    },
   },
 })

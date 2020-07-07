@@ -48,7 +48,6 @@ export default {
           alert('sign in successfully')
           this.$store.commit('userLoggedIn', validUser)
           await this.getUserOrders(validUser._id)
-          console.log(this.$store.state.orderHistory)
           if (this.$route.name !== 'Account')
             this.$router.push('/checkout/fullfillment')
         } else {

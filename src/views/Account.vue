@@ -21,6 +21,9 @@
       <button class="btn-in-account" @click="showAllOrders">
         <i class="material-icons login-icon">list</i>Orders
       </button>
+      <button class="btn-in-account" @click="logout" v-if="$store.state.user">
+        <i class="material-icons login-icon">highlight_off</i>Sign Out
+      </button>
     </div>
     <div id="track-order" v-if="showTrackOrderForm">
       <button class="close-btn" @click="showTrackOrderForm = false">×</button>
@@ -38,11 +41,11 @@
       <br />
       <button id="track-order-btn" class="btn-in-account">Submit</button>
     </div>
-    <div id="orders" v-if="showOrders">
+    <div id="orders" v-if="showOrders && $store.state.orderHistory.length > 0">
       <button class="close-btn" @click="showOrders = false">×</button>
       <div v-for="order in $store.state.orderHistory" :key="order._id">
         <table id="order-history-table">
-          <th colspan="6">Order total: {{ order.total }}</th>
+          <th colspan="4">Order total: {{ order.total }}</th>
           <tr v-for="item in order.items" :key="item._id">
             <td>{{ item.name }}</td>
             <td>${{ item.price }}ea</td>
@@ -53,6 +56,17 @@
           </tr>
         </table>
       </div>
+    </div>
+    <div
+      id="no-order"
+      v-if="showOrders && $store.state.orderHistory.length == 0"
+    >
+      <button class="close-btn" @click="showOrders = false">×</button>
+      <br />
+      <br />
+      <h3 style="margin-left:20%;margin-right:20%">
+        Sorry, you don't have any order history
+      </h3>
     </div>
     <div id="sign-in-form" v-if="showSignInForm && $store.state.user === null">
       <button class="close-btn" @click="showSignInForm = false">×</button>
@@ -66,14 +80,6 @@
       <div id="form">
         <RegisterForm />
       </div>
-    </div>
-    <div id="no-order">
-      <button class="close-btn" @click="hideNoOrder">×</button>
-      <br />
-      <br />
-      <h3 style="margin-left:20%;margin-right:20%">
-        Sorry, you don't have any order history
-      </h3>
     </div>
   </div>
 </template>
@@ -97,13 +103,17 @@ export default {
   },
   methods: {
     showAllOrders() {
-      if (this.$store.state.orderHistory.length > 0) this.showOrders = true
-      else {
-        document.getElementById('no-order').style.visibility = 'visible'
+      if (this.$store.state.user === null) {
+        this.showSignInForm = true
       }
+      this.showOrders = true
     },
-    hideNoOrder() {
-      document.getElementById('no-order').style.visibility = 'hidden'
+    logout() {
+      this.$store.commit('logout')
+      this.showSignInForm = false
+      this.showRegisterForm = false
+      this.showTrackOrderForm = false
+      this.showOrders = false
     },
   },
 }
@@ -139,8 +149,7 @@ export default {
   min-width: 300px;
 }
 #no-order {
-  height: 160px;
-  visibility: hidden;
+  height: 240px;
 }
 
 label[for='user-email'],
