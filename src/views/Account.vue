@@ -45,7 +45,7 @@
       <button class="close-btn" @click="showOrders = false">×</button>
       <div v-for="order in $store.state.orderHistory" :key="order._id">
         <table id="order-history-table">
-          <th colspan="4">Order total: {{ order.total }}</th>
+          <th colspan="4">{{ order.date }} Order total: {{ order.total }}</th>
           <tr v-for="item in order.items" :key="item._id">
             <td>{{ item.name }}</td>
             <td>${{ item.price }}ea</td>
@@ -59,7 +59,11 @@
     </div>
     <div
       id="no-order"
-      v-if="showOrders && $store.state.orderHistory.length == 0"
+      v-if="
+        showOrders &&
+          $store.state.orderHistory.length === 0 &&
+          $store.state.user !== null
+      "
     >
       <button class="close-btn" @click="showOrders = false">×</button>
       <br />

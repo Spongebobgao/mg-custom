@@ -80,6 +80,7 @@ export default {
           delete order.items[attr].nutrients
         }
         order.total = this.$store.state.totalOfProductsInCart
+        order.date = new Date()
         orderAndAddress.order = order
         orderAndAddress.address = userAddress
         if (this.$store.state.user) {

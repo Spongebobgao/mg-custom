@@ -58,6 +58,16 @@ export default {
     async getUserOrders(id) {
       try {
         this.orderHistory = (await orderService.getUserOrder(id)).data.docs
+
+        this.orderHistory.sort(function(a, b) {
+          return new Date(b.date) - new Date(a.date)
+        })
+        this.orderHistory = this.orderHistory.map((order) => {
+          return {
+            ...order,
+            date: order.date.split('T')[0],
+          }
+        })
         this.$store.commit('orderHistory', this.orderHistory)
       } catch (err) {
         console.log('something went wrong')
