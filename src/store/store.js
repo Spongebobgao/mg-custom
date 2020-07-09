@@ -70,12 +70,31 @@ export const store = new Vuex.Store({
         ...payload,
         date: new Date(payload.date).toISOString().split('T')[0],
       }
-      console.log(payload.date)
       state.orderHistory.unshift(payload)
     },
     logout(state) {
       state.user = null
       state.orderHistory = []
+      sessionStorage.clear()
+    },
+    getLocalStorage(state) {
+      if (localStorage.getItem('productsInCart') !== null)
+        state.productsInCart = JSON.parse(
+          localStorage.getItem('productsInCart')
+        )
+      if (localStorage.getItem('numberOfProductsInCart') !== null)
+        state.numberOfProductsInCart = parseFloat(
+          localStorage.getItem('numberOfProductsInCart')
+        )
+
+      if (localStorage.getItem('totalOfProductsInCart') !== null)
+        state.totalOfProductsInCart = parseFloat(
+          localStorage.getItem('totalOfProductsInCart')
+        )
+      if (sessionStorage.getItem('user') !== null)
+        state.user = JSON.parse(sessionStorage.getItem('user'))
+      if (JSON.parse(sessionStorage.getItem('orderHistory')) !== null)
+        state.orderHistory = JSON.parse(sessionStorage.getItem('orderHistory'))
     },
   },
 })

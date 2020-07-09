@@ -89,6 +89,7 @@ export default {
         }
         try {
           await orderService.placeOrder(orderAndAddress)
+          localStorage.clear()
           this.$store.commit('clearCart')
           this.$store.commit('addOrderToHistory', order)
           document.getElementById('order-details').style.visibility = 'hidden'
