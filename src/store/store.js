@@ -55,9 +55,23 @@ export const store = new Vuex.Store({
     },
     orderHistory(state, payload) {
       state.orderHistory = payload
+      state.orderHistory.sort(function(a, b) {
+        return new Date(b.date) - new Date(a.date)
+      })
+      state.orderHistory = state.orderHistory.map((order) => {
+        return {
+          ...order,
+          date: order.date.split('T')[0],
+        }
+      })
     },
     addOrderToHistory(state, payload) {
-      state.orderHistory.push(payload)
+      payload = {
+        ...payload,
+        date: new Date(payload.date).toISOString().split('T')[0],
+      }
+      console.log(payload.date)
+      state.orderHistory.unshift(payload)
     },
     logout(state) {
       state.user = null

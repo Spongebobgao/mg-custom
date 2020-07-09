@@ -45,7 +45,8 @@
       <button class="close-btn" @click="showOrders = false">×</button>
       <div v-for="order in $store.state.orderHistory" :key="order._id">
         <table id="order-history-table">
-          <th colspan="4">{{ order.date }} Order total: {{ order.total }}</th>
+          <th colspan="2">{{ order.date }}</th>
+          <th colspan="4">Order total: {{ order.total }}</th>
           <tr v-for="item in order.items" :key="item._id">
             <td>{{ item.name }}</td>
             <td>${{ item.price }}ea</td>
@@ -150,7 +151,7 @@ export default {
   background-color: white;
 }
 #orders {
-  min-width: 300px;
+  min-width: 320px;
 }
 #no-order {
   height: 240px;
@@ -205,7 +206,7 @@ label[for='track-number'],
 
 @media screen and (max-width: 400px) {
   #orders {
-    right: 5%;
+    left: 8%;
   }
 }
 </style>
