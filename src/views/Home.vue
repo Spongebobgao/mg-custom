@@ -1,34 +1,37 @@
 <template>
   <div class="slidershow">
-    <div class="slides">
-      <input
-        v-for="n in 4"
-        :key="n"
-        type="radio"
-        name="radioBtn"
-        :id="'r' + `${n}`"
-        :checked="n === 1"
-      />
-      <div
-        :class="['slide' + `${index + 1}`]"
-        v-for="(img, index) in homeSlideImages"
-        :key="img._id"
-      >
-        <p :class="['text' + `${index + 1}`]">{{ img.text }}</p>
-        <img :src="img.img" />
-      </div>
-
-      <div class="navigation">
-        <label
+    <div id="loader" v-if="!homeSlideImages.length"></div>
+    <template v-else>
+      <div class="slides">
+        <input
           v-for="n in 4"
           :key="n"
-          :for="'r' + `${n}`"
-          class="dot"
-          :id="'dot' + `${n}`"
-          @click="selectSlide(n)"
-        ></label>
+          type="radio"
+          name="radioBtn"
+          :id="'r' + `${n}`"
+          :checked="n === 1"
+        />
+        <div
+          :class="['slide' + `${index + 1}`]"
+          v-for="(img, index) in homeSlideImages"
+          :key="img._id"
+        >
+          <p :class="['text' + `${index + 1}`]">{{ img.text }}</p>
+          <img :src="img.img" />
+        </div>
+
+        <div class="navigation">
+          <label
+            v-for="n in 4"
+            :key="n"
+            :for="'r' + `${n}`"
+            class="dot"
+            :id="'dot' + `${n}`"
+            @click="selectSlide(n)"
+          ></label>
+        </div>
       </div>
-    </div>
+    </template>
   </div>
 </template>
 <script>
@@ -97,7 +100,7 @@ export default {
   },
 }
 </script>
-<style scoped>
+<style>
 .slidershow {
   width: 65%;
   max-width: 850px;
@@ -257,6 +260,32 @@ input[name='radioBtn'] {
   .text {
     font-size: 1.5rem;
     top: 30%;
+  }
+}
+
+#loader {
+  position: absolute;
+  left: 50%;
+  top: 50%;
+  z-index: 99;
+  width: 150px;
+  height: 150px;
+  margin: -75px 0 0 -75px;
+  border: 16px solid #f3f3f3;
+  border-radius: 50%;
+  border-top: 16px solid #609b9f;
+  animation: spin 3s linear infinite;
+}
+
+@keyframes spin {
+  0% {
+    transform: rotate(0deg);
+  }
+  50% {
+    transform: rotate(180deg);
+  }
+  100% {
+    transform: rotate(360deg);
   }
 }
 </style>

@@ -1,19 +1,22 @@
 <template>
   <div class="container">
-    <div
-      @click="navigateTo(product._id)"
-      class="container-item"
-      v-for="product in products"
-      :key="product._id"
-    >
-      <img :src="product.img" />
-      <div class="description">
-        {{ product.name }}
-        <span>${{ product.price }}/{{ product.weight }}</span>
-        <br />
-        <QtyButton :id="product._id" :view="view" :product="product" />
+    <div id="loader" v-if="!products.length"></div>
+    <template v-else>
+      <div
+        @click="navigateTo(product._id)"
+        class="container-item"
+        v-for="product in products"
+        :key="product._id"
+      >
+        <img :src="product.img" />
+        <div class="description">
+          {{ product.name }}
+          <span>${{ product.price }}/{{ product.weight }}</span>
+          <br />
+          <QtyButton :id="product._id" :view="view" :product="product" />
+        </div>
       </div>
-    </div>
+    </template>
   </div>
 </template>
 
