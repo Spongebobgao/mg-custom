@@ -58,5 +58,6 @@ img {
 .nutrients {
   line-height: 1.5rem;
   font-family: 'Alata';
+  margin-right: 5%;
 }
 </style>

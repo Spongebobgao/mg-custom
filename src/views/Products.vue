@@ -56,7 +56,6 @@ img {
   height: 150px;
 }
 .container {
-  max-width: 1000px;
   display: grid;
   grid-template-columns: auto auto auto auto;
   gap: 15px;

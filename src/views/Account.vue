@@ -145,7 +145,8 @@ export default {
   max-width: 1000px;
   position: absolute;
   top: 15%;
-  left: 20%;
+  left: 50%;
+  transform: translateX(-50%);
   border: 1px solid #e6e7e8;
   border-radius: 5px;
   box-shadow: 0 2px 3px 0 rgba(0, 0, 0, 0.16);
@@ -169,7 +170,8 @@ label[for='track-number'],
 }
 .btn-in-account {
   width: 50%;
-  margin: 15px 25% 25px 25%;
+  margin-left: 50%;
+  transform: translateX(-50%);
 }
 .close-btn {
   width: 50px;
@@ -192,11 +194,9 @@ label[for='track-number'],
   #buttons,
   #create-account {
     width: 80%;
-    left: 10%;
   }
   .btn-in-account {
     width: 80%;
-    margin-left: 10%;
   }
   #error {
     right: 15%;
