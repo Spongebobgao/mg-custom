@@ -52,7 +52,7 @@ export default {
 <style scoped>
 .check-out-page {
   width: 96%;
-  max-width: 1000px;
+  max-width: 1500px;
   margin-left: 50%;
   transform: translateX(-50%);
   margin-top: 5%;
