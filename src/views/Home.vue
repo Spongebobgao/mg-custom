@@ -110,7 +110,7 @@ export default {
   position: absolute;
   left: 50%;
   transform: translateX(-50%);
-  top: 5%;
+  top: 15%;
   bottom: 1%;
 }
 .slides {

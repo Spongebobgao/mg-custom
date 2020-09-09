@@ -41,7 +41,9 @@ export default {
   min-width: 250px;
   width: 75%;
   max-width: 1000px;
-  margin: auto;
+  margin-top: 2%;
+  margin-left: 50%;
+  transform: translateX(-50%);
   display: flex;
   flex-wrap: wrap;
 }

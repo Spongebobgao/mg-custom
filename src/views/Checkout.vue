@@ -53,7 +53,9 @@ export default {
 .check-out-page {
   width: 96%;
   max-width: 1000px;
-  margin: 2%;
+  margin-left: 50%;
+  transform: translateX(-50%);
+  margin-top: 5%;
   display: grid;
   grid-template-columns: 35% 35% 30%;
 }

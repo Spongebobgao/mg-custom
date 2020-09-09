@@ -144,6 +144,8 @@ label {
   height: 40px;
   margin-bottom: 5%;
   margin-top: 5%;
+  margin-left: 50%;
+  transform: translateX(-50%);
   border: #609b9f 1px solid;
   border-radius: 25px;
   color: #006666;

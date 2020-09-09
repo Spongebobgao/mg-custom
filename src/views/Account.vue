@@ -1,21 +1,24 @@
 <template>
   <div id="account">
-    <div id="buttons">
+    <div id="buttons" v-if="showButtons">
       <button
         class="btn-in-account"
-        @click="showSignInForm = true"
+        @click=";(showSignInForm = true), (showButtons = false)"
         v-if="$store.state.user === null"
       >
         <i class="material-icons login-icon">login</i>Sign In
       </button>
       <button
         class="btn-in-account"
-        @click="showRegisterForm = true"
+        @click=";(showRegisterForm = true), (showButtons = false)"
         v-if="$store.state.user === null"
       >
         <i class="material-icons login-icon">person_add</i>Create Account
       </button>
-      <button class="btn-in-account" @click="showTrackOrderForm = true">
+      <button
+        class="btn-in-account"
+        @click=";(showTrackOrderForm = true), (showButtons = false)"
+      >
         <i class="material-icons login-icon">storefront</i>Track Order
       </button>
       <button class="btn-in-account" @click="showAllOrders">
@@ -26,7 +29,12 @@
       </button>
     </div>
     <div id="track-order" v-if="showTrackOrderForm">
-      <button class="close-btn" @click="showTrackOrderForm = false">×</button>
+      <button
+        class="close-btn"
+        @click=";(showTrackOrderForm = false), (showButtons = true)"
+      >
+        ×
+      </button>
       <h3 style="margin-left:4%">Track My Order</h3>
       <label for="user-email">Please enter the email address</label>
       <br />
@@ -42,7 +50,12 @@
       <button id="track-order-btn" class="btn-in-account">Submit</button>
     </div>
     <div id="orders" v-if="showOrders && $store.state.orderHistory.length > 0">
-      <button class="close-btn" @click="showOrders = false">×</button>
+      <button
+        class="close-btn"
+        @click=";(showOrders = false), (showButtons = true)"
+      >
+        ×
+      </button>
       <div v-for="order in $store.state.orderHistory" :key="order._id">
         <table id="order-history-table">
           <th colspan="2">{{ order.date }}</th>
@@ -66,7 +79,12 @@
           $store.state.user !== null
       "
     >
-      <button class="close-btn" @click="showOrders = false">×</button>
+      <button
+        class="close-btn"
+        @click=";(showOrders = false), (showButtons = true)"
+      >
+        ×
+      </button>
       <br />
       <br />
       <h3 style="margin-left:20%;margin-right:20%">
@@ -74,14 +92,24 @@
       </h3>
     </div>
     <div id="sign-in-form" v-if="showSignInForm && $store.state.user === null">
-      <button class="close-btn" @click="showSignInForm = false">×</button>
+      <button
+        class="close-btn"
+        @click=";(showSignInForm = false), (showButtons = true)"
+      >
+        ×
+      </button>
       <SignInForm />
     </div>
     <div
       id="create-account"
       v-if="showRegisterForm && $store.state.user === null"
     >
-      <button class="close-btn" @click="showRegisterForm = false">×</button>
+      <button
+        class="close-btn"
+        @click=";(showRegisterForm = false), (showButtons = true)"
+      >
+        ×
+      </button>
       <div id="form">
         <RegisterForm />
       </div>
@@ -104,12 +132,14 @@ export default {
       showRegisterForm: false,
       showTrackOrderForm: false,
       showOrders: false,
+      showButtons: true,
     }
   },
   methods: {
     showAllOrders() {
       if (this.$store.state.user === null) {
         this.showSignInForm = true
+        this.showButtons = false
       }
       this.showOrders = true
     },
@@ -118,7 +148,7 @@ export default {
       this.showSignInForm = false
       this.showRegisterForm = false
       this.showTrackOrderForm = false
-      this.showOrders = false
+      ;(this.showOrders = false), (this.showButtons = true)
     },
   },
 }
