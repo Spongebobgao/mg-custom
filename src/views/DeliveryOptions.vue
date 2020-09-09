@@ -524,6 +524,7 @@ export default {
 }
 #delivery-option {
   width: 75%;
+  max-width: 1000px;
   margin: auto;
 }
 .icon {

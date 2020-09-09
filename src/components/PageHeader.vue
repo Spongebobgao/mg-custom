@@ -98,7 +98,8 @@ body {
 }
 p {
   position: absolute;
-  margin-left: 35%;
+  left: 50%;
+  transform: translateX(-50%);
   font-size: 1.3rem;
   font-family: 'Barrio';
 }
@@ -239,7 +240,7 @@ p {
     right: 0px;
   }
 }
-@media screen and (min-width: 501px) and (max-width: 715px) {
+@media screen and (min-width: 501px) and (max-width: 716px) {
   p {
     display: none;
   }
@@ -247,22 +248,9 @@ p {
     font-size: 1rem;
   }
 }
-@media screen and (min-width: 710px) and (max-width: 780px) {
+@media screen and (min-width: 716px) and (max-width: 800px) {
   p {
-    margin-left: 28%;
-    font-size: 0.8rem;
-  }
-}
-@media screen and (min-width: 781px) and (max-width: 850px) {
-  p {
-    font-size: 1rem;
-    margin-left: 27%;
-  }
-}
-@media screen and (min-width: 851px) and (max-width: 1000px) {
-  p {
-    font-size: 1.2rem;
-    margin-left: 28%;
+    font-size: 1.1rem;
   }
 }
 </style>

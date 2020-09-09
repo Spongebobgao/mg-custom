@@ -39,7 +39,8 @@ export default {
 .card {
   box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2);
   min-width: 250px;
-  max-width: 70%;
+  width: 75%;
+  max-width: 1000px;
   margin: auto;
   display: flex;
   flex-wrap: wrap;

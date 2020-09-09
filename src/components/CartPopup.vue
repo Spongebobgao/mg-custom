@@ -59,7 +59,7 @@ export default {
   height: 60%;
   position: fixed;
   z-index: 1;
-  top: 15%;
+  top: 91px;
   right: 1%;
   padding: 12px;
   background-color: rgb(243, 226, 226);

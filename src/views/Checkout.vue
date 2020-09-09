@@ -52,6 +52,7 @@ export default {
 <style scoped>
 .check-out-page {
   width: 96%;
+  max-width: 1000px;
   margin: 2%;
   display: grid;
   grid-template-columns: 35% 35% 30%;

@@ -104,12 +104,14 @@ export default {
 .slidershow {
   width: 65%;
   max-width: 850px;
+  min-width: 300px;
   height: auto;
   overflow: hidden;
   position: absolute;
-  top: 15%;
-  left: 20%;
-  bottom: 7%;
+  left: 50%;
+  transform: translateX(-50%);
+  top: 5%;
+  bottom: 1%;
 }
 .slides {
   width: 100%;
@@ -150,7 +152,8 @@ export default {
 .navigation {
   position: absolute;
   bottom: 30%;
-  left: 40%;
+  left: 50%;
+  transform: translateX(-50%);
   display: flex;
 }
 .dot {
@@ -220,52 +223,39 @@ input[name='radioBtn'] {
 .text4 {
   opacity: 1;
 }
-@media screen and (min-width: 400px) and (max-width: 550px) {
+@media screen and (max-width: 550px) {
   .slidershow {
-    top: 0;
-    left: 5%;
     width: 90%;
   }
-  .navigation {
-    bottom: 35%;
-  }
-  .text {
+  .text1,
+  .text2,
+  .text3,
+  .text4 {
     font-size: 1.2rem;
-    top: 35%;
+    top: 33%;
   }
-  .dot {
-    width: 10px;
-    height: 10px;
-  }
-}
-@media screen and (min-width: 551px) and (max-width: 650px) {
   .navigation {
-    bottom: 35%;
-  }
-  .text {
-    font-size: 1.5rem;
-    top: 40%;
+    bottom: 15%;
   }
 }
-@media screen and (min-width: 651px) and (max-width: 761px) {
-  .navigation {
-    bottom: 35%;
-  }
-  .text {
-    font-size: 1.5rem;
-    top: 35%;
-  }
-}
-@media screen and (min-width: 760px) and (max-width: 900px) {
-  .text {
+
+@media screen and (min-width: 551px) and (max-width: 768px) {
+  .text1,
+  .text2,
+  .text3,
+  .text4 {
     font-size: 1.5rem;
     top: 30%;
+  }
+  .navigation {
+    bottom: 15%;
   }
 }
 
 #loader {
   position: absolute;
   left: 50%;
+  transform: translateX(-50%);
   top: 50%;
   z-index: 99;
   width: 150px;

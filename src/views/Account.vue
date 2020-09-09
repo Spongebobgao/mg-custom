@@ -142,6 +142,7 @@ export default {
 #create-account {
   width: 60%;
   min-width: 225px;
+  max-width: 1000px;
   position: absolute;
   top: 15%;
   left: 20%;
